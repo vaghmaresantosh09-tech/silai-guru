@@ -4,19 +4,11 @@
   var KEY='__silaiGuruCleanView';
   var restoring=false;
   function getState(){return history.state&&history.state[KEY]?history.state:null;}
-  function push(view){
-    if(restoring)return;
-    var s=getState();
-    if(s&&s.view===view)return;
-    try{history.pushState({[KEY]:true,view:view},'',location.href)}catch(e){}
-  }
+  function push(view){if(restoring)return;var s=getState();if(s&&s.view===view)return;try{history.pushState({[KEY]:true,view:view},'',location.href)}catch(e){}}
   function loadBlouseNeck(){
     if(window.__sgBlouseNeckLoaded)return;
     window.__sgBlouseNeckLoaded=true;
-    var s=document.createElement('script');
-    s.src='blouse-neck-designs.js?v=20260930c';
-    s.async=false;
-    document.head.appendChild(s);
+    var s=document.createElement('script');s.src='blouse-neck-designs.js?v=20260930d';s.async=false;document.head.appendChild(s);
   }
   function cleanLibrary(){
     loadBlouseNeck();
@@ -26,46 +18,38 @@
     var types=['Kurti','Blouse','Salwar Suit','Kameez','Saree Blouse','Lehenga','Gown','Dress','Shirt','Pant','Salwar','Choli','Sherwani','Suit','Blazer','Waistcoat','Pajama','School Uniform','Coat','Other'];
     body.innerHTML='<div class="card"><div class="library-note">📁 Garment folder open karke customer ko designs dikha sakte hain.</div><div class="garment-library">'+types.map(function(t){return '<button type="button" class="garment-library-card sg-empty-folder" data-garment="'+t.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"><div class="libpic">'+(typeof window.garmentVisual==='function'?window.garmentVisual(t):'<div style="font-size:52px">👗</div>')+'</div><b>'+t+'</b><small>📁 Open Designs</small></button>';}).join('')+'</div></div>';
     body.querySelectorAll('.sg-empty-folder').forEach(function(btn){
-      if(String(btn.getAttribute('data-garment')).toLowerCase()==='blouse')return;
-      btn.addEventListener('click',function(){openEmptyFolder(btn.getAttribute('data-garment'));});
+      btn.addEventListener('click',function(){
+        var type=String(btn.getAttribute('data-garment')||'');
+        if(type.toLowerCase()==='blouse'){
+          loadBlouseNeck();
+          setTimeout(function(){if(typeof window.sgOpenBlouseNeck==='function')window.sgOpenBlouseNeck();},60);
+        }else openEmptyFolder(type);
+      });
     });
     modal.classList.add('modal','show');
   }
   function openEmptyFolder(type){
-    if(String(type).toLowerCase()==='blouse')return;
     push('empty-design-folder:'+type);
-    var title=document.getElementById('mt'),body=document.getElementById('mb');
-    if(!title||!body)return;
+    var title=document.getElementById('mt'),body=document.getElementById('mb');if(!title||!body)return;
     title.textContent='📁 '+type+' Designs';
     body.innerHTML='<div class="design-back"><button type="button" class="secondary" id="sgFolderBack">← Garments</button><b>'+type+'</b></div><div class="card" style="text-align:center;padding:35px 18px"><div style="font-size:70px">📁</div><h3>Design Folder</h3><p class="muted">Is folder ke designs yahan add kiye ja sakte hain.</p></div>';
     var b=document.getElementById('sgFolderBack');if(b)b.onclick=function(){cleanLibrary();};
   }
   function wrapDesignCatalog(){
-    if(window.__sgCleanDesignWrapped || typeof window.openDesignCatalog!=='function')return;
-    window.__sgCleanDesignWrapped=true;
-    var original=window.openDesignCatalog;
+    if(window.__sgCleanDesignWrapped||typeof window.openDesignCatalog!=='function')return;
+    window.__sgCleanDesignWrapped=true;var original=window.openDesignCatalog;
     window.openDesignCatalog=function(type){var name=String(type||'').trim();if(name)push('design-catalog:'+name);return original.apply(this,arguments);};
   }
   function installEmptyLibrary(){
     if(typeof window.openGarmentLibrary!=='function')return;
-    if(window.__sgEmptyLibraryInstalled && window.__sgEmptyLibraryTarget===window.openGarmentLibrary)return;
-    window.__sgEmptyLibraryInstalled=true;
-    window.__sgEmptyLibraryTarget=window.openGarmentLibrary;
+    if(window.__sgEmptyLibraryInstalled&&window.__sgEmptyLibraryTarget===window.openGarmentLibrary)return;
+    window.__sgEmptyLibraryInstalled=true;window.__sgEmptyLibraryTarget=window.openGarmentLibrary;
     window.openGarmentLibrary=function(){push('design-library');cleanLibrary();};
   }
   function init(){
-    loadBlouseNeck();
-    try{if(!getState())history.replaceState({[KEY]:true,view:'dashboard'},'',location.href)}catch(e){}
-    wrapDesignCatalog();installEmptyLibrary();
-    setTimeout(wrapDesignCatalog,100);setTimeout(installEmptyLibrary,100);setTimeout(wrapDesignCatalog,500);setTimeout(installEmptyLibrary,500);
+    loadBlouseNeck();try{if(!getState())history.replaceState({[KEY]:true,view:'dashboard'},'',location.href)}catch(e){}
+    wrapDesignCatalog();installEmptyLibrary();setTimeout(wrapDesignCatalog,100);setTimeout(installEmptyLibrary,100);setTimeout(wrapDesignCatalog,500);setTimeout(installEmptyLibrary,500);
   }
-  window.addEventListener('load',init);
-  var timer=setInterval(function(){loadBlouseNeck();wrapDesignCatalog();installEmptyLibrary();},250);setTimeout(function(){clearInterval(timer);},10000);
-  window.addEventListener('popstate',function(e){
-    var s=e&&e.state;if(!s||!s[KEY])return;
-    if(s.view==='design-library'){restoring=true;try{cleanLibrary();}finally{restoring=false;}}
-    else if(s.view&&s.view.indexOf('empty-design-folder:')===0){restoring=true;try{openEmptyFolder(s.view.slice(21));}finally{restoring=false;}}
-    else if(s.view&&s.view.indexOf('design-catalog:')===0&&typeof window.openDesignCatalog==='function'){restoring=true;try{window.openDesignCatalog(s.view.slice(15));}finally{restoring=false;}}
-    else if(s.view==='dashboard'){var m=document.getElementById('modal');if(m)m.classList.remove('show');}
-  });
+  window.addEventListener('load',init);var timer=setInterval(function(){loadBlouseNeck();wrapDesignCatalog();installEmptyLibrary();},250);setTimeout(function(){clearInterval(timer);},10000);
+  window.addEventListener('popstate',function(e){var s=e&&e.state;if(!s||!s[KEY])return;if(s.view==='design-library'){restoring=true;try{cleanLibrary();}finally{restoring=false;}}else if(s.view&&s.view.indexOf('empty-design-folder:')===0){restoring=true;try{openEmptyFolder(s.view.slice(21));}finally{restoring=false;}}else if(s.view&&s.view.indexOf('design-catalog:')===0&&typeof window.openDesignCatalog==='function'){restoring=true;try{window.openDesignCatalog(s.view.slice(15));}finally{restoring=false;}}else if(s.view==='dashboard'){var m=document.getElementById('modal');if(m)m.classList.remove('show');}});
 })();
