@@ -14,7 +14,7 @@
     if(window.__sgBlouseNeckLoaded)return;
     window.__sgBlouseNeckLoaded=true;
     var s=document.createElement('script');
-    s.src='blouse-neck-designs.js?v=20260930';
+    s.src='blouse-neck-designs.js?v=20260930b';
     s.async=false;
     document.head.appendChild(s);
   }
@@ -29,6 +29,11 @@
     modal.classList.add('modal','show');
   }
   function openEmptyFolder(type){
+    if(String(type).toLowerCase()==='blouse'){
+      loadBlouseNeck();
+      setTimeout(function(){if(typeof window.sgOpenBlouseNeck==='function')window.sgOpenBlouseNeck();},40);
+      return;
+    }
     push('empty-design-folder:'+type);
     var title=document.getElementById('mt'),body=document.getElementById('mb');
     if(!title||!body)return;
