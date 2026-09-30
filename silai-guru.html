@@ -346,43 +346,7 @@ function saveGarmentServices(i){
 function openGarmentLibrary(){if(window.__sgRecordView)window.__sgRecordView('designs');
   mt.textContent='👗 Garments';
   const saved=loadSavedDesigns();
-  mb.innerHTML='<div class="card"><h3>🎨 Garment Design Library</h3><p class="muted">Garment folder open karke customer ko designs dikha sakte hain.</p><div class="garment-library">'+GARMENT_LIBRARY.map((g,i)=>'<div class="garment-library-card" onclick="'+(g==='Kurti'?'openKurtiNeckCatalog()':'openDesignCatalog('+JSON.stringify(g).replace(/"/g,'&quot;')+')')+'"><div class="libpic">'+garmentVisual(g)+'</div><b>'+g+'</b><small>'+(g==='Kurti'?'3 Catalogues · Front & Back Neck ›':((DESIGN_TYPES[g]||[]).length)+' Designs ›')+'</small></div>').join('')+'</div><div class="folder-box"><div style="display:flex;justify-content:space-between;align-items:center"><div><b>📁 My Garment Folder</b><div class="folder-count">'+saved.length+' saved designs</div></div><button class="primary" onclick="openGarmentFolder()">Open</button></div><div class="library-note">💡 Garment par tap karein aur customer ko designs dikha sakte hain.</div></div></div>';
-}
-function openKurtiNeckCatalog(){
-  if(window.__sgRecordView)window.__sgRecordView('kurti-neck-catalog');
-  mt.textContent='👗 Kurti Neck Designs';
-  const items=[
-    ['./kurti-neck-catalog-1.jpg','Kurti Front & Back Neck Designs – Collection 1'],
-    ['./kurti-neck-catalog-2.jpg','Kurti Front & Back Neck Designs – Collection 2'],
-    ['./kurti-neck-catalog-3.jpg','Kurti Front & Back Neck Designs – Collection 3']
-  ];
-  mb.innerHTML='<style>'+
-    '.sg-kurti-sheet{background:#fff;border-radius:22px;padding:14px;max-height:82vh;overflow:auto}'+
-    '.sg-kurti-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}'+
-    '.sg-kurti-head h2{margin:0;color:#4f35a8;font-size:22px}'+
-    '.sg-kurti-banner{background:linear-gradient(135deg,#5b35a8,#c44791);color:#fff;border-radius:20px;padding:16px;margin:8px 0 12px;text-align:center}'+
-    '.sg-kurti-banner b{display:block;font-size:23px}.sg-kurti-banner small{display:block;margin-top:5px}'+
-    '.sg-kurti-catalogue{border:1px solid #e4e0ed;border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 5px 18px #33225518;margin-bottom:14px}'+
-    '.sg-kurti-catalogue img{width:100%;height:auto;display:block;background:#faf7ff}'+
-    '.sg-kurti-caption{text-align:center;font-weight:900;padding:11px;color:#302b3c;font-size:13px}'+
-    '.sg-kurti-credit{font-size:10px;color:#777;text-align:center;padding:6px}'+
-    '</style>'+
-    '<div class="sg-kurti-sheet">'+
-      '<div class="sg-kurti-head"><h2>👗 Kurti Neck Designs</h2><button type="button" class="secondary" onclick="openGarmentLibrary()">×</button></div>'+
-      '<div class="sg-kurti-banner"><b>Latest & Traditional Collection</b><small>Front & Back Neck • Har Design • Har Style Aapke Liye</small></div>'+
-      items.map(x=>'<div class="sg-kurti-catalogue"><img src="'+x[0]+'" alt="'+esc(x[1])+'" loading="eager"><div class="sg-kurti-caption">'+esc(x[1])+'</div></div>').join('')+
-      '<div class="sg-kurti-credit">Silai Guru • Seekhe Silai Karo Aage Badho</div>'+
-    '</div>';
-}
-function openKurtiNeckPreview(i){
-  const items=[
-    ['./kurti-neck-catalog-1.jpg','Kurti Front & Back Neck Designs – Collection 1'],
-    ['./kurti-neck-catalog-2.jpg','Kurti Front & Back Neck Designs – Collection 2'],
-    ['./kurti-neck-catalog-3.jpg','Kurti Front & Back Neck Designs – Collection 3']
-  ];
-  const x=items[i]||items[0];
-  mt.textContent='👗 Kurti Neck Designs';
-  mb.innerHTML='<div class="design-back"><button type="button" class="secondary" onclick="openKurtiNeckCatalog()">← Catalogue</button><b>'+esc(x[1])+'</b></div><div class="preview-large" style="height:auto;max-width:760px"><img src="'+x[0]+'" alt="'+esc(x[1])+'" style="width:100%;height:auto;object-fit:contain"></div>';
+  mb.innerHTML='<div class="card"><h3>🎨 Garment Design Library</h3><p class="muted">Garment folder open karke customer ko designs dikha sakte hain.</p><div class="garment-library">'+GARMENT_LIBRARY.map((g,i)=>'<div class="garment-library-card" onclick="'+('openDesignCatalog('+JSON.stringify(g).replace(/"/g,'&quot;')+')')+'"><div class="libpic">'+garmentVisual(g)+'</div><b>'+g+'</b><small>'+(g==='Kurti'?'3 Catalogues · Front & Back Neck ›':((DESIGN_TYPES[g]||[]).length)+' Designs ›')+'</small></div>').join('')+'</div><div class="folder-box"><div style="display:flex;justify-content:space-between;align-items:center"><div><b>📁 My Garment Folder</b><div class="folder-count">'+saved.length+' saved designs</div></div><button class="primary" onclick="openGarmentFolder()">Open</button></div><div class="library-note">💡 Garment par tap karein aur customer ko designs dikha sakte hain.</div></div></div>';
 }
 function openDesignCatalog(type){if(type==='Kurti'){openKurtiNeckCatalog();return;}if(window.__sgRecordView)window.__sgRecordView('design-catalog:'+type);
   const designs=garmentDesignsFor(type).concat(loadSavedDesigns().filter(x=>x.type===type).map(x=>({...x,svg:x.svg||designVisual(type,0)})));
