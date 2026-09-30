@@ -3,12 +3,22 @@
   'use strict';
   var KEY='__silaiGuruCleanView';
   var restoring=false;
+  var BLOUSE_IMAGE='https://raw.githubusercontent.com/vaghmaresantosh09-tech/silai-guru/main/ChatGPT%20Image%20Sep%2030%2C%202026%2C%2004_00_59%20PM.png';
   function getState(){return history.state&&history.state[KEY]?history.state:null;}
   function push(view){if(restoring)return;var s=getState();if(s&&s.view===view)return;try{history.pushState({[KEY]:true,view:view},'',location.href)}catch(e){}}
   function loadBlouseNeck(){
     if(window.__sgBlouseNeckLoaded)return;
     window.__sgBlouseNeckLoaded=true;
-    var s=document.createElement('script');s.src='blouse-neck-designs.js?v=20260930d';s.async=false;document.head.appendChild(s);
+    var s=document.createElement('script');s.src='blouse-neck-designs.js?v=20260930e';s.async=false;document.head.appendChild(s);
+  }
+  function openBlouseCatalogue(){
+    push('blouse-neck-catalogue');
+    var title=document.getElementById('mt'),body=document.getElementById('mb'),modal=document.getElementById('modal');
+    if(!title||!body||!modal)return;
+    title.textContent='🎨 Blouse Neck Designs';
+    body.innerHTML='<div class="design-back"><button type="button" class="secondary" id="sgBlouseBack">← Garments</button><b>Blouse Neck Designs Catalogue</b></div><div class="card" style="padding:10px;text-align:center"><img src="'+BLOUSE_IMAGE+'" alt="Blouse Neck Designs Catalogue" style="display:block;width:100%;height:auto;max-height:75vh;object-fit:contain;border-radius:12px" onerror="this.alt=\'Blouse catalogue image load failed\';this.style.padding=\'30px\';this.style.background=\'#f3f3f3\';"><p class="muted" style="margin:10px 0 4px">Latest & Traditional Collection</p></div>';
+    var b=document.getElementById('sgBlouseBack');if(b)b.onclick=function(){cleanLibrary();};
+    modal.classList.add('modal','show');
   }
   function cleanLibrary(){
     loadBlouseNeck();
@@ -22,7 +32,7 @@
         var type=String(btn.getAttribute('data-garment')||'');
         if(type.toLowerCase()==='blouse'){
           loadBlouseNeck();
-          setTimeout(function(){if(typeof window.sgOpenBlouseNeck==='function')window.sgOpenBlouseNeck();},60);
+          setTimeout(openBlouseCatalogue,60);
         }else openEmptyFolder(type);
       });
     });
@@ -51,5 +61,5 @@
     wrapDesignCatalog();installEmptyLibrary();setTimeout(wrapDesignCatalog,100);setTimeout(installEmptyLibrary,100);setTimeout(wrapDesignCatalog,500);setTimeout(installEmptyLibrary,500);
   }
   window.addEventListener('load',init);var timer=setInterval(function(){loadBlouseNeck();wrapDesignCatalog();installEmptyLibrary();},250);setTimeout(function(){clearInterval(timer);},10000);
-  window.addEventListener('popstate',function(e){var s=e&&e.state;if(!s||!s[KEY])return;if(s.view==='design-library'){restoring=true;try{cleanLibrary();}finally{restoring=false;}}else if(s.view&&s.view.indexOf('empty-design-folder:')===0){restoring=true;try{openEmptyFolder(s.view.slice(21));}finally{restoring=false;}}else if(s.view&&s.view.indexOf('design-catalog:')===0&&typeof window.openDesignCatalog==='function'){restoring=true;try{window.openDesignCatalog(s.view.slice(15));}finally{restoring=false;}}else if(s.view==='dashboard'){var m=document.getElementById('modal');if(m)m.classList.remove('show');}});
+  window.addEventListener('popstate',function(e){var s=e&&e.state;if(!s||!s[KEY])return;if(s.view==='design-library'){restoring=true;try{cleanLibrary();}finally{restoring=false;}}else if(s.view&&s.view.indexOf('empty-design-folder:')===0){restoring=true;try{openEmptyFolder(s.view.slice(21));}finally{restoring=false;}}else if(s.view==='blouse-neck-catalogue'){restoring=true;try{openBlouseCatalogue();}finally{restoring=false;}}else if(s.view&&s.view.indexOf('design-catalog:')===0&&typeof window.openDesignCatalog==='function'){restoring=true;try{window.openDesignCatalog(s.view.slice(15));}finally{restoring=false;}}else if(s.view==='dashboard'){var m=document.getElementById('modal');if(m)m.classList.remove('show');}});
 })();
