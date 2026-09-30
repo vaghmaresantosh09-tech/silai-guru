@@ -348,7 +348,29 @@ function openGarmentLibrary(){if(window.__sgRecordView)window.__sgRecordView('de
   const saved=loadSavedDesigns();
   mb.innerHTML='<div class="card"><h3>🎨 Garment Design Library</h3><p class="muted">Kisi bhi garment ko touch karke uske related designs dekhiye.</p><div class="garment-library">'+GARMENT_LIBRARY.map((g,i)=>'<div class="garment-library-card" onclick="openDesignCatalog('+JSON.stringify(g).replace(/"/g,'&quot;')+')"><div class="libpic">'+garmentVisual(g)+'</div><b>'+g+'</b><small>'+((DESIGN_TYPES[g]||[]).length)+' Designs ›</small></div>').join('')+'</div><div class="folder-box"><div style="display:flex;justify-content:space-between;align-items:center"><div><b>📁 My Garment Folder</b><div class="folder-count">'+saved.length+' saved designs</div></div><button class="primary" onclick="openGarmentFolder()">Open</button></div><div class="library-note">💡 Garment par tap karein aur uske alag-alag designs dekhein.</div></div></div>';
 }
-function openDesignCatalog(type){if(window.__sgRecordView)window.__sgRecordView('design-catalog:'+type);
+function openKurtiNeckCatalog(){
+  if(window.__sgRecordView)window.__sgRecordView('kurti-neck-catalog');
+  mt.textContent='👗 Kurti Neck Designs';
+  const items=[
+    ['./kurti-neck-catalog-1.jpg','Kurti Front & Back Neck Designs – Collection 1'],
+    ['./kurti-neck-catalog-2.jpg','Kurti Front & Back Neck Designs – Collection 2'],
+    ['./kurti-neck-catalog-3.jpg','Kurti Front & Back Neck Designs – Collection 3']
+  ];
+  mb.innerHTML='<div class="design-back"><button type="button" class="secondary" onclick="openGarmentLibrary()">← Garments</button><b>Kurti · Front & Back Neck Collection</b></div>'+
+    '<div class="library-note">💡 Front aur Back dono neck designs ke catalogue yahan available hain.</div>'+
+    '<div class="design-grid">'+items.map((x,i)=>'<div class="design-card"><div class="design-img" style="height:auto;min-height:150px;background:#fff"><img src="'+x[0]+'" alt="'+esc(x[1])+'" style="width:100%;height:auto;object-fit:contain;display:block"></div><div class="design-name">'+esc(x[1])+'</div><div class="design-actions"><button class="primary" type="button" onclick="openKurtiNeckPreview('+i+')">👁 Full Catalogue</button></div></div>').join('')+'</div>';
+}
+function openKurtiNeckPreview(i){
+  const items=[
+    ['./kurti-neck-catalog-1.jpg','Kurti Front & Back Neck Designs – Collection 1'],
+    ['./kurti-neck-catalog-2.jpg','Kurti Front & Back Neck Designs – Collection 2'],
+    ['./kurti-neck-catalog-3.jpg','Kurti Front & Back Neck Designs – Collection 3']
+  ];
+  const x=items[i]||items[0];
+  mt.textContent='👗 Kurti Neck Designs';
+  mb.innerHTML='<div class="design-back"><button type="button" class="secondary" onclick="openKurtiNeckCatalog()">← Catalogue</button><b>'+esc(x[1])+'</b></div><div class="preview-large" style="height:auto;max-width:760px"><img src="'+x[0]+'" alt="'+esc(x[1])+'" style="width:100%;height:auto;object-fit:contain"></div>';
+}
+function openDesignCatalog(type){if(type==='Kurti'){openKurtiNeckCatalog();return;}if(window.__sgRecordView)window.__sgRecordView('design-catalog:'+type);
   const designs=garmentDesignsFor(type).concat(loadSavedDesigns().filter(x=>x.type===type).map(x=>({...x,svg:x.svg||designVisual(type,0)})));
   const saved=loadSavedDesigns();
   const chips=['All Designs'].concat(designs.slice(0,5).map(x=>x.name));
