@@ -1,5 +1,5 @@
-const CACHE='silai-guru-v8';
-const ASSETS=['./','./index.html','./manifest.json','./silai-guru-icon-fix.js'];
+const CACHE='silai-guru-v9';
+const ASSETS=['./','./index.html','./manifest.json','./silai-guru-icon-fix.js','./blouse-neck-designs.js'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
@@ -10,7 +10,9 @@ self.addEventListener('fetch',e=>{
       const type=res.headers.get('content-type')||'';
       if(type.includes('text/html')){
         const text=await res.text();
-        const injected=text.includes('silai-guru-icon-fix.js')?text:text.replace('</body>','<script src="./silai-guru-icon-fix.js?v=8"></script></body>');
+        let injected=text;
+        if(!injected.includes('silai-guru-icon-fix.js')) injected=injected.replace('</body>','<script src="./silai-guru-icon-fix.js?v=9"></script></body>');
+        if(!injected.includes('blouse-neck-designs.js')) injected=injected.replace('</body>','<script src="./blouse-neck-designs.js?v=1"></script></body>');
         const out=new Response(injected,{status:res.status,statusText:res.statusText,headers:res.headers});
         caches.open(CACHE).then(c=>c.put(e.request,out.clone()));
         return out;
