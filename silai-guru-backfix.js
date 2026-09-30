@@ -14,7 +14,7 @@
     if(window.__sgBlouseNeckLoaded)return;
     window.__sgBlouseNeckLoaded=true;
     var s=document.createElement('script');
-    s.src='blouse-neck-designs.js?v=20260930b';
+    s.src='blouse-neck-designs.js?v=20260930c';
     s.async=false;
     document.head.appendChild(s);
   }
@@ -25,15 +25,14 @@
     title.textContent='🎨 SILAI GURU Design Library';
     var types=['Kurti','Blouse','Salwar Suit','Kameez','Saree Blouse','Lehenga','Gown','Dress','Shirt','Pant','Salwar','Choli','Sherwani','Suit','Blazer','Waistcoat','Pajama','School Uniform','Coat','Other'];
     body.innerHTML='<div class="card"><div class="library-note">📁 Garment folder open karke customer ko designs dikha sakte hain.</div><div class="garment-library">'+types.map(function(t){return '<button type="button" class="garment-library-card sg-empty-folder" data-garment="'+t.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"><div class="libpic">'+(typeof window.garmentVisual==='function'?window.garmentVisual(t):'<div style="font-size:52px">👗</div>')+'</div><b>'+t+'</b><small>📁 Open Designs</small></button>';}).join('')+'</div></div>';
-    body.querySelectorAll('.sg-empty-folder').forEach(function(btn){btn.addEventListener('click',function(){openEmptyFolder(btn.getAttribute('data-garment'));});});
+    body.querySelectorAll('.sg-empty-folder').forEach(function(btn){
+      if(String(btn.getAttribute('data-garment')).toLowerCase()==='blouse')return;
+      btn.addEventListener('click',function(){openEmptyFolder(btn.getAttribute('data-garment'));});
+    });
     modal.classList.add('modal','show');
   }
   function openEmptyFolder(type){
-    if(String(type).toLowerCase()==='blouse'){
-      loadBlouseNeck();
-      setTimeout(function(){if(typeof window.sgOpenBlouseNeck==='function')window.sgOpenBlouseNeck();},40);
-      return;
-    }
+    if(String(type).toLowerCase()==='blouse')return;
     push('empty-design-folder:'+type);
     var title=document.getElementById('mt'),body=document.getElementById('mb');
     if(!title||!body)return;
