@@ -1,9 +1,27 @@
-/* SILAI GURU - Blouse catalogue fix */
+/* SILAI GURU - Blouse catalogue + mobile back handling */
 (function(){
   const originalOpenDesignCatalog = window.openDesignCatalog;
   const blouseImage = './ChatGPT%20Image%20Sep%2030,%202026,%2004_00_59%20PM.png';
+  let blouseOpen = false;
+  let backGuardReady = false;
+
+  function installBackGuard(){
+    if(backGuardReady) return;
+    backGuardReady = true;
+    history.pushState({sgBlouse:true}, '', location.href);
+    window.addEventListener('popstate', function(){
+      if(blouseOpen){
+        blouseOpen = false;
+        if(typeof window.openGarmentLibrary === 'function') window.openGarmentLibrary();
+        history.pushState({sgGarments:true}, '', location.href);
+      }
+    });
+  }
+
   window.openDesignCatalog = function(type){
     if(type === 'Blouse'){
+      blouseOpen = true;
+      installBackGuard();
       if(window.__sgRecordView) window.__sgRecordView('blouse-neck-catalog');
       const title=document.getElementById('mt'), body=document.getElementById('mb');
       if(title) title.textContent='👚 Blouse Neck Designs';
