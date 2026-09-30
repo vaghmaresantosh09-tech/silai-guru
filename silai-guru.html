@@ -247,7 +247,7 @@ function designVisual(type,index){
   const dupatta = (type==='Salwar Suit'||type==='Lehenga'||type==='Kameez') ? `<path d="M285 82 Q350 140 332 330" fill="none" stroke="${gold}" stroke-width="12" opacity=".85"/><path d="M290 84 Q350 142 334 330" fill="none" stroke="${pale}" stroke-width="3"/>` : '';
   return `<svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${type} fashion design"><rect x="8" y="8" width="384" height="364" rx="28" fill="#faf9ff"/><text x="200" y="38" text-anchor="middle" font-size="16" font-weight="800" fill="${dark}">${type} • Design ${index+1}</text>${upper?'':sleevePaths}${garment}${embellish}${dupatta}<path d="M105 350 H295" stroke="${c}" stroke-width="8" stroke-linecap="round"/><circle cx="120" cy="350" r="5" fill="${dark}"/><circle cx="280" cy="350" r="5" fill="${dark}"/></svg>`;
 }
-function garmentDesignsFor(type){return [];}const DESIGN_IMAGE_URLS={
+function garmentDesignsFor(type){if(type==='Blouse'&&Array.isArray(window.sgBlouseDesignCatalog))return window.sgBlouseDesignCatalog;return [];}const DESIGN_IMAGE_URLS={
   Blouse:{
     'Padded Blouse':'https://deepscreation.in/cdn/shop/files/01_6d112d9d-79c8-490f-908a-8e25c386c1b4.jpg?v=1750660850',
     'Princess Cut Blouse':'https://i.etsystatic.com/37885802/r/il/e3f663/4297513430/il_fullxfull.4297513430_683s.jpg',
