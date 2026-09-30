@@ -25,16 +25,7 @@
     title.textContent='🎨 SILAI GURU Design Library';
     var types=['Kurti','Blouse','Salwar Suit','Kameez','Saree Blouse','Lehenga','Gown','Dress','Shirt','Pant','Salwar','Choli','Sherwani','Suit','Blazer','Waistcoat','Pajama','School Uniform','Coat','Other'];
     body.innerHTML='<div class="card"><div class="library-note">📁 Garment folder open karke customer ko designs dikha sakte hain.</div><div class="garment-library">'+types.map(function(t){return '<button type="button" class="garment-library-card sg-empty-folder" data-garment="'+t.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"><div class="libpic">'+(typeof window.garmentVisual==='function'?window.garmentVisual(t):'<div style="font-size:52px">👗</div>')+'</div><b>'+t+'</b><small>📁 Open Designs</small></button>';}).join('')+'</div></div>';
-    body.querySelectorAll('.sg-empty-folder').forEach(function(btn){
-      btn.addEventListener('click',function(){
-        var type=btn.getAttribute('data-garment');
-        if(type==='Blouse'){
-          if(typeof window.__sgOpenBlouseNeck==='function')window.__sgOpenBlouseNeck();
-          return;
-        }
-        openEmptyFolder(type);
-      });
-    });
+    body.querySelectorAll('.sg-empty-folder').forEach(function(btn){btn.addEventListener('click',function(){openEmptyFolder(btn.getAttribute('data-garment'));});});
     modal.classList.add('modal','show');
   }
   function openEmptyFolder(type){
@@ -49,11 +40,7 @@
     if(window.__sgCleanDesignWrapped || typeof window.openDesignCatalog!=='function')return;
     window.__sgCleanDesignWrapped=true;
     var original=window.openDesignCatalog;
-    window.openDesignCatalog=function(type){
-      var name=String(type||'').trim();
-      if(name)push('design-catalog:'+name);
-      return original.apply(this,arguments);
-    };
+    window.openDesignCatalog=function(type){var name=String(type||'').trim();if(name)push('design-catalog:'+name);return original.apply(this,arguments);};
   }
   function installEmptyLibrary(){
     if(typeof window.openGarmentLibrary!=='function')return;
@@ -65,27 +52,16 @@
   function init(){
     loadBlouseNeck();
     try{if(!getState())history.replaceState({[KEY]:true,view:'dashboard'},'',location.href)}catch(e){}
-    wrapDesignCatalog();
-    installEmptyLibrary();
-    setTimeout(wrapDesignCatalog,100);
-    setTimeout(installEmptyLibrary,100);
-    setTimeout(wrapDesignCatalog,500);
-    setTimeout(installEmptyLibrary,500);
+    wrapDesignCatalog();installEmptyLibrary();
+    setTimeout(wrapDesignCatalog,100);setTimeout(installEmptyLibrary,100);setTimeout(wrapDesignCatalog,500);setTimeout(installEmptyLibrary,500);
   }
   window.addEventListener('load',init);
-  var timer=setInterval(function(){loadBlouseNeck();wrapDesignCatalog();installEmptyLibrary();},250);
-  setTimeout(function(){clearInterval(timer);},10000);
+  var timer=setInterval(function(){loadBlouseNeck();wrapDesignCatalog();installEmptyLibrary();},250);setTimeout(function(){clearInterval(timer);},10000);
   window.addEventListener('popstate',function(e){
-    var s=e&&e.state;
-    if(!s||!s[KEY])return;
-    if(s.view==='design-library'){
-      restoring=true;try{cleanLibrary();}finally{restoring=false;}
-    }else if(s.view&&s.view.indexOf('empty-design-folder:')===0){
-      restoring=true;try{openEmptyFolder(s.view.slice(21));}finally{restoring=false;}
-    }else if(s.view&&s.view.indexOf('design-catalog:')===0 && typeof window.openDesignCatalog==='function'){
-      restoring=true;try{window.openDesignCatalog(s.view.slice(15));}finally{restoring=false;}
-    }else if(s.view==='dashboard'){
-      var m=document.getElementById('modal');if(m)m.classList.remove('show');
-    }
+    var s=e&&e.state;if(!s||!s[KEY])return;
+    if(s.view==='design-library'){restoring=true;try{cleanLibrary();}finally{restoring=false;}}
+    else if(s.view&&s.view.indexOf('empty-design-folder:')===0){restoring=true;try{openEmptyFolder(s.view.slice(21));}finally{restoring=false;}}
+    else if(s.view&&s.view.indexOf('design-catalog:')===0&&typeof window.openDesignCatalog==='function'){restoring=true;try{window.openDesignCatalog(s.view.slice(15));}finally{restoring=false;}}
+    else if(s.view==='dashboard'){var m=document.getElementById('modal');if(m)m.classList.remove('show');}
   });
 })();
