@@ -1,7 +1,4 @@
-/* SILAI GURU — clean navigation + empty Design Library folders
-   New Order garment selection stays inside New Order.
-   Design Library initially contains ONLY garment folders/icons.
-   Designs will be added later, one garment at a time. */
+/* SILAI GURU — clean navigation + garment design folders */
 (function(){
   'use strict';
   var KEY='__silaiGuruCleanView';
@@ -13,14 +10,30 @@
     if(s&&s.view===view)return;
     try{history.pushState({[KEY]:true,view:view},'',location.href)}catch(e){}
   }
+  function loadBlouseNeck(){
+    if(window.__sgBlouseNeckLoaded)return;
+    window.__sgBlouseNeckLoaded=true;
+    var s=document.createElement('script');
+    s.src='blouse-neck-designs.js?v=20260930';
+    s.async=false;
+    document.head.appendChild(s);
+  }
   function cleanLibrary(){
+    loadBlouseNeck();
     var modal=document.getElementById('modal'),title=document.getElementById('mt'),body=document.getElementById('mb');
     if(!modal||!title||!body)return;
     title.textContent='🎨 SILAI GURU Design Library';
     var types=['Kurti','Blouse','Salwar Suit','Kameez','Saree Blouse','Lehenga','Gown','Dress','Shirt','Pant','Salwar','Choli','Sherwani','Suit','Blazer','Waistcoat','Pajama','School Uniform','Coat','Other'];
-    body.innerHTML='<div class="card"><div class="library-note">📁 Har garment ka alag design folder hai. Abhi folders khali hain. Designs hum ek-ek garment ke andar baad mein add karenge.</div><div class="garment-library">'+types.map(function(t,i){return '<button type="button" class="garment-library-card sg-empty-folder" data-garment="'+t.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"><div class="libpic">'+(typeof window.garmentVisual==='function'?window.garmentVisual(t):'<div style="font-size:52px">👗</div>')+'</div><b>'+t+'</b><small>📁 Empty Folder</small></button>';}).join('')+'</div></div>';
+    body.innerHTML='<div class="card"><div class="library-note">📁 Garment folder open karke customer ko designs dikha sakte hain.</div><div class="garment-library">'+types.map(function(t){return '<button type="button" class="garment-library-card sg-empty-folder" data-garment="'+t.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"><div class="libpic">'+(typeof window.garmentVisual==='function'?window.garmentVisual(t):'<div style="font-size:52px">👗</div>')+'</div><b>'+t+'</b><small>📁 Open Designs</small></button>';}).join('')+'</div></div>';
     body.querySelectorAll('.sg-empty-folder').forEach(function(btn){
-      btn.addEventListener('click',function(){openEmptyFolder(btn.getAttribute('data-garment'));});
+      btn.addEventListener('click',function(){
+        var type=btn.getAttribute('data-garment');
+        if(type==='Blouse'){
+          if(typeof window.__sgOpenBlouseNeck==='function')window.__sgOpenBlouseNeck();
+          return;
+        }
+        openEmptyFolder(type);
+      });
     });
     modal.classList.add('modal','show');
   }
@@ -29,7 +42,7 @@
     var title=document.getElementById('mt'),body=document.getElementById('mb');
     if(!title||!body)return;
     title.textContent='📁 '+type+' Designs';
-    body.innerHTML='<div class="design-back"><button type="button" class="secondary" id="sgFolderBack">← Garments</button><b>'+type+'</b></div><div class="card" style="text-align:center;padding:35px 18px"><div style="font-size:70px">📁</div><h3>Design Folder Empty</h3><p class="muted">Is '+type+' folder mein abhi koi design nahi hai.</p><p class="muted">Pehle Design Library ko clear rakhte hain. Baad mein hum isi folder ke andar ek-ek actual design add karenge.</p></div>';
+    body.innerHTML='<div class="design-back"><button type="button" class="secondary" id="sgFolderBack">← Garments</button><b>'+type+'</b></div><div class="card" style="text-align:center;padding:35px 18px"><div style="font-size:70px">📁</div><h3>Design Folder</h3><p class="muted">Is folder ke designs yahan add kiye ja sakte hain.</p></div>';
     var b=document.getElementById('sgFolderBack');if(b)b.onclick=function(){cleanLibrary();};
   }
   function wrapDesignCatalog(){
@@ -50,6 +63,7 @@
     window.openGarmentLibrary=function(){push('design-library');cleanLibrary();};
   }
   function init(){
+    loadBlouseNeck();
     try{if(!getState())history.replaceState({[KEY]:true,view:'dashboard'},'',location.href)}catch(e){}
     wrapDesignCatalog();
     installEmptyLibrary();
@@ -59,7 +73,7 @@
     setTimeout(installEmptyLibrary,500);
   }
   window.addEventListener('load',init);
-  var timer=setInterval(function(){wrapDesignCatalog();installEmptyLibrary();},250);
+  var timer=setInterval(function(){loadBlouseNeck();wrapDesignCatalog();installEmptyLibrary();},250);
   setTimeout(function(){clearInterval(timer);},10000);
   window.addEventListener('popstate',function(e){
     var s=e&&e.state;
