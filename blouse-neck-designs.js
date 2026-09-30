@@ -1,21 +1,31 @@
 (()=>{
-  const realImages=[
-    ['Neck Blouse Design — Design Chart','https://commons.wikimedia.org/wiki/Special:Redirect/file/Neck%20blouse%20design.jpg','Wikimedia Commons • CC BY-SA 4.0'],
-    ['Blouse Neck Design with Aari Work','https://commons.wikimedia.org/wiki/Special:Redirect/file/Blouse%20neck%20design%20with%20aari%20work.jpg','Wikimedia Commons • CC BY-SA 4.0'],
-    ['Blouse Design — Kundan Work','https://commons.wikimedia.org/wiki/Special:Redirect/file/Blouse%20design.jpg','Wikimedia Commons • CC BY-SA 4.0'],
-    ['Front Blouse Design','https://commons.wikimedia.org/wiki/Special:Redirect/file/Front%20blouse%20design.jpg','Wikimedia Commons • CC BY-SA 4.0'],
-    ['Back Design in Blouse','https://commons.wikimedia.org/wiki/Special:Redirect/file/Back%20design%20in%20blouse.jpg','Wikimedia Commons • CC BY-SA 4.0'],
-    ['Aari Blouse Design','https://commons.wikimedia.org/wiki/Special:Redirect/file/Aari%20blouse%20design.jpg','Wikimedia Commons • CC0'],
-    ['Indian Blouse — Rear View','https://commons.wikimedia.org/wiki/Special:Redirect/file/Indian%20blouse%20%28rear%20view%29.jpg','Wikimedia Commons • CC BY-SA 2.0'],
-    ['Traditional Indian Blouse — Front','https://commons.wikimedia.org/wiki/Special:Redirect/file/Blouse%20MET%20CI44.111%20F.jpg','Wikimedia Commons • source page attribution'],
-    ['Traditional Indian Blouse — Back','https://commons.wikimedia.org/wiki/Special:Redirect/file/Blouse%20MET%20CI44.111%20B.jpg','Wikimedia Commons • source page attribution']
-  ];
+  const catalogueImage='https://raw.githubusercontent.com/vaghmaresantosh09-tech/silai-guru/main/ChatGPT%20Image%20Sep%2030%2C%202026%2C%2004_00_59%20PM.png';
   const esc=s=>String(s).replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\\':'&#92;'}[m]));
   function open(){
     const old=document.getElementById('sgNeckOverlay');if(old)old.remove();
     const wrap=document.createElement('div');wrap.id='sgNeckOverlay';wrap.className='sg-neck-overlay';
-    wrap.innerHTML=`<style>.sg-neck-overlay{position:fixed;inset:0;background:#0008;z-index:99999;display:flex;align-items:flex-end}.sg-neck-sheet{background:#fff;width:100%;max-width:760px;margin:auto;border-radius:26px 26px 0 0;max-height:95vh;overflow:auto;padding:16px;box-shadow:0 -10px 40px #0004}.sg-neck-head{display:flex;align-items:center;justify-content:space-between}.sg-neck-head h2{margin:0;color:#4f35a8;font-size:21px}.sg-neck-close{background:#eee;font-size:22px;padding:7px 13px}.sg-neck-banner{background:linear-gradient(135deg,#5b35a8,#c44791);color:#fff;border-radius:20px;padding:17px;margin:10px 0;text-align:center}.sg-neck-banner b{display:block;font-size:23px}.sg-neck-banner small{display:block;margin-top:5px}.sg-real-title{font-size:16px;font-weight:900;margin:15px 0 8px;color:#302b3c}.sg-real-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.sg-real-card{border:1px solid #e4e0ed;border-radius:17px;background:#fff;overflow:hidden;box-shadow:0 4px 14px #33225512}.sg-real-card img{width:100%;height:210px;object-fit:contain;display:block;background:#faf7ff}.sg-real-name{font-weight:900;font-size:12px;padding:8px 9px 2px}.sg-real-source{font-size:10px;color:#777386;padding:0 9px 9px}.sg-neck-credit{font-size:10px;color:#777;text-align:center;padding:14px 4px}@media(max-width:500px){.sg-real-grid{grid-template-columns:repeat(2,1fr)}.sg-real-card img{height:180px}}</style><div class="sg-neck-sheet"><div class="sg-neck-head"><h2>👚 Blouse Neck Designs</h2><button class="sg-neck-close" type="button">×</button></div><div class="sg-neck-banner"><b>Original Blouse Design Gallery</b><small>Real photographs • Front & Back • Customer ko design dikhane ke liye</small></div><div class="sg-real-title">📸 Original Blouse Design Photos</div><div class="sg-real-grid">${realImages.map(x=>`<div class="sg-real-card"><img src="${x[1]}" alt="${esc(x[0])}" loading="lazy"><div class="sg-real-name">${esc(x[0])}</div><div class="sg-real-source">${esc(x[2])}</div></div>`).join('')}</div><div class="sg-neck-credit">Images are from Wikimedia Commons and are shown with their stated licences/attribution.</div></div>`;
-    document.body.appendChild(wrap);wrap.querySelector('.sg-neck-close').onclick=()=>wrap.remove();wrap.addEventListener('click',e=>{if(e.target===wrap)wrap.remove()});
+    wrap.innerHTML=`<style>
+      .sg-neck-overlay{position:fixed;inset:0;background:#0009;z-index:99999;display:flex;align-items:flex-end}
+      .sg-neck-sheet{background:#fff;width:100%;max-width:760px;margin:auto;border-radius:26px 26px 0 0;max-height:96vh;overflow:auto;padding:16px;box-shadow:0 -10px 40px #0005}
+      .sg-neck-head{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:2;padding-bottom:8px}
+      .sg-neck-head h2{margin:0;color:#4f35a8;font-size:21px}
+      .sg-neck-close{border:0;border-radius:12px;background:#eee;font-size:22px;padding:7px 13px}
+      .sg-neck-banner{background:linear-gradient(135deg,#5b35a8,#c44791);color:#fff;border-radius:20px;padding:17px;margin:10px 0;text-align:center}
+      .sg-neck-banner b{display:block;font-size:23px}.sg-neck-banner small{display:block;margin-top:5px}
+      .sg-catalogue{border:1px solid #e4e0ed;border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 5px 18px #33225518}
+      .sg-catalogue img{width:100%;height:auto;display:block;background:#faf7ff}
+      .sg-caption{text-align:center;font-weight:900;padding:12px;color:#302b3c}
+      .sg-neck-credit{font-size:10px;color:#777;text-align:center;padding:12px 4px}
+    </style>
+    <div class="sg-neck-sheet">
+      <div class="sg-neck-head"><h2>👚 Blouse Neck Designs</h2><button class="sg-neck-close" type="button">×</button></div>
+      <div class="sg-neck-banner"><b>Latest & Traditional Collection</b><small>Har Design • Har Style Aapke Liye</small></div>
+      <div class="sg-catalogue"><img src="${catalogueImage}" alt="Silai Guru Blouse Neck Designs Catalogue" loading="eager"><div class="sg-caption">Blouse Neck Designs Catalogue</div></div>
+      <div class="sg-neck-credit">Silai Guru • Seekhe Silai Karo Aage Badho</div>
+    </div>`;
+    document.body.appendChild(wrap);
+    wrap.querySelector('.sg-neck-close').onclick=()=>wrap.remove();
+    wrap.addEventListener('click',e=>{if(e.target===wrap)wrap.remove()});
   }
   window.sgOpenBlouseNeck=open;
 })();
