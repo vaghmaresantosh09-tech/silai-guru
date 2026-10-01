@@ -13,7 +13,6 @@ function cleanHtml(text){
     /<style id="sg-expanded-library-style">[\s\S]*?<\/style>/gi,
     /<script id="sg-expanded-library-script">[\s\S]*?<\/script>/gi,
     /<!-- SG_DESIGN_LIBRARY_EXPANDED_V1 -->[\s\S]*?<!-- \/SG_DESIGN_LIBRARY_EXPANDED_V1 -->/gi,
-\([\s\S]*?function addO\(/gi,
   ];
   for(const re of blocks) text=text.replace(re,m=>m.startsWith('function garmentCard')?'function addO(':m.startsWith('setTimeout')?'':'');
   if(!text.includes('profile-validation-v2.js')) text=text.includes('</body>')?text.replace('</body>',PROFILE_SCRIPT+'</body>'):text+PROFILE_SCRIPT;
