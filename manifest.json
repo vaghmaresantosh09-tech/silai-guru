@@ -1,7 +1,7 @@
 {
-  "name": "SHARDA BOUTIQUE - Tailoring App",
-  "short_name": "SHARDA BOUTIQUE",
-  "description": "Customer, garment, measurement and payment management app for SHARDA BOUTIQUE.",
+  "name": "SILAI GURU",
+  "short_name": "SILAI GURU",
+  "description": "Tailoring, customer, measurement, order and design management app.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
