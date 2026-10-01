@@ -2,34 +2,35 @@
 (function(){'use strict';
 const LADIES=[['','Kurti'],['','Blouse'],['','Saree'],['','Salwar Suit'],['','Gown'],['','Lehenga'],['','Frock'],['','Choli'],['','Dress'],['','Plazo'],['','Jacket'],['','Kameez']];
 const GENTS=[['','Shirt'],['','Pant'],['','Kurta'],['','Sherwani'],['','Waistcoat'],['','Blazer'],['','Coat'],['','T-Shirt'],['','Shorts'],['','Pajama'],['','Suit'],['','Night Wear']];
-const P=(d)=>'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="'+d+'" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+const G=(body)=>'<svg viewBox="0 0 100 100" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg">'+body+'</svg>';
+const ST='stroke="currentColor" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"';
 const ICONS={
-Kurti:P('M25 7h14l4 12 9 6-7 10-7-5v27H26V30l-7 5-7-10 9-6z M29 7c0 5 6 5 6 0 M32 19v38'),
-Blouse:P('M26 9h12l4 9 11 6-7 10-7-4v23H25V30l-7 4-7-10 11-6z M29 9c0 5 6 5 6 0'),
-Saree:P('M23 8h15l4 11 10 7-7 8-7-5 8 27H16l9-27-7 5-7-8 10-7z M27 8c0 5 7 5 7 0 M21 28c8 5 16 5 24 1'),
-'Salwar Suit':P('M25 8h14l4 11 8 6-7 9-7-5v9l8 20H36l-4-15-4 15H19l8-20v-9l-7 5-7-9 8-6z M29 8c0 5 6 5 6 0'),
-Gown:P('M26 8h12l3 14 14 34H9l14-34z M29 8c0 5 6 5 6 0'),
-Lehenga:P('M25 8h14l3 11 9 7-7 8-6-5v7l12 19H14l12-19v-7l-6 5-7-8 9-7z M29 8c0 5 6 5 6 0 M15 53h34'),
-Frock:P('M26 8h12l3 14 13 31H10l13-31z M29 8c0 5 6 5 6 0'),
-Choli:P('M25 9h14l3 9 9 6-7 9-6-4v8l10 19H16l10-19v-8l-6 4-7-9 9-6z M29 9c0 5 6 5 6 0'),
-Dress:P('M26 8h12l4 15 11 31H11l11-31z M29 8c0 5 6 5 6 0'),
-Plazo:P('M19 8h26l8 49H38l-6-27-6 27H11z M19 8h26 M24 16h16'),
-Jacket:P('M24 8h16l4 12 10 7-7 10-7-5v23H24V32l-7 5-7-10 10-7z M28 8l4 11 4-11 M32 19v36'),
-Kameez:P('M24 8h16l4 12 10 7-7 10-7-5v24H24V32l-7 5-7-10 10-7z M28 8c0 5 8 5 8 0 M32 20v36'),
-Shirt:P('M24 8h16l4 11 11 7-6 12-8-5v23H23V33l-8 5-6-12 11-7z M28 8l4 9 4-9 M32 17v38'),
-Pant:P('M19 8h26l8 49H38l-6-27-6 27H11z M19 8h26 M24 16h16'),
-Kurta:P('M24 8h16l4 12 10 7-7 10-7-5v24H24V32l-7 5-7-10 10-7z M28 8c0 5 8 5 8 0 M32 20v36'),
-Sherwani:P('M24 8h16l4 12 10 7-7 10-7-5v24H24V32l-7 5-7-10 10-7z M28 8c0 5 8 5 8 0 M32 20v36 M28 29h8 M28 38h8 M28 47h8'),
-Waistcoat:P('M24 8l8 10 8-10 8 16-8 8v22H24V32l-8-8z M32 18v36 M27 34h10 M27 44h10'),
-Blazer:P('M24 8h16l4 12 10 7-7 11-7-5v22H24V33l-7 5-7-11 10-7z M28 8l4 11 4-11 M32 19v36'),
-Coat:P('M24 8h16l4 12 10 7-7 11-7-5v24H24V33l-7 5-7-11 10-7z M28 8c0 5 8 5 8 0 M32 20v36 M28 31h8 M28 42h8'),
-'T-Shirt':P('M23 9l9 6 9-6 12 9-6 12-7-4v28H24V26l-7 4-6-12z M28 9c0 5 8 5 8 0'),
-Shorts:P('M18 8h28l6 31H37l-5-12-5 12H12z M18 8h28 M32 8v19'),
-Pajama:P('M18 8h28l7 49H37l-5-27-5 27H11z M18 8h28 M24 16h16'),
-Suit:P('M24 8l8 10 8-10 9 19-7 7v21H22V34l-7-7z M32 18v37 M27 30l5 7 5-7'),
-'Night Wear':P('M23 9h18l4 11 10 7-7 10-7-5v22H23V32l-7 5-7-10 10-7z M28 9c0 5 8 5 8 0 M32 20v34')
+Kurti:G('<path d="M37 10h26l6 17 17 10-10 15-13-8v44H37V44l-13 8-10-15 17-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M37 10h26l6 17 17 10-10 15-13-8v44H37V44l-13 8-10-15 17-10z" fill="none" '+ST+'/><path d="M45 10c0 9 10 12 10 0" fill="none" '+ST+'/>'),
+Blouse:G('<path d="M39 14h22l5 15 16 9-9 15-12-7v25H39V46l-12 7-9-15 16-9z" fill="currentColor" opacity=".18" '+ST+'/><path d="M39 14h22l5 15 16 9-9 15-12-7v25H39V46l-12 7-9-15 16-9z" fill="none" '+ST+'/><path d="M44 14c0 8 12 8 12 0M39 71h22" fill="none" '+ST+'/>'),
+Saree:G('<path d="M38 12h24l5 15 15 10-10 13-12-8 18 44H25l12-44-12 8-10-13 15-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M38 12h24l5 15 15 10-10 13-12-8 18 44H25l12-44-12 8-10-13 15-10z" fill="none" '+ST+'/><path d="M44 12c0 8 12 10 12 0M29 46c13 8 29 9 43 1" fill="none" '+ST+'/>'),
+'Salwar Suit':G('<path d="M38 10h24l5 16 15 9-9 14-12-8v20l14 27H57l-7-21-7 21H26l14-27V41l-12 8-9-14 16-9z" fill="currentColor" opacity=".16" '+ST+'/><path d="M38 10h24l5 16 15 9-9 14-12-8v20l14 27H57l-7-21-7 21H26l14-27V41l-12 8-9-14 16-9z" fill="none" '+ST+'/><path d="M45 10c0 8 10 10 10 0" fill="none" '+ST+'/>'),
+Gown:G('<path d="M39 10h22l4 27 25 53H10l25-53z" fill="currentColor" opacity=".16" '+ST+'/><path d="M39 10h22l4 27 25 53H10l25-53z" fill="none" '+ST+'/><path d="M45 10c0 8 10 10 10 0M29 71h42" fill="none" '+ST+'/>'),
+Lehenga:G('<path d="M39 10h22l4 15 15 9-9 14-12-7v10l19 39H22l19-39V41l-12 7-9-14 15-9z" fill="currentColor" opacity=".16" '+ST+'/><path d="M39 10h22l4 15 15 9-9 14-12-7v10l19 39H22l19-39V41l-12 7-9-14 15-9z" fill="none" '+ST+'/><path d="M45 10c0 8 10 10 10 0M23 78h54" fill="none" '+ST+'/>'),
+Frock:G('<path d="M39 10h22l4 28 24 52H11l24-52z" fill="currentColor" opacity=".16" '+ST+'/><path d="M39 10h22l4 28 24 52H11l24-52z" fill="none" '+ST+'/><path d="M45 10c0 8 10 10 10 0M28 71h44" fill="none" '+ST+'/>'),
+Choli:G('<path d="M39 12h22l4 13 14 8-9 14-11-7v10l17 39H24l17-39V40l-11 7-9-14 14-8z" fill="currentColor" opacity=".16" '+ST+'/><path d="M39 12h22l4 13 14 8-9 14-11-7v10l17 39H24l17-39V40l-11 7-9-14 14-8z" fill="none" '+ST+'/><path d="M45 12c0 8 10 9 10 0M25 79h50" fill="none" '+ST+'/>'),
+Dress:G('<path d="M38 10h24l5 29 23 51H10l23-51z" fill="currentColor" opacity=".16" '+ST+'/><path d="M38 10h24l5 29 23 51H10l23-51z" fill="none" '+ST+'/><path d="M45 10c0 8 10 10 10 0M27 73h46" fill="none" '+ST+'/>'),
+Plazo:G('<path d="M28 10h44l14 80H58L50 53 42 90H14z" fill="currentColor" opacity=".16" '+ST+'/><path d="M28 10h44l14 80H58L50 53 42 90H14z" fill="none" '+ST+'/><path d="M35 20h30M50 10v43" fill="none" '+ST+'/>'),
+Jacket:G('<path d="M37 10h26l5 17 17 10-10 15-13-8v38H38V44l-13 8-10-15 17-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M37 10h26l5 17 17 10-10 15-13-8v38H38V44l-13 8-10-15 17-10z" fill="none" '+ST+'/><path d="M44 10l6 16 6-16M50 26v46M44 39h12M44 51h12" fill="none" '+ST+'/>'),
+Kameez:G('<path d="M37 10h26l5 18 17 10-10 15-13-8v43H38V45l-13 8-10-15 17-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M37 10h26l5 18 17 10-10 15-13-8v43H38V45l-13 8-10-15 17-10z" fill="none" '+ST+'/><path d="M44 10c0 9 12 11 12 0M50 28v38" fill="none" '+ST+'/>'),
+Shirt:G('<path d="M37 10h26l5 17 18 10-9 16-14-8v40H37V45l-14 8-9-16 18-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M37 10h26l5 17 18 10-9 16-14-8v40H37V45l-14 8-9-16 18-10z" fill="none" '+ST+'/><path d="M43 10l7 15 7-15M50 25v41M44 37h12M44 49h12" fill="none" '+ST+'/>'),
+Pant:G('<path d="M27 10h46l13 80H57L50 52 43 90H14z" fill="currentColor" opacity=".16" '+ST+'/><path d="M27 10h46l13 80H57L50 52 43 90H14z" fill="none" '+ST+'/><path d="M33 20h34M50 10v42" fill="none" '+ST+'/>'),
+Kurta:G('<path d="M37 10h26l5 18 17 10-10 15-13-8v43H38V45l-13 8-10-15 17-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M37 10h26l5 18 17 10-10 15-13-8v43H38V45l-13 8-10-15 17-10z" fill="none" '+ST+'/><path d="M44 10c0 9 12 11 12 0M50 27v42M45 39h10M45 51h10" fill="none" '+ST+'/>'),
+Sherwani:G('<path d="M37 10h26l5 18 17 10-10 15-13-8v43H38V45l-13 8-10-15 17-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M37 10h26l5 18 17 10-10 15-13-8v43H38V45l-13 8-10-15 17-10z" fill="none" '+ST+'/><path d="M44 10c0 9 12 11 12 0M50 27v42M44 38h12M44 50h12M44 62h12" fill="none" '+ST+'/>'),
+Waistcoat:G('<path d="M36 10 50 26 64 10l12 27-12 10v43H36V47L24 37z" fill="currentColor" opacity=".16" '+ST+'/><path d="M36 10 50 26 64 10l12 27-12 10v43H36V47L24 37z" fill="none" '+ST+'/><path d="M50 26v54M43 42h14M43 55h14" fill="none" '+ST+'/>'),
+Blazer:G('<path d="M37 10h26l5 18 17 10-10 16-13-8v39H38V46l-13 8-10-16 17-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M37 10h26l5 18 17 10-10 16-13-8v39H38V46l-13 8-10-16 17-10z" fill="none" '+ST+'/><path d="M44 10l6 17 6-17M50 27v43M44 39h12M44 51h12" fill="none" '+ST+'/>'),
+Coat:G('<path d="M37 10h26l5 18 17 10-10 16-13-8v43H38V46l-13 8-10-16 17-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M37 10h26l5 18 17 10-10 16-13-8v43H38V46l-13 8-10-16 17-10z" fill="none" '+ST+'/><path d="M44 10c0 9 12 11 12 0M50 27v43M44 40h12M44 53h12M44 66h12" fill="none" '+ST+'/>'),
+'T-Shirt':G('<path d="M32 11 50 22l18-11 16 12-10 19-12-7v43H38V35l-12 7-10-19z" fill="currentColor" opacity=".16" '+ST+'/><path d="M32 11 50 22l18-11 16 12-10 19-12-7v43H38V35l-12 7-10-19z" fill="none" '+ST+'/><path d="M43 13c0 7 14 7 14 0" fill="none" '+ST+'/>'),
+Shorts:G('<path d="M27 10h46l9 46H57L50 37 43 56H18z" fill="currentColor" opacity=".16" '+ST+'/><path d="M27 10h46l9 46H57L50 37 43 56H18z" fill="none" '+ST+'/><path d="M34 20h32M50 10v27" fill="none" '+ST+'/>'),
+Pajama:G('<path d="M27 10h46l13 80H57L50 52 43 90H14z" fill="currentColor" opacity=".16" '+ST+'/><path d="M27 10h46l13 80H57L50 52 43 90H14z" fill="none" '+ST+'/><path d="M33 20h34M50 10v42" fill="none" '+ST+'/>'),
+Suit:G('<path d="M36 10 50 26 64 10l13 27-9 10v43H32V47l-9-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M36 10 50 26 64 10l13 27-9 10v43H32V47l-9-10z" fill="none" '+ST+'/><path d="M50 26v54M43 40l7 10 7-10" fill="none" '+ST+'/>'),
+'Night Wear':G('<path d="M37 10h26l5 18 17 10-10 15-13-8v43H38V45l-13 8-10-15 17-10z" fill="currentColor" opacity=".16" '+ST+'/><path d="M37 10h26l5 18 17 10-10 15-13-8v43H38V45l-13 8-10-15 17-10z" fill="none" '+ST+'/><path d="M44 10c0 9 12 11 12 0M50 28v40" fill="none" '+ST+'/>')
 };
-const icon=t=>ICONS[t]||P('M22 8h20l4 48H18z');
+const icon=t=>ICONS[t]||G('<rect x="22" y="12" width="56" height="76" rx="8" fill="currentColor" opacity=".12" '+ST+'/>');
 const esc=v=>typeof window.esc==='function'?window.esc(v):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function css(){if(document.getElementById('sg-final-order-ui'))return;const s=document.createElement('style');s.id='sg-final-order-ui';s.textContent=`.sg-final-order{border:1px solid #ddd8ff;background:linear-gradient(145deg,#fbfaff,#f5f2ff);border-radius:16px;padding:12px;margin-bottom:12px}.sg-final-title{font-size:16px;font-weight:900;color:#39324f;margin-bottom:3px}.sg-final-sub{font-size:11px;color:#77718b;margin-bottom:10px}.sg-final-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.sg-final-tab{border:1px solid #ddd8ff;background:#fff;border-radius:12px;padding:10px 6px;font-weight:900;color:#5144bd}.sg-final-tab.active{background:#5b4bdb;color:#fff}.sg-final-icons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.sg-final-icon{border:1px solid #e2e0ec;background:#fff;border-radius:14px;min-height:90px;padding:7px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}.sg-final-icon span{font-size:31px;line-height:1}.sg-final-icon .sg-garment-svg{width:48px;height:48px;display:flex;align-items:center;justify-content:center}.sg-final-icon .sg-garment-svg svg{width:48px;height:48px;color:#5144bd}.sg-final-icon b{font-size:11px;line-height:1.1}.sg-final-selected{border:1px solid #d9d3ff;background:#fff;border-radius:16px;padding:11px;margin-bottom:10px}.sg-final-selected-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.sg-final-selected-name{font-weight:900;font-size:15px}.sg-final-actions{display:flex;gap:6px}.sg-final-actions button{border:0;border-radius:9px;padding:7px 9px;font-weight:800}.sg-final-change{background:#eeeaff;color:#5144bd}.sg-final-remove{background:#fff0f0;color:#c62828}.sg-final-design{width:100%;margin:10px 0;background:#5b4bdb;color:#fff;border:0;border-radius:11px;padding:11px;font-weight:900}.sg-final-measure-title{font-weight:900;margin:5px 0 8px}.sg-final-measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sg-final-measure-grid .field{margin:0}.sg-final-locked{background:#fff7df;border:1px solid #f0d58b;color:#7a5a00;border-radius:12px;padding:11px;font-size:12px;font-weight:800}.sg-final-measure-grid label{font-size:11px}.sg-final-measure-grid input{width:100%}@media(max-width:430px){.sg-final-icons{grid-template-columns:repeat(3,1fr)}.sg-final-measure-grid{grid-template-columns:1fr 1fr}}`;document.head.appendChild(s)}
 function names(type){return typeof window.orderMeasurementNames==='function'?window.orderMeasurementNames(type):[]}
