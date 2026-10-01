@@ -1,33 +1,38 @@
-const CACHE='silai-guru-clean-v31';
-const ASSETS=['./','./index.html','./manifest.json','./silai-guru.html','./silai-guru-core.js','./icon-192.png','./icon-512.png'];
-
-async function cleanAppResponse(request){
-  const res=await fetch(request,{cache:'no-store'});
-  if(!res.ok)return res;
-  const type=res.headers.get('content-type')||'';
-  if(!type.includes('text/html'))return res;
-  let html=await res.text();
-  html=html
-    .replace(/<script[^>]*src=["']silai-guru-backfix\.js[^>]*><\/script>/gi,'')
-    .replace(/<script[^>]*src=["']blouse-neck-designs\.js[^>]*><\/script>/gi,'')
-    .replace(/<script[^>]*src=["']silai-guru-custom-measurements\.js[^>]*><\/script>/gi,'')
-    .replace(/<script[^>]*src=["']silai-guru-icon-fix\.js[^>]*><\/script>/gi,'')
-    .replace(/<script[^>]*id=["']sg-expanded-library-script["'][^>]*>[\s\S]*?<\/script>/gi,'')
-    .replace(/<style[^>]*id=["']sg-expanded-library-style["'][^>]*>[\s\S]*?<\/style>/gi,'')
-    .replace(/const DESIGN_IMAGE_URLS=\{[\s\S]*?\};function getGarmentMaster\(\)/,'function getGarmentMaster()')
-    .replace(/<script[^>]*>\s*\/\* SG_REAL_DESIGN_LIBRARY_V2 \*\/[\s\S]*?<\/script>/gi,'')
-    .replace(/<script[^>]*>\s*\/\* SG_GARMENTS_MANAGEMENT_FIX_V1 \*\/[\s\S]*?<\/script>/gi,'');
-  if(!html.includes('silai-guru-core.js'))html=html.replace(/<\/body>/i,`<script>(function(){try{var p=JSON.parse(localStorage.getItem('sg_profile')||'null');var ok=p&&/^(Mr|Mrs|Miss)\s+[A-Za-z][A-Za-z .'-]{1,59}$/i.test(String(p.name||''))&&/^\+91\s[6-9]\d{9}$/.test(String(p.mobile||''))&&String(p.shop||'').trim().length>=2&&/^[A-Za-z0-9._%+-]+@(gmail\.com|gmail\.in|yahoo\.com|yahoo\.in|outlook\.com|hotmail\.com)$/i.test(String(p.email||''))&&String(p.address||'').trim().length>=8&&/^\d{6}$/.test(String(p.pin||''));if(!ok){localStorage.removeItem('sg_profile');var ob=document.getElementById('onboard');if(ob){ob.hidden=false;ob.style.display='flex'}}}catch(e){}})();</script><script src="./silai-guru-core.js?v=31"></script></body>`);
-  const headers=new Headers(res.headers);
-  headers.set('content-type','text/html; charset=utf-8');
-  headers.set('cache-control','no-store, max-age=0');
-  return new Response(html,{status:res.status,statusText:res.statusText,headers});
+/* SILAI GURU — clean runtime service worker
+   Old duplicate garment/design implementations are stripped before HTML reaches the browser.
+   Authoritative New Order runtime: silai-guru-order-ui.js
+*/
+const CACHE='silai-guru-v32';
+const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js'];
+const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-8"></script>';
+const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-6"></script>';
+function cleanHtml(text){
+  const blocks=[
+    /<script>\s*\/\* SG_GARMENTS_MANAGEMENT_FIX_V1 \*\/[\s\S]*?<\/script>/gi,
+    /<script>\s*\/\* SG_REAL_DESIGN_LIBRARY_V2 \*\/[\s\S]*?<\/script>/gi,
+    /<style id="sg-expanded-library-style">[\s\S]*?<\/style>/gi,
+    /<script id="sg-expanded-library-script">[\s\S]*?<\/script>/gi,
+    /<!-- SG_DESIGN_LIBRARY_EXPANDED_V1 -->[\s\S]*?<!-- \/SG_DESIGN_LIBRARY_EXPANDED_V1 -->/gi,
+    /function garmentCard\([\s\S]*?function addO\(/gi,
+    /setTimeout\(initGarments,0\);/gi
+  ];
+  for(const re of blocks) text=text.replace(re,m=>m.startsWith('function garmentCard')?'function addO(':m.startsWith('setTimeout')?'':'');
+  if(!text.includes('profile-validation-v2.js')) text=text.includes('</body>')?text.replace('</body>',PROFILE_SCRIPT+'</body>'):text+PROFILE_SCRIPT;
+  if(!text.includes('silai-guru-order-ui.js')) text=text.includes('</body>')?text.replace('</body>',ORDER_SCRIPT+'</body>'):text+ORDER_SCRIPT;
+  return text;
 }
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',e=>{
-  if(e.request.method!=='GET')return;
-  const url=new URL(e.request.url);
-  if(url.pathname.endsWith('/silai-guru.html')||url.pathname.endsWith('/')){e.respondWith(cleanAppResponse(e.request).catch(()=>caches.match(e.request)));return}
-  e.respondWith(fetch(e.request,{cache:'no-store'}).catch(()=>caches.match(e.request)));
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',event=>{
+  const req=event.request;if(req.method!=='GET')return;
+  const url=new URL(req.url);
+  if(url.pathname.endsWith('.html')||url.pathname.endsWith('/')||/\.(js|css|svg|json)$/i.test(url.pathname)){
+    event.respondWith(fetch(req,{cache:'no-store'}).then(async response=>{
+      if(url.pathname.endsWith('/silai-guru.html')){
+        const text=cleanHtml(await response.clone().text());
+        response=new Response(text,{status:response.status,statusText:response.statusText,headers:response.headers});
+      }
+      const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(req,copy));return response;
+    }).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html'))));
+  }else event.respondWith(caches.match(req).then(cached=>cached||fetch(req)));
 });
