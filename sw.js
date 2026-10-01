@@ -2,7 +2,7 @@
    Old duplicate garment/design implementations are stripped before HTML reaches the browser.
    Authoritative New Order runtime: silai-guru-order-ui.js
 */
-const CACHE='silai-guru-v33';
+const CACHE='silai-guru-v34';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js'];
 const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-8"></script>';
 const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-7"></script>';
@@ -13,8 +13,7 @@ function cleanHtml(text){
     /<style id="sg-expanded-library-style">[\s\S]*?<\/style>/gi,
     /<script id="sg-expanded-library-script">[\s\S]*?<\/script>/gi,
     /<!-- SG_DESIGN_LIBRARY_EXPANDED_V1 -->[\s\S]*?<!-- \/SG_DESIGN_LIBRARY_EXPANDED_V1 -->/gi,
-    /function garmentCard\([\s\S]*?function addO\(/gi,
-    /setTimeout\(initGarments,0\);/gi
+\([\s\S]*?function addO\(/gi,
   ];
   for(const re of blocks) text=text.replace(re,m=>m.startsWith('function garmentCard')?'function addO(':m.startsWith('setTimeout')?'':'');
   if(!text.includes('profile-validation-v2.js')) text=text.includes('</body>')?text.replace('</body>',PROFILE_SCRIPT+'</body>'):text+PROFILE_SCRIPT;
