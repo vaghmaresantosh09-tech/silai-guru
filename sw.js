@@ -2,10 +2,10 @@
    Old duplicate garment/design implementations are stripped before HTML reaches the browser.
    Authoritative New Order runtime: silai-guru-order-ui.js
 */
-const CACHE='silai-guru-v32';
+const CACHE='silai-guru-v33';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js'];
 const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-8"></script>';
-const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-6"></script>';
+const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-7"></script>';
 function cleanHtml(text){
   const blocks=[
     /<script>\s*\/\* SG_GARMENTS_MANAGEMENT_FIX_V1 \*\/[\s\S]*?<\/script>/gi,
