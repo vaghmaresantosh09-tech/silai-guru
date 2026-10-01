@@ -409,7 +409,7 @@ function showDesignToCustomer(type,name,orderIndex){
   const saved=loadSavedDesigns().filter(x=>x.type===type);
   const d=all.find(x=>x.name===name)||saved.find(x=>x.name===name);
   if(!d)return;
-  if(d.external&&d.url){window.open(d.url,'_blank','noopener,noreferrer');return;}
+  if(d.external&&d.url){window.location.href=d.url;return;}
   const safeType=esc(type).replace(/'/g,"\\'");
   const safeName=esc(name).replace(/'/g,"\\'");
   const preview=d.image?'<img src="'+d.image+'" alt="'+esc(d.name)+'" loading="eager">':d.svg;
