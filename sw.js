@@ -4,8 +4,8 @@
 */
 const CACHE='silai-guru-v33';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js'];
-const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-8"></script>';
-const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-6"></script>';
+const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-9"></script>';
+const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-8"></script>';
 function cleanHtml(text){
   const blocks=[
     /<script>\s*\/\* SG_GARMENTS_MANAGEMENT_FIX_V1 \*\/[\s\S]*?<\/script>/gi,
