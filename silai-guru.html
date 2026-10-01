@@ -601,15 +601,36 @@ function openDesignCatalogForOrder(type,index){
   showOrderDesignSource('library',type,index);
 }
 function openOrderWebsites(type,index){
-  const box=document.getElementById('orderDesignSourceArea');
-  if(!box)return;
+  const box=document.getElementById('orderDesignSourceArea'); if(!box)return;
+  window.orderDesignTargetIndex=index;
   const q=encodeURIComponent(type+' designs');
-  box.innerHTML='<div class="design-source-box"><b>✨ Design Inspiration</b><small>Sirf design inspiration ke liye source select karein.</small><div class="design-source-grid">'+
+  box.innerHTML='<div class="design-source-box"><b>✨ Design Inspiration</b><small>Website se pasand aaya design aap '+esc(type)+' Design Library me save kar sakte hain.</small><div class="design-source-grid">'+
     '<a class="source-card" href="https://www.pinterest.com/search/pins/?q='+q+'" target="_blank" rel="noopener noreferrer"><b>📌 Pinterest</b><small>'+esc(type)+' Designs</small><span>Open Website ↗</span></a>'+
     '<a class="source-card" href="https://www.bing.com/images/search?q='+q+'" target="_blank" rel="noopener noreferrer"><b>🖼️ Bing Images</b><small>'+esc(type)+' Designs</small><span>Open Images ↗</span></a>'+
     '<a class="source-card" href="https://www.google.com/search?tbm=isch&q='+q+'" target="_blank" rel="noopener noreferrer"><b>🔎 Google Images</b><small>More '+esc(type)+' designs</small><span>Open Images ↗</span></a>'+
-    '</div></div>';
+    '</div><div style="margin-top:12px;padding:12px;border:1px solid #ddd8ff;border-radius:14px;background:#fff"><b>💾 Design Save Karein</b><small style="display:block;margin:5px 0 9px;color:#777">Website par design pasand aane ke baad uska image/link save karke yahan add karein. Yeh isi '+esc(type)+' folder me rahega.</small><div style="display:flex;gap:7px;flex-wrap:wrap"><button type="button" class="primary" onclick="saveWebsiteDesignPrompt(TYPE_EXPR,INDEX_EXPR)">🔗 Save Design Link</button><label class="secondary" style="display:inline-flex;align-items:center;justify-content:center;cursor:pointer">🖼️ Save Screenshot<input type="file" accept="image/*" style="position:absolute;opacity:0;width:1px;height:1px" onchange="saveWebsiteScreenshot(TYPE_EXPR,INDEX_EXPR,this)"></label></div></div></div>';
+  box.innerHTML=box.innerHTML.replaceAll('TYPE_EXPR',JSON.stringify(type)).replaceAll('INDEX_EXPR',JSON.stringify(index));
   box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function saveWebsiteDesignPrompt(type,index){
+  const name=prompt('Design ka naam likhiye:',type+' Website Design'); if(name===null)return;
+  const url=prompt('Design ka image/share link paste kijiye:'); if(url===null)return;
+  const u=String(url).trim();
+  if(!/^https?:\/\//i.test(u)){alert('Valid http/https link dijiye.');return;}
+  const a=loadSavedDesigns(); a.push({id:'web_'+Date.now(),type,name:String(name).trim()||type+' Website Design',url:u,external:true,savedAt:Date.now(),source:'Website'});
+  saveSavedDesigns(a); alert('✓ Design '+type+' Design Library me save ho gaya.'); openDesignCatalogForOrder(type,index);
+}
+function saveWebsiteScreenshot(type,index,input){
+  const file=input&&input.files&&input.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){const img=new Image(); img.onload=function(){
+    const max=900,scale=Math.min(1,max/Math.max(img.width,img.height)); const cv=document.createElement('canvas');
+    cv.width=Math.round(img.width*scale);cv.height=Math.round(img.height*scale);cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+    const data=cv.toDataURL('image/jpeg',.78); const name=prompt('Design ka naam likhiye:',type+' Website Design'); if(name===null)return;
+    const a=loadSavedDesigns(); a.push({id:'webimg_'+Date.now(),type,name:String(name).trim()||type+' Website Design',image:data,savedAt:Date.now(),source:'Website Screenshot'});
+    saveSavedDesigns(a); alert('✓ Screenshot '+type+' Design Library me save ho gaya.'); openDesignCatalogForOrder(type,index);
+  }; img.src=e.target.result;};
+  reader.readAsDataURL(file);
 }
 function openDesignWebsite(url){window.open(url,'_blank','noopener,noreferrer')}
 function showWebsiteChoices(type,index){
