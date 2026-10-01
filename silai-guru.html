@@ -827,4 +827,33 @@ document.addEventListener('click',function(e){const z=e.target.closest('.design-
 </script>
 <!-- SG_DESIGN_LIBRARY_EXPANDED_V1 -->
 <!-- /SG_DESIGN_LIBRARY_EXPANDED_V1 -->
-<script src="./profile-validation-v2.js?v=20261001-10"></script><script src="./silai-guru-order-ui.js?v=20261001-11"></script></body></html>
+<script src="./profile-validation-v2.js?v=20261001-10"></script><script src="./silai-guru-order-ui.js?v=20261001-12"></script>
+<!-- SG_REFRESH_STATE_V1 -->
+<script>
+(function(){
+  const KEY='sg_refresh_state_v1';
+  function saveState(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
+  function getState(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){return null}}
+  window.__sgRecordView=function(view){
+    if(!view)return;
+    let s={view:String(view),time:Date.now()};
+    const m=String(view).match(/^order-design:(\\d+):(.+)$/); if(m){s.kind='order-design';s.index=+m[1];s.type=m[2]}
+    else if(String(view).startsWith('order'))s.kind='order';
+    saveState(s);
+  };
+  const oldClose=window.closeM;
+  window.closeM=function(){saveState({kind:'home',view:'home',time:Date.now()});return oldClose.apply(this,arguments)};
+  document.addEventListener('DOMContentLoaded',function(){
+    const s=getState(); if(!s||!s.kind||s.kind==='home')return;
+    setTimeout(function(){
+      if(s.kind==='order'){
+        if(typeof openM==='function')openM('order');
+      }else if(s.kind==='order-design'){
+        if(typeof openM==='function')openM('order');
+        setTimeout(function(){if(typeof openDesignCatalogForOrder==='function')openDesignCatalogForOrder(s.type,s.index)},80);
+      }
+    },180);
+  });
+})();
+</script>
+</body></html>
