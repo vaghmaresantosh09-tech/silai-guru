@@ -17,10 +17,17 @@ async function cleanAppResponse(request){
     .replace(/const DESIGN_IMAGE_URLS=\{[\s\S]*?\};function getGarmentMaster\(\)/,'function getGarmentMaster()')
     .replace(/<script[^>]*>\s*\/\* SG_REAL_DESIGN_LIBRARY_V2 \*\/[\s\S]*?<\/script>/gi,'')
     .replace(/<script[^>]*>\s*\/\* SG_GARMENTS_MANAGEMENT_FIX_V1 \*\/[\s\S]*?<\/script>/gi,'');
-  if(!html.includes('silai-guru-core.js'))html=html.replace(/<\/body>/i,'<script src="./silai-guru-core.js?v=31"></script></body>');
-  const headers=new Headers(res.headers);headers.set('content-type','text/html; charset=utf-8');headers.set('cache-control','no-store, max-age=0');
+  if(!html.includes('silai-guru-core.js'))html=html.replace(/<\/body>/i,`<script>(function(){try{var p=JSON.parse(localStorage.getItem('sg_profile')||'null');var ok=p&&/^(Mr|Mrs|Miss)\s+[A-Za-z][A-Za-z .'-]{1,59}$/i.test(String(p.name||''))&&/^\+91\s[6-9]\d{9}$/.test(String(p.mobile||''))&&String(p.shop||'').trim().length>=2&&/^[A-Za-z0-9._%+-]+@(gmail\.com|gmail\.in|yahoo\.com|yahoo\.in|outlook\.com|hotmail\.com)$/i.test(String(p.email||''))&&String(p.address||'').trim().length>=8&&/^\d{6}$/.test(String(p.pin||''));if(!ok){localStorage.removeItem('sg_profile');var ob=document.getElementById('onboard');if(ob){ob.hidden=false;ob.style.display='flex'}}}catch(e){}})();</script><script src="./silai-guru-core.js?v=31"></script></body>`);
+  const headers=new Headers(res.headers);
+  headers.set('content-type','text/html; charset=utf-8');
+  headers.set('cache-control','no-store, max-age=0');
   return new Response(html,{status:res.status,statusText:res.statusText,headers});
 }
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const url=new URL(e.request.url);if(url.pathname.endsWith('/silai-guru.html')||url.pathname.endsWith('/')){e.respondWith(cleanAppResponse(e.request).catch(()=>caches.match(e.request)));return}e.respondWith(fetch(e.request,{cache:'no-store'}).catch(()=>caches.match(e.request)));});
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  const url=new URL(e.request.url);
+  if(url.pathname.endsWith('/silai-guru.html')||url.pathname.endsWith('/')){e.respondWith(cleanAppResponse(e.request).catch(()=>caches.match(e.request)));return}
+  e.respondWith(fetch(e.request,{cache:'no-store'}).catch(()=>caches.match(e.request)));
+});
