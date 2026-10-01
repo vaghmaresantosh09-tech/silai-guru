@@ -33,6 +33,6 @@ window.sgFinalRechoose=function(i){const c=document.getElementById('garment-'+i)
 window.garmentCard=function(i,type){return type?selected(i,type):picker(i)};
 window.initGarments=function(){css();let w=document.getElementById('garmentsWrap');if(!w){const form=document.getElementById('orderForm');if(form){w=document.createElement('div');w.id='garmentsWrap';const titles=[...form.querySelectorAll('.section-title')];const t=titles.find(x=>/Garments\\s*&\\s*Measurements/i.test(x.textContent));if(t)t.insertAdjacentElement('afterend',w);else form.insertBefore(w,form.firstChild)}}if(w){w.innerHTML='';w.insertAdjacentHTML('afterbegin',picker(0))}moveTop()};
 window.addGarment=function(){const w=document.getElementById('garmentsWrap');if(!w)return;const i=w.children.length;w.insertAdjacentHTML('beforeend',picker(i));moveTop()};
-function boot(){css();window.initGarments();[50,250,750,1500].forEach(t=>setTimeout(moveTop,t))}
+function boot(){css();window.initGarments();[50,250,750,1500].forEach(t=>setTimeout(moveTop,t));if(typeof window.openM==='function'&&!window.__sgFinalOpenMPatch){const oldOpenM=window.openM;window.openM=function(t){const r=oldOpenM.apply(this,arguments);if(t==='order')setTimeout(window.initGarments,0);return r};window.__sgFinalOpenMPatch=true}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
