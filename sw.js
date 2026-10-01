@@ -2,7 +2,7 @@
    Old duplicate garment/design implementations are stripped before HTML reaches the browser.
    Authoritative New Order runtime: silai-guru-order-ui.js
 */
-const CACHE='silai-guru-v32';
+const CACHE='silai-guru-v33';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js'];
 const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-8"></script>';
 const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-6"></script>';
@@ -21,7 +21,15 @@ function cleanHtml(text){
   if(!text.includes('silai-guru-order-ui.js')) text=text.includes('</body>')?text.replace('</body>',ORDER_SCRIPT+'</body>'):text+ORDER_SCRIPT;
   return text;
 }
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
+async function primeAppShell(){
+  try{
+    const res=await fetch('./silai-guru.html',{cache:'no-store'});
+    if(!res.ok)return;
+    const html=cleanHtml(await res.clone().text());
+    await caches.open(CACHE).then(cache=>cache.put('./silai-guru.html',new Response(html,{status:res.status,statusText:res.statusText,headers:res.headers})));
+  }catch(e){}
+}
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(primeAppShell).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
   const req=event.request;if(req.method!=='GET')return;
