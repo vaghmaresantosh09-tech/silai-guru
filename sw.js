@@ -1,9 +1,9 @@
-/* SILAI GURU — clean runtime service worker v40 */
-const CACHE='silai-guru-v40';
+/* SILAI GURU — clean runtime service worker v41 */
+const CACHE='silai-guru-v41';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
 const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261002-12"></script>';
 const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-40"></script>';
-const BLOUSE_SCRIPT='<script src="./blouse-design-library.js?v=20261002-3"></script>';
+const BLOUSE_SCRIPT='<script src="./blouse-design-library.js?v=20261002-4"></script>';
 const NAV_SCRIPT='<script src="./app-navigation.js?v=20261002-37"></script>';
 const MEASURE_SCRIPT='<script src="./silai-guru-measurement-ui.js?v=20261002-39"></script>';
 function cleanHtml(text){
