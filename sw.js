@@ -1,9 +1,10 @@
-/* SILAI GURU — clean runtime service worker v47 */
-const CACHE='silai-guru-v47';
-const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./silai-guru-order-design.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
-const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261002-12"></script>';
-const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-40"></script>';
-const BLOUSE_SCRIPT='<!-- SG_BLOUSE_LIBRARY_LOADER_V47 --><script src="./blouse-design-library.js?v=20261002-10"></script>';
+/* SILAI GURU — clean runtime service worker v48 */
+const CACHE='silai-guru-v48';
+const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./blouse-design-library.js','./silai-guru-order-design.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
+const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-10"></script>';
+const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-12"></script>';
+const CUSTOM_SCRIPT='<script src="./silai-guru-custom-measurements.js?v=20261002-48"></script>';
+const BLOUSE_SCRIPT='<!-- SG_BLOUSE_LIBRARY_LOADER_V48 --><script src="./blouse-design-library.js?v=20261002-10"></script>';
 const ORDER_DESIGN_SCRIPT='<script src="./silai-guru-order-design.js?v=20261002-1"></script>';
 const NAV_SCRIPT='<script src="./app-navigation.js?v=20261002-37"></script>';
 const MEASURE_SCRIPT='<script src="./silai-guru-measurement-ui.js?v=20261002-39"></script>';
@@ -23,9 +24,10 @@ function cleanHtml(text){
   text=text.replace(/<script\s+src=["']\.\/silai-guru-order-design\.js[^>]*><\/script>/gi,'');
   if(!text.includes('profile-validation-v2.js')) text=text.includes('</body>')?text.replace('</body>',PROFILE_SCRIPT+'</body>'):text+PROFILE_SCRIPT;
   if(!text.includes('silai-guru-order-ui.js')) text=text.includes('</body>')?text.replace('</body>',ORDER_SCRIPT+'</body>'):text+ORDER_SCRIPT;
+  if(!text.includes('silai-guru-custom-measurements.js')) text=text.includes('</body>')?text.replace('</body>',CUSTOM_SCRIPT+'</body>'):text+CUSTOM_SCRIPT;
   if(!text.includes('app-navigation.js')) text=text.includes('</body>')?text.replace('</body>',NAV_SCRIPT+'</body>'):text+NAV_SCRIPT;
   if(!text.includes('silai-guru-measurement-ui.js')) text=text.includes('</body>')?text.replace('</body>',MEASURE_SCRIPT+'</body>'):text+MEASURE_SCRIPT;
-  if(!text.includes('SG_BLOUSE_LIBRARY_LOADER_V47')) text=text.includes('</body>')?text.replace('</body>',BLOUSE_SCRIPT+'</body>'):text+BLOUSE_SCRIPT;
+  if(!text.includes('SG_BLOUSE_LIBRARY_LOADER_V48')) text=text.includes('</body>')?text.replace('</body>',BLOUSE_SCRIPT+'</body>'):text+BLOUSE_SCRIPT;
   if(!text.includes('silai-guru-order-design.js')) text=text.includes('</body>')?text.replace('</body>',ORDER_DESIGN_SCRIPT+'</body>'):text+ORDER_DESIGN_SCRIPT;
   return text;
 }
