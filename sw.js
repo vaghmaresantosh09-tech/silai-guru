@@ -1,8 +1,8 @@
-/* SILAI GURU — clean runtime service worker v54 */
-const CACHE='silai-guru-v54';
-const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./blouse-design-library.js','./silai-guru-order-design.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
+/* SILAI GURU — clean runtime service worker v55 */
+const CACHE='silai-guru-v55';
+const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./blouse-design-library.js','./kurti-neck-design-library.js','./silai-guru-order-design.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
 const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-54"></script>';
-const OTHER='<script src="./profile-validation-v2.js?v=20261001-10"></script><script src="./silai-guru-custom-measurements.js?v=20261002-52"></script><script src="./app-navigation.js?v=20261002-37"></script><script src="./silai-guru-measurement-ui.js?v=20261002-39"></script><script src="./blouse-design-library.js?v=20261002-10"></script><script src="./silai-guru-order-design.js?v=20261002-1"></script>';
+const OTHER='<script src="./profile-validation-v2.js?v=20261001-10"></script><script src="./silai-guru-custom-measurements.js?v=20261002-52"></script><script src="./app-navigation.js?v=20261002-37"></script><script src="./silai-guru-measurement-ui.js?v=20261002-39"></script><script src="./blouse-design-library.js?v=20261002-10"></script><script src="./kurti-neck-design-library.js?v=20261002-1"></script><script src="./silai-guru-order-design.js?v=20261002-1"></script>';
 function cleanHtml(text){
  text=text.replace(/<script\s+src=["']\.\/silai-guru-order-ui\.js[^>]*><\/script>/gi,'');
  text=text.replace(/<script\s+src=["']\.\/profile-validation-v2\.js[^>]*><\/script>/gi,'');
@@ -10,6 +10,7 @@ function cleanHtml(text){
  text=text.replace(/<script\s+src=["']\.\/app-navigation\.js[^>]*><\/script>/gi,'');
  text=text.replace(/<script\s+src=["']\.\/silai-guru-measurement-ui\.js[^>]*><\/script>/gi,'');
  text=text.replace(/<script\s+src=["']\.\/blouse-design-library\.js[^>]*><\/script>/gi,'');
+ text=text.replace(/<script\s+src=["']\.\/kurti-neck-design-library\.js[^>]*><\/script>/gi,'');
  text=text.replace(/<script\s+src=["']\.\/silai-guru-order-design\.js[^>]*><\/script>/gi,'');
  const inject=OTHER+ORDER_SCRIPT;
  return text.includes('</body>')?text.replace('</body>',inject+'</body>'):text+inject;
