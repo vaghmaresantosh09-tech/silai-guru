@@ -2,10 +2,11 @@
    Old duplicate garment/design implementations are stripped before HTML reaches the browser.
    Authoritative New Order runtime: silai-guru-order-ui.js
 */
-const CACHE='silai-guru-v33';
-const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js'];
-const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-9"></script>';
-const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-9"></script>';
+const CACHE='silai-guru-v34';
+const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js'];
+const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261002-10"></script>';
+const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-10"></script>';
+const BLOUSE_SCRIPT='<script src="./blouse-design-library.js?v=20261002-1"></script>';
 function cleanHtml(text){
   const blocks=[
     /<script>\s*\/\* SG_GARMENTS_MANAGEMENT_FIX_V1 \*\/[\s\S]*?<\/script>/gi,
@@ -19,6 +20,7 @@ function cleanHtml(text){
   for(const re of blocks) text=text.replace(re,m=>m.startsWith('function garmentCard')?'function addO(':m.startsWith('setTimeout')?'':'');
   if(!text.includes('profile-validation-v2.js')) text=text.includes('</body>')?text.replace('</body>',PROFILE_SCRIPT+'</body>'):text+PROFILE_SCRIPT;
   if(!text.includes('silai-guru-order-ui.js')) text=text.includes('</body>')?text.replace('</body>',ORDER_SCRIPT+'</body>'):text+ORDER_SCRIPT;
+  if(!text.includes('blouse-design-library.js')) text=text.includes('</body>')?text.replace('</body>',BLOUSE_SCRIPT+'</body>'):text+BLOUSE_SCRIPT;
   return text;
 }
 async function primeAppShell(){
