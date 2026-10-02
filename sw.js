@@ -1,10 +1,10 @@
-/* SILAI GURU — clean runtime service worker v49 */
-const CACHE='silai-guru-v49';
+/* SILAI GURU — clean runtime service worker v50 */
+const CACHE='silai-guru-v50';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./blouse-design-library.js','./silai-guru-order-design.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
 const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-10"></script>';
-const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-49"></script>';
+const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-50"></script>';
 const CUSTOM_SCRIPT='<script src="./silai-guru-custom-measurements.js?v=20261002-48"></script>';
-const BLOUSE_SCRIPT='<!-- SG_BLOUSE_LIBRARY_LOADER_V49 --><script src="./blouse-design-library.js?v=20261002-10"></script>';
+const BLOUSE_SCRIPT='<!-- SG_BLOUSE_LIBRARY_LOADER_V50 --><script src="./blouse-design-library.js?v=20261002-10"></script>';
 const ORDER_DESIGN_SCRIPT='<script src="./silai-guru-order-design.js?v=20261002-1"></script>';
 const NAV_SCRIPT='<script src="./app-navigation.js?v=20261002-37"></script>';
 const MEASURE_SCRIPT='<script src="./silai-guru-measurement-ui.js?v=20261002-39"></script>';
