@@ -1,10 +1,11 @@
-/* SILAI GURU — clean runtime service worker v37 */
-const CACHE='silai-guru-v37';
-const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./app-navigation.js'];
+/* SILAI GURU — clean runtime service worker v38 */
+const CACHE='silai-guru-v38';
+const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
 const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261002-12"></script>';
 const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-12"></script>';
 const BLOUSE_SCRIPT='<script src="./blouse-design-library.js?v=20261002-3"></script>';
 const NAV_SCRIPT='<script src="./app-navigation.js?v=20261002-37"></script>';
+const MEASURE_SCRIPT='<script src="./silai-guru-measurement-ui.js?v=20261002-38"></script>';
 function cleanHtml(text){
   const blocks=[
     /<script>\s*\/\* SG_GARMENTS_MANAGEMENT_FIX_V1 \*\/[\s\S]*?<\/script>/gi,
@@ -20,6 +21,7 @@ function cleanHtml(text){
   if(!text.includes('silai-guru-order-ui.js')) text=text.includes('</body>')?text.replace('</body>',ORDER_SCRIPT+'</body>'):text+ORDER_SCRIPT;
   if(!text.includes('blouse-design-library.js')) text=text.includes('</body>')?text.replace('</body>',BLOUSE_SCRIPT+'</body>'):text+BLOUSE_SCRIPT;
   if(!text.includes('app-navigation.js')) text=text.includes('</body>')?text.replace('</body>',NAV_SCRIPT+'</body>'):text+NAV_SCRIPT;
+  if(!text.includes('silai-guru-measurement-ui.js')) text=text.includes('</body>')?text.replace('</body>',MEASURE_SCRIPT+'</body>'):text+MEASURE_SCRIPT;
   return text;
 }
 async function primeAppShell(){try{const res=await fetch('./silai-guru.html',{cache:'no-store'});if(!res.ok)return;const html=cleanHtml(await res.clone().text());await caches.open(CACHE).then(cache=>cache.put('./silai-guru.html',new Response(html,{status:res.status,statusText:res.statusText,headers:res.headers})));}catch(e){}}
