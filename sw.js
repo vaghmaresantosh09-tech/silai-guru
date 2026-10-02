@@ -1,9 +1,9 @@
-/* SILAI GURU — clean runtime service worker v42 */
-const CACHE='silai-guru-v42';
+/* SILAI GURU — clean runtime service worker v43 */
+const CACHE='silai-guru-v43';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
 const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261002-12"></script>';
 const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-40"></script>';
-const BLOUSE_SCRIPT='<!-- SG_BLOUSE_LIBRARY_LOADER_V42 --><script src="./blouse-design-library.js?v=20261002-5"></script>';
+const BLOUSE_SCRIPT='<!-- SG_BLOUSE_LIBRARY_LOADER_V43 --><script src="./blouse-design-library.js?v=20261002-6"></script>';
 const NAV_SCRIPT='<script src="./app-navigation.js?v=20261002-37"></script>';
 const MEASURE_SCRIPT='<script src="./silai-guru-measurement-ui.js?v=20261002-39"></script>';
 function cleanHtml(text){
@@ -18,9 +18,20 @@ function cleanHtml(text){
   ];
   for(const re of blocks) text=text.replace(re,m=>m.startsWith('function garmentCard')?'function addO(':m.startsWith('setTimeout')?'':'');
   if(!text.includes('profile-validation-v2.js')) text=text.includes('</body>')?text.replace('</body>',PROFILE_SCRIPT+'</body>'):text+PROFILE_SCRIPT;
+
+  /* AUTHORITATIVE LOAD ORDER:
+     1) base inline garment runtime already in silai-guru.html
+     2) blouse library injection
+     3) New Order UI
+     4) navigation / measurement helpers
+     The blouse library MUST be inserted immediately before order-ui, never after it.
+  */
+  if(!text.includes('SG_BLOUSE_LIBRARY_LOADER_V43')){
+    const orderTag=/<script\s+src=["']\.\/silai-guru-order-ui\.js[^>]*><\/script>/i;
+    if(orderTag.test(text)) text=text.replace(orderTag,m=>BLOUSE_SCRIPT+m);
+    else text=text.includes('</body>')?text.replace('</body>',BLOUSE_SCRIPT+'</body>'):text+BLOUSE_SCRIPT;
+  }
   if(!text.includes('silai-guru-order-ui.js')) text=text.includes('</body>')?text.replace('</body>',ORDER_SCRIPT+'</body>'):text+ORDER_SCRIPT;
-  /* Blouse Design Library is a single authoritative runtime asset. Use a dedicated marker so an old filename/comment cannot suppress loading. */
-  if(!text.includes('SG_BLOUSE_LIBRARY_LOADER_V42')) text=text.includes('</body>')?text.replace('</body>',BLOUSE_SCRIPT+'</body>'):text+BLOUSE_SCRIPT;
   if(!text.includes('app-navigation.js')) text=text.includes('</body>')?text.replace('</body>',NAV_SCRIPT+'</body>'):text+NAV_SCRIPT;
   if(!text.includes('silai-guru-measurement-ui.js')) text=text.includes('</body>')?text.replace('</body>',MEASURE_SCRIPT+'</body>'):text+MEASURE_SCRIPT;
   return text;
