@@ -1,37 +1,20 @@
-/* SILAI GURU — clean runtime service worker v50 */
-const CACHE='silai-guru-v50';
+/* SILAI GURU — clean runtime service worker v51 */
+const CACHE='silai-guru-v51';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./blouse-design-library.js','./silai-guru-order-design.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
-const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-10"></script>';
-const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-50"></script>';
-const CUSTOM_SCRIPT='<script src="./silai-guru-custom-measurements.js?v=20261002-48"></script>';
-const BLOUSE_SCRIPT='<!-- SG_BLOUSE_LIBRARY_LOADER_V50 --><script src="./blouse-design-library.js?v=20261002-10"></script>';
-const ORDER_DESIGN_SCRIPT='<script src="./silai-guru-order-design.js?v=20261002-1"></script>';
-const NAV_SCRIPT='<script src="./app-navigation.js?v=20261002-37"></script>';
-const MEASURE_SCRIPT='<script src="./silai-guru-measurement-ui.js?v=20261002-39"></script>';
+const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-51"></script>';
+const OTHER='<script src="./profile-validation-v2.js?v=20261001-10"></script><script src="./silai-guru-custom-measurements.js?v=20261002-48"></script><script src="./app-navigation.js?v=20261002-37"></script><script src="./silai-guru-measurement-ui.js?v=20261002-39"></script><script src="./blouse-design-library.js?v=20261002-10"></script><script src="./silai-guru-order-design.js?v=20261002-1"></script>';
 function cleanHtml(text){
-  const blocks=[
-    /<script>\s*\/\* SG_GARMENTS_MANAGEMENT_FIX_V1 \*\/[\s\S]*?<\/script>/gi,
-    /<script>\s*\/\* SG_REAL_DESIGN_LIBRARY_V2 \*\/[\s\S]*?<\/script>/gi,
-    /<style id="sg-expanded-library-style">[\s\S]*?<\/style>/gi,
-    /<script id="sg-expanded-library-script">[\s\S]*?<\/script>/gi,
-    /<!-- SG_DESIGN_LIBRARY_EXPANDED_V1 -->[\s\S]*?<!-- \/SG_DESIGN_LIBRARY_EXPANDED_V1 -->/gi,
-    /function garmentCard\([\s\S]*?function addO\(/gi,
-    /setTimeout\(initGarments,0\);/gi
-  ];
-  for(const re of blocks) text=text.replace(re,m=>m.startsWith('function garmentCard')?'function addO(':m.startsWith('setTimeout')?'':'');
-  text=text.replace(/<!--\s*SG_BLOUSE_LIBRARY_LOADER_V\d+\s*-->\s*<script\s+src=["']\.\/blouse-design-library\.js[^>]*><\/script>/gi,'');
-  text=text.replace(/<script\s+src=["']\.\/blouse-design-library\.js[^>]*><\/script>/gi,'');
-  text=text.replace(/<script\s+src=["']\.\/silai-guru-order-design\.js[^>]*><\/script>/gi,'');
-  text=text.replace(/<script\s+src=["']\.\/silai-guru-order-ui\.js[^>]*><\/script>/gi,'');
-  text=text.replace(/<script\s+src=["']\.\/profile-validation-v2\.js[^>]*><\/script>/gi,'');
-  text=text.replace(/<script\s+src=["']\.\/silai-guru-custom-measurements\.js[^>]*><\/script>/gi,'');
-  text=text.replace(/<script\s+src=["']\.\/app-navigation\.js[^>]*><\/script>/gi,'');
-  text=text.replace(/<script\s+src=["']\.\/silai-guru-measurement-ui\.js[^>]*><\/script>/gi,'');
-  const inject=PROFILE_SCRIPT+ORDER_SCRIPT+CUSTOM_SCRIPT+NAV_SCRIPT+MEASURE_SCRIPT+BLOUSE_SCRIPT+ORDER_DESIGN_SCRIPT;
-  if(text.includes('</body>')) text=text.replace('</body>',inject+'</body>'); else text+=inject;
-  return text;
+ text=text.replace(/<script\s+src=["']\.\/silai-guru-order-ui\.js[^>]*><\/script>/gi,'');
+ text=text.replace(/<script\s+src=["']\.\/profile-validation-v2\.js[^>]*><\/script>/gi,'');
+ text=text.replace(/<script\s+src=["']\.\/silai-guru-custom-measurements\.js[^>]*><\/script>/gi,'');
+ text=text.replace(/<script\s+src=["']\.\/app-navigation\.js[^>]*><\/script>/gi,'');
+ text=text.replace(/<script\s+src=["']\.\/silai-guru-measurement-ui\.js[^>]*><\/script>/gi,'');
+ text=text.replace(/<script\s+src=["']\.\/blouse-design-library\.js[^>]*><\/script>/gi,'');
+ text=text.replace(/<script\s+src=["']\.\/silai-guru-order-design\.js[^>]*><\/script>/gi,'');
+ const inject=OTHER+ORDER_SCRIPT;
+ return text.includes('</body>')?text.replace('</body>',inject+'</body>'):text+inject;
 }
-async function primeAppShell(){try{const res=await fetch('./silai-guru.html',{cache:'no-store'});if(!res.ok)return;const html=cleanHtml(await res.clone().text());await caches.open(CACHE).then(cache=>cache.put('./silai-guru.html',new Response(html,{status:res.status,statusText:res.statusText,headers:res.headers})));}catch(e){}}
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(primeAppShell).then(()=>self.skipWaiting())));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET')return;const url=new URL(req.url);if(url.pathname.endsWith('.html')||url.pathname.endsWith('/')||/\.(js|css|svg|json)$/i.test(url.pathname)){event.respondWith(fetch(req,{cache:'no-store'}).then(async response=>{if(url.pathname.endsWith('/silai-guru.html')){const text=cleanHtml(await response.clone().text());response=new Response(text,{status:response.status,statusText:response.statusText,headers:response.headers});}const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(req,copy));return response;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html'))));}else event.respondWith(caches.match(req).then(cached=>cached||fetch(req)));});
+async function prime(){try{const r=await fetch('./silai-guru.html',{cache:'no-store'});if(r.ok){const h=cleanHtml(await r.text());await caches.open(CACHE).then(c=>c.put('./silai-guru.html',new Response(h,{headers:r.headers,status:r.status})))}}catch(e){}}
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(prime).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.pathname.endsWith('.html')||u.pathname.endsWith('/')||/\.(js|css|json|svg)$/i.test(u.pathname)){e.respondWith(fetch(r,{cache:'no-store'}).then(async x=>{if(u.pathname.endsWith('/silai-guru.html'))x=new Response(cleanHtml(await x.text()),{headers:x.headers,status:x.status});caches.open(CACHE).then(c=>c.put(r,x.clone()));return x}).catch(()=>caches.match(r).then(x=>x||caches.match('./index.html'))))}else e.respondWith(caches.match(r).then(x=>x||fetch(r)))})
