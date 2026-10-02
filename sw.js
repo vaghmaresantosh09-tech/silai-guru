@@ -1,10 +1,10 @@
-/* SILAI GURU — clean runtime service worker v48 */
-const CACHE='silai-guru-v48';
+/* SILAI GURU — clean runtime service worker v49 */
+const CACHE='silai-guru-v49';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./blouse-design-library.js','./silai-guru-order-design.js','./app-navigation.js','./silai-guru-measurement-ui.js'];
 const PROFILE_SCRIPT='<script src="./profile-validation-v2.js?v=20261001-10"></script>';
-const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261001-12"></script>';
+const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261002-49"></script>';
 const CUSTOM_SCRIPT='<script src="./silai-guru-custom-measurements.js?v=20261002-48"></script>';
-const BLOUSE_SCRIPT='<!-- SG_BLOUSE_LIBRARY_LOADER_V48 --><script src="./blouse-design-library.js?v=20261002-10"></script>';
+const BLOUSE_SCRIPT='<!-- SG_BLOUSE_LIBRARY_LOADER_V49 --><script src="./blouse-design-library.js?v=20261002-10"></script>';
 const ORDER_DESIGN_SCRIPT='<script src="./silai-guru-order-design.js?v=20261002-1"></script>';
 const NAV_SCRIPT='<script src="./app-navigation.js?v=20261002-37"></script>';
 const MEASURE_SCRIPT='<script src="./silai-guru-measurement-ui.js?v=20261002-39"></script>';
@@ -22,13 +22,13 @@ function cleanHtml(text){
   text=text.replace(/<!--\s*SG_BLOUSE_LIBRARY_LOADER_V\d+\s*-->\s*<script\s+src=["']\.\/blouse-design-library\.js[^>]*><\/script>/gi,'');
   text=text.replace(/<script\s+src=["']\.\/blouse-design-library\.js[^>]*><\/script>/gi,'');
   text=text.replace(/<script\s+src=["']\.\/silai-guru-order-design\.js[^>]*><\/script>/gi,'');
-  if(!text.includes('profile-validation-v2.js')) text=text.includes('</body>')?text.replace('</body>',PROFILE_SCRIPT+'</body>'):text+PROFILE_SCRIPT;
-  if(!text.includes('silai-guru-order-ui.js')) text=text.includes('</body>')?text.replace('</body>',ORDER_SCRIPT+'</body>'):text+ORDER_SCRIPT;
-  if(!text.includes('silai-guru-custom-measurements.js')) text=text.includes('</body>')?text.replace('</body>',CUSTOM_SCRIPT+'</body>'):text+CUSTOM_SCRIPT;
-  if(!text.includes('app-navigation.js')) text=text.includes('</body>')?text.replace('</body>',NAV_SCRIPT+'</body>'):text+NAV_SCRIPT;
-  if(!text.includes('silai-guru-measurement-ui.js')) text=text.includes('</body>')?text.replace('</body>',MEASURE_SCRIPT+'</body>'):text+MEASURE_SCRIPT;
-  if(!text.includes('SG_BLOUSE_LIBRARY_LOADER_V48')) text=text.includes('</body>')?text.replace('</body>',BLOUSE_SCRIPT+'</body>'):text+BLOUSE_SCRIPT;
-  if(!text.includes('silai-guru-order-design.js')) text=text.includes('</body>')?text.replace('</body>',ORDER_DESIGN_SCRIPT+'</body>'):text+ORDER_DESIGN_SCRIPT;
+  text=text.replace(/<script\s+src=["']\.\/silai-guru-order-ui\.js[^>]*><\/script>/gi,'');
+  text=text.replace(/<script\s+src=["']\.\/profile-validation-v2\.js[^>]*><\/script>/gi,'');
+  text=text.replace(/<script\s+src=["']\.\/silai-guru-custom-measurements\.js[^>]*><\/script>/gi,'');
+  text=text.replace(/<script\s+src=["']\.\/app-navigation\.js[^>]*><\/script>/gi,'');
+  text=text.replace(/<script\s+src=["']\.\/silai-guru-measurement-ui\.js[^>]*><\/script>/gi,'');
+  const inject=PROFILE_SCRIPT+ORDER_SCRIPT+CUSTOM_SCRIPT+NAV_SCRIPT+MEASURE_SCRIPT+BLOUSE_SCRIPT+ORDER_DESIGN_SCRIPT;
+  if(text.includes('</body>')) text=text.replace('</body>',inject+'</body>'); else text+=inject;
   return text;
 }
 async function primeAppShell(){try{const res=await fetch('./silai-guru.html',{cache:'no-store'});if(!res.ok)return;const html=cleanHtml(await res.clone().text());await caches.open(CACHE).then(cache=>cache.put('./silai-guru.html',new Response(html,{status:res.status,statusText:res.statusText,headers:res.headers})));}catch(e){}}
