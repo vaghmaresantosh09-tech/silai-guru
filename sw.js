@@ -1,13 +1,7 @@
-/* SILAI GURU — clean runtime service worker v60 */
-const CACHE='silai-guru-v61';
-const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./silai-guru-backfix.js', './blouse-design-library.js','./icon-192.png','./icon-512.png'];
+/* SILAI GURU — clean runtime service worker v62 */
+const CACHE='silai-guru-v62';
+const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./silai-guru-backfix.js','./blouse-design-library.js','./silai-guru-order-design.js','./icon-192.png','./icon-512.png'];
 async function cachePage(){try{const r=await fetch('./silai-guru.html',{cache:'no-store'});if(r.ok)await caches.open(CACHE).then(c=>c.put('./silai-guru.html',r.clone()))}catch(e){}}
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(cachePage).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',e=>{
- const r=e.request;if(r.method!=='GET')return;
- const u=new URL(r.url);
- if(u.origin===location.origin && (u.pathname.endsWith('.html')||u.pathname.endsWith('/')||/\.(js|css|json|svg|png)$/i.test(u.pathname))){
-   e.respondWith(fetch(r,{cache:'no-store'}).then(async x=>{if(x.ok)caches.open(CACHE).then(c=>c.put(r,x.clone()));return x}).catch(()=>caches.match(r).then(x=>x||caches.match('./index.html'))));
- } else e.respondWith(caches.match(r).then(x=>x||fetch(r)));
-});
+self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin===location.origin&&(u.pathname.endsWith('.html')||u.pathname.endsWith('/')||/\.(js|css|json|svg|png)$/i.test(u.pathname))){e.respondWith(fetch(r,{cache:'no-store'}).then(async x=>{if(x.ok)caches.open(CACHE).then(c=>c.put(r,x.clone()));return x}).catch(()=>caches.match(r).then(x=>x||caches.match('./index.html'))))}else e.respondWith(caches.match(r).then(x=>x||fetch(r)))})
