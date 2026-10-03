@@ -1,8 +1,8 @@
-/* SILAI GURU — clean runtime service worker v58 */
-const CACHE='silai-guru-v58';
+/* SILAI GURU — clean runtime service worker v59 */
+const CACHE='silai-guru-v59';
 const ASSETS=['./','./index.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./blouse-design-library.js','./kurti-neck-design-library.js','./silai-guru-order-design.js','./app-navigation.js','./silai-guru-measurement-ui.js','./silai-guru-final-runtime.js'];
-const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261003-50"></script>';
-const OTHER='<script src="./profile-validation-v2.js?v=20261001-10"></script><script src="./silai-guru-custom-measurements.js?v=20261002-52"></script><script src="./app-navigation.js?v=20261002-37"></script><script src="./silai-guru-measurement-ui.js?v=20261002-39"></script><script src="./blouse-design-library.js?v=20261002-10"></script><script src="./kurti-neck-design-library.js?v=20261002-2"></script><script src="./silai-guru-order-design.js?v=20261002-2"></script><script src="./silai-guru-final-runtime.js?v=20261003-57"></script>';
+const ORDER_SCRIPT='<script src="./silai-guru-order-ui.js?v=20261003-54"></script>';
+const OTHER='<script src="./profile-validation-v2.js?v=20261001-10"></script><script src="./silai-guru-custom-measurements.js?v=20261002-52"></script><script src="./app-navigation.js?v=20261002-37"></script><script src="./silai-guru-measurement-ui.js?v=20261002-39"></script><script src="./blouse-design-library.js?v=20261002-10"></script><script src="./kurti-neck-design-library.js?v=20261002-2"></script><script src="./silai-guru-order-design.js?v=20261002-2"></script><script src="./silai-guru-final-runtime.js?v=20261003-58"></script>';
 function cleanHtml(text){
  text=text.replace(/<script\s+src=["']\.\/silai-guru-order-ui\.js[^>]*><\/script>/gi,'');
  text=text.replace(/<script\s+src=["']\.\/profile-validation-v2\.js[^>]*><\/script>/gi,'');
