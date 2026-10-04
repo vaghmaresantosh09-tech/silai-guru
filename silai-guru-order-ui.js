@@ -1,4 +1,4 @@
-/* SILAI GURU — authoritative New Order garment-first runtime v54 */
+/* SILAI GURU — authoritative New Order garment-first runtime v55 */
 (function(){
 'use strict';
 const LADIES=['Blouse','Kurti','Pleated Kurti','Gathering Kurti','Panjabi Dress','Anarkali Dress','Umbrella Dress','Chaniya Choli','Pant Plazo','Chaniya'];
@@ -30,7 +30,7 @@ window.sgV54Change=i=>replacePicker(i,picker(i,'ladies'));
 window.sgV54Design=i=>{if(typeof window.openOrderDesignPicker==='function')window.openOrderDesignPicker(i)};
 window.initGarments=()=>{style();const W=w();if(!W)return;if(!W.children.length)W.innerHTML=picker(0,'ladies');move()};
 window.addGarment=()=>{const W=w();if(!W)return;W.insertAdjacentHTML('beforeend',picker(W.children.length,'ladies'));move()};
-function events(){if(window.__sgV54Events)return;window.__sgV54Events=true;document.addEventListener('click',e=>{const b=e.target.closest('[data-sg-action]');if(!b)return;e.preventDefault();e.stopPropagation();const a=b.dataset.sgAction,i=Number(b.dataset.sgIndex||0);if(a==='cat')window.sgV54Cat(i,b.dataset.sgCat);else if(a==='select')window.sgV54Sel(i,b.dataset.sgType);else if(a==='change')window.sgV54Change(i);else if(a==='design')window.sgV54Design(i)},true)}
+function events(){if(window.__sgV54Events)return;window.__sgV54Events=true;document.addEventListener('click',e=>{const b=e.target.closest('[data-sg-action]');if(!b)return;const a=b.dataset.sgAction,i=Number(b.dataset.sgIndex||0);e.preventDefault();if(a==='cat')window.sgV54Cat(i,b.dataset.sgCat);else if(a==='select')window.sgV54Sel(i,b.dataset.sgType);else if(a==='change')window.sgV54Change(i);else if(a==='design')window.sgV54Design(i)},false)}
 function boot(){style();events();const timer=setInterval(()=>{const W=w();if(W){initGarments();move();clearInterval(timer)}},100)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
