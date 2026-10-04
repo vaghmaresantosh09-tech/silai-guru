@@ -1,4 +1,4 @@
-/* SILAI GURU — design viewer bridge v3: reliable Show + in-app/Android Back */
+/* SILAI GURU — design viewer bridge v4: Show + Back to Order + Android/browser Back */
 (function(){
 'use strict';
 function install(){
@@ -6,32 +6,37 @@ function install(){
   window.__sgDesignViewerBridge=true;
   const style=document.createElement('style');
   style.id='sg-design-viewer-bridge-style';
-  style.textContent='#sg-design-viewer-bridge{position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.94);display:none;flex-direction:column}#sg-design-viewer-bridge.open{display:flex}#sg-design-viewer-bridge .sg-dv-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;background:#151515;color:#fff}#sg-design-viewer-bridge .sg-dv-top b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#sg-design-viewer-bridge .sg-dv-top button{background:#333;color:#fff;padding:8px 12px;border-radius:9px}#sg-design-viewer-bridge .sg-dv-stage{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;touch-action:none}#sg-design-viewer-bridge img{max-width:none;max-height:none;transform-origin:center;user-select:none;-webkit-user-drag:none}#sg-design-viewer-bridge .sg-dv-bottom{padding:9px;text-align:center;color:#fff;background:#151515;font-size:12px}';
+  style.textContent='#sg-design-viewer-bridge{position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.94);display:none;flex-direction:column}#sg-design-viewer-bridge.open{display:flex}#sg-design-viewer-bridge .sg-dv-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;background:#151515;color:#fff}#sg-design-viewer-bridge .sg-dv-top b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#sg-design-viewer-bridge .sg-dv-top button{background:#333;color:#fff;padding:8px 12px;border-radius:9px}#sg-design-viewer-bridge .sg-dv-stage{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;touch-action:none}#sg-design-viewer-bridge .sg-dv-media{max-width:94vw;max-height:82vh;transform-origin:center;user-select:none;-webkit-user-drag:none;display:flex;align-items:center;justify-content:center}#sg-design-viewer-bridge .sg-dv-media img{max-width:94vw;max-height:82vh;object-fit:contain;border-radius:12px}#sg-design-viewer-bridge .sg-dv-media svg{width:min(94vw,620px);height:auto;max-height:82vh}#sg-design-viewer-bridge .sg-dv-bottom{padding:9px;text-align:center;color:#fff;background:#151515;font-size:12px}';
   document.head.appendChild(style);
   const v=document.createElement('div');
   v.id='sg-design-viewer-bridge';
-  v.innerHTML='<div class="sg-dv-top"><button type="button" data-sg-dv-back aria-label="Back to Order">← Back</button><b>SILAI GURU • Design</b><button type="button" data-sg-dv-close aria-label="Close design preview">✕</button></div><div class="sg-dv-stage"><img alt="Design preview"></div><div class="sg-dv-bottom">Pinch / drag / double tap to zoom</div>';
+  v.innerHTML='<div class="sg-dv-top"><button type="button" data-sg-dv-back aria-label="Back to Order">← Back to Order</button><b>SILAI GURU • Design</b><button type="button" data-sg-dv-close aria-label="Close design preview">✕</button></div><div class="sg-dv-stage"><div class="sg-dv-media"></div></div><div class="sg-dv-bottom">Pinch / drag / double tap to zoom</div>';
   document.body.appendChild(v);
-  const img=v.querySelector('img'),stage=v.querySelector('.sg-dv-stage');
+  const media=v.querySelector('.sg-dv-media'),stage=v.querySelector('.sg-dv-stage');
   let scale=1,x=0,y=0,pointers=new Map(),dist=0,start=1,sx=0,sy=0,px=0,py=0;
-  function render(){img.style.transform='translate3d('+x+'px,'+y+'px,0) scale('+scale+')'}
+  function render(){media.style.transform='translate3d('+x+'px,'+y+'px,0) scale('+scale+')'}
   function isOpen(){return v.classList.contains('open')}
   function pushViewerHistory(){if(!history.state||history.state.sgDesignViewer!==true)history.pushState(Object.assign({},history.state||{},{sgDesignViewer:true}),document.title,location.href)}
-  function closeViewer(fromPop){
-    if(!isOpen())return false;
-    v.classList.remove('open');
-    pointers.clear();
-    if(!fromPop&&history.state&&history.state.sgDesignViewer===true)history.back();
+  function closeViewer(fromPop,after){
+    if(!isOpen()){if(after)after();return false;}
+    v.classList.remove('open');pointers.clear();
+    if(!fromPop&&history.state&&history.state.sgDesignViewer===true){history.back();if(after)setTimeout(after,60)}else if(after)after();
     return true;
   }
-  function open(src,title){
-    if(!src)return;
-    img.src=src;
+  function open(src,title,html){
+    if(!src&&!html)return;
+    media.innerHTML=html||'<img alt="Design preview">';
+    if(!html){const img=media.querySelector('img');img.src=src}
     v.querySelector('.sg-dv-top b').textContent='SILAI GURU • '+(title||'Design');
     scale=1;x=0;y=0;render();v.classList.add('open');pushViewerHistory();
   }
+  function backToOrder(){
+    const hasOrder=typeof window.backToOrderPicker==='function' && window.orderDesignTargetIndex!==undefined;
+    closeViewer(false,hasOrder?()=>window.backToOrderPicker():null);
+  }
   v.addEventListener('click',e=>{
-    if(e.target.closest('[data-sg-dv-close],[data-sg-dv-back]')){e.preventDefault();closeViewer(false)}
+    if(e.target.closest('[data-sg-dv-back]')){e.preventDefault();backToOrder();return}
+    if(e.target.closest('[data-sg-dv-close]')){e.preventDefault();closeViewer(false);}
   });
   stage.addEventListener('pointerdown',e=>{pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===1){sx=x;sy=y;px=e.clientX;py=e.clientY}else if(pointers.size===2){const a=[...pointers.values()];dist=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);start=scale}});
   stage.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===2){const a=[...pointers.values()];const d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);if(dist)scale=Math.min(20,Math.max(.5,start*d/dist))}else{x=sx+e.clientX-px;y=sy+e.clientY-py}render()});
@@ -42,8 +47,12 @@ function install(){
     const label=((b.innerText||b.textContent||'')+' '+(b.getAttribute('aria-label')||'')+' '+(b.getAttribute('title')||'')).trim().toLowerCase();
     if(!/(show|view|preview|देख)/i.test(label))return;
     const card=b.closest('.design-card');if(!card)return;
-    const image=card.querySelector('.design-img img,img');if(!image||!(image.currentSrc||image.src))return;
-    e.preventDefault();e.stopPropagation();open(image.currentSrc||image.src,card.querySelector('.design-name')?.textContent?.trim()||'Design');
+    const image=card.querySelector('.design-img img');
+    const svg=card.querySelector('.design-img svg');
+    if(!image&&!svg)return;
+    e.preventDefault();e.stopPropagation();
+    if(image)open(image.currentSrc||image.src,card.querySelector('.design-name')?.textContent?.trim()||'Design');
+    else open('',card.querySelector('.design-name')?.textContent?.trim()||'Design',svg.outerHTML);
   },true);
   window.addEventListener('popstate',function(){if(closeViewer(true))return});
   window.sgOpenDesignViewer=open;
