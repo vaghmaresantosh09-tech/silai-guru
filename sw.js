@@ -1,14 +1,28 @@
-/* SILAI GURU — clean navigation/service worker v72 */
-const CACHE='silai-guru-v72';
-const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./silai-guru-order-design.js'];
-async function cachePage(){
+/* SILAI GURU — clean navigation/service worker v73 */
+const CACHE='silai-guru-v73';
+const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./silai-guru-order-design.js','./silai-guru-break-time.js'];
+async function injectBreakTime(response){
   try{
-    const r=await fetch('./silai-guru.html',{cache:'no-store'});
-    if(r.ok) await caches.open(CACHE).then(c=>c.put('./silai-guru.html',r.clone()));
-  }catch(e){}
+    const text=await response.text();
+    if(text.includes('silai-guru-break-time.js')) return new Response(text,{status:response.status,statusText:response.statusText,headers:response.headers});
+    const injected=text.replace('</body>','<script src="./silai-guru-break-time.js?v=73"></script></body>');
+    const headers=new Headers(response.headers);headers.set('Content-Type','text/html; charset=utf-8');
+    return new Response(injected,{status:response.status,statusText:response.statusText,headers});
+  }catch(e){return response}
+}
+async function freshPage(request){
+  try{
+    const r=await fetch(request,{cache:'no-store'});
+    if(r.ok){
+      const out=await injectBreakTime(r.clone());
+      caches.open(CACHE).then(c=>c.put('./silai-guru.html',out.clone()));
+      return out;
+    }
+    return r;
+  }catch(e){return caches.match('./silai-guru.html').then(x=>x||caches.match('./index.html'))}
 }
 self.addEventListener('install',e=>e.waitUntil(
-  caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(cachePage).then(()=>self.skipWaiting())
+  caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())
 ));
 self.addEventListener('activate',e=>e.waitUntil(
   caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('silai-guru-')&&k!==CACHE).map(k=>caches.delete(k))))
@@ -18,13 +32,10 @@ self.addEventListener('fetch',e=>{
   const r=e.request;
   if(r.method!=='GET') return;
   const u=new URL(r.url);
-  if(u.origin===location.origin && (u.pathname.endsWith('.html')||u.pathname.endsWith('/')||/\.(js|css|json|svg|png)$/i.test(u.pathname))){
-    e.respondWith(
-      fetch(r,{cache:'no-store'}).then(async x=>{
-        if(x.ok) caches.open(CACHE).then(c=>c.put(r,x.clone()));
-        return x;
-      }).catch(()=>caches.match(r).then(x=>x||caches.match('./index.html')))
-    );
+  if(u.origin===location.origin && (u.pathname.endsWith('.html')||u.pathname.endsWith('/'))){
+    e.respondWith(freshPage(r));
+  }else if(u.origin===location.origin && /\.(js|css|json|svg|png)$/i.test(u.pathname)){
+    e.respondWith(fetch(r,{cache:'no-store'}).then(async x=>{if(x.ok)caches.open(CACHE).then(c=>c.put(r,x.clone()));return x}).catch(()=>caches.match(r)));
   }else{
     e.respondWith(caches.match(r).then(x=>x||fetch(r)));
   }
