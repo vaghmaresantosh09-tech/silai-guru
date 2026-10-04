@@ -34,3 +34,5 @@ function events(){if(window.__sgV54Events)return;window.__sgV54Events=true;docum
 function boot(){style();events();const timer=setInterval(()=>{const W=w();if(W){initGarments();move();clearInterval(timer)}},100)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
+/* SILAI GURU — load Break Time after the main app runtime */
+(function(){const s=document.createElement('script');s.src='./silai-guru-break-time.js?v=1';s.async=false;document.head.appendChild(s)})();
