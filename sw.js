@@ -1,7 +1,7 @@
-/* SILAI GURU — Tailor Run navigation/service worker v80 */
-const CACHE='silai-guru-v80';
+/* SILAI GURU — Tailor Run navigation/service worker v81 */
+const CACHE='silai-guru-v81';
 const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./silai-guru-order-design.js','./silai-guru-break-time.js'];
-async function injectBreakTime(response){try{const text=await response.text();const injected=text.includes('silai-guru-break-time.js')?text:text.replace('</body>','<script src="./silai-guru-break-time.js?v=80"></script></body>');const headers=new Headers(response.headers);headers.set('Content-Type','text/html; charset=utf-8');return new Response(injected,{status:response.status,statusText:response.statusText,headers})}catch(e){return response}}
+async function injectBreakTime(response){try{const text=await response.text();const injected=text.includes('silai-guru-break-time.js')?text:text.replace('</body>','<script src="./silai-guru-break-time.js?v=81"></script></body>');const headers=new Headers(response.headers);headers.set('Content-Type','text/html; charset=utf-8');return new Response(injected,{status:response.status,statusText:response.statusText,headers})}catch(e){return response}}
 async function freshPage(request){try{const r=await fetch(request,{cache:'no-store'});if(r.ok){const out=await injectBreakTime(r.clone());caches.open(CACHE).then(c=>c.put('./silai-guru.html',out.clone()));return out}return r}catch(e){return caches.match('./silai-guru.html').then(x=>x||caches.match('./index.html'))}}
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('silai-guru-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
