@@ -1,5 +1,5 @@
-/* SILAI GURU — clean navigation/service worker v71 */
-const CACHE='silai-guru-v71';
+/* SILAI GURU — clean navigation/service worker v72 */
+const CACHE='silai-guru-v72';
 const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./silai-guru-order-design.js'];
 async function cachePage(){
   try{
@@ -11,7 +11,7 @@ self.addEventListener('install',e=>e.waitUntil(
   caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(cachePage).then(()=>self.skipWaiting())
 ));
 self.addEventListener('activate',e=>e.waitUntil(
-  caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))
+  caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('silai-guru-')&&k!==CACHE).map(k=>caches.delete(k))))
     .then(()=>self.clients.claim())
 ));
 self.addEventListener('fetch',e=>{
