@@ -1,5 +1,5 @@
-/* SILAI GURU — clean navigation/service worker v69 */
-const CACHE='silai-guru-v70';
+/* SILAI GURU — clean navigation/service worker v71 */
+const CACHE='silai-guru-v71';
 const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./silai-guru-order-design.js'];
 async function cachePage(){
   try{
