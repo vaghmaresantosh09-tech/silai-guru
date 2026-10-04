@@ -1,5 +1,5 @@
-/* SILAI GURU — navigation/design hotfix v63 */
-const CACHE='silai-guru-v63';
+/* SILAI GURU — navigation/design hotfix v64 */
+const CACHE='silai-guru-v64';
 const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./silai-guru-backfix.js','./blouse-design-library.js','./silai-guru-order-design.js','./icon-192.png','./icon-512.png'];
 async function cachePage(){try{const r=await fetch('./silai-guru.html',{cache:'no-store'});if(r.ok)await caches.open(CACHE).then(c=>c.put('./silai-guru.html',r.clone()))}catch(e){}}
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(cachePage).then(()=>self.skipWaiting())));
