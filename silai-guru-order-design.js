@@ -1,4 +1,4 @@
-/* SILAI GURU — design viewer bridge v4: Show + Back to Order + Android/browser Back */
+/* SILAI GURU — design viewer bridge v5: reliable Back to Order + Android/browser Back */
 (function(){
 'use strict';
 function install(){
@@ -16,11 +16,32 @@ function install(){
   let scale=1,x=0,y=0,pointers=new Map(),dist=0,start=1,sx=0,sy=0,px=0,py=0;
   function render(){media.style.transform='translate3d('+x+'px,'+y+'px,0) scale('+scale+')'}
   function isOpen(){return v.classList.contains('open')}
-  function pushViewerHistory(){if(!history.state||history.state.sgDesignViewer!==true)history.pushState(Object.assign({},history.state||{},{sgDesignViewer:true}),document.title,location.href)}
+  function pushViewerHistory(){
+    if(!history.state||history.state.sgDesignViewer!==true){
+      history.pushState(Object.assign({},history.state||{},{sgDesignViewer:true}),document.title,location.href);
+    }
+  }
+  function focusOrder(){
+    const i=window.orderDesignTargetIndex;
+    const target=(i!==undefined&&i!==null)?(
+      document.getElementById('garment-'+i)||
+      document.getElementById('garment-picker-'+i)
+    ):null;
+    const fallback=document.getElementById('garmentsWrap')||document.getElementById('orderForm');
+    const el=target||fallback;
+    if(el&&typeof el.scrollIntoView==='function'){
+      setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),30);
+    }
+  }
   function closeViewer(fromPop,after){
-    if(!isOpen()){if(after)after();return false;}
-    v.classList.remove('open');pointers.clear();
-    if(!fromPop&&history.state&&history.state.sgDesignViewer===true){history.back();if(after)setTimeout(after,60)}else if(after)after();
+    if(!isOpen()){if(after)after();return false}
+    v.classList.remove('open');
+    pointers.clear();
+    scale=1;x=0;y=0;render();
+    if(!fromPop&&history.state&&history.state.sgDesignViewer===true){
+      history.back();
+      if(after)setTimeout(after,80);
+    }else if(after)after();
     return true;
   }
   function open(src,title,html){
@@ -31,8 +52,12 @@ function install(){
     scale=1;x=0;y=0;render();v.classList.add('open');pushViewerHistory();
   }
   function backToOrder(){
-    const hasOrder=typeof window.backToOrderPicker==='function' && window.orderDesignTargetIndex!==undefined;
-    closeViewer(false,hasOrder?()=>window.backToOrderPicker():null);
+    closeViewer(false,()=>{
+      if(typeof window.backToOrderPicker==='function'&&window.orderDesignTargetIndex!==undefined){
+        try{window.backToOrderPicker(window.orderDesignTargetIndex)}catch(e){}
+      }
+      focusOrder();
+    });
   }
   v.addEventListener('click',e=>{
     if(e.target.closest('[data-sg-dv-back]')){e.preventDefault();backToOrder();return}
