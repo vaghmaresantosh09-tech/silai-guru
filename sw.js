@@ -1,6 +1,6 @@
-/* SILAI GURU — navigation/design hotfix v65 */
-const CACHE='silai-guru-v65';
-const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./silai-guru-custom-measurements.js','./silai-guru-backfix.js','./blouse-design-library.js','./silai-guru-order-design.js'];
+/* SILAI GURU — navigation/design hotfix v66 */
+const CACHE='silai-guru-v66';
+const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./silai-guru-order-design.js'];
 async function cachePage(){try{const r=await fetch('./silai-guru.html',{cache:'no-store'});if(r.ok)await caches.open(CACHE).then(c=>c.put('./silai-guru.html',r.clone()))}catch(e){}}
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(cachePage).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
