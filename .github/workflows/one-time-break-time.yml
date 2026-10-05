@@ -1,0 +1,35 @@
+name: One-time Silai Guru Break Time integration
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Integrate Break Time into main app
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('silai-guru.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<script src="silai-guru-break-time.js?v=5"></script>'
+          if marker not in s:
+              if '</body>' not in s:
+                  raise SystemExit('No </body> marker found; refusing to modify app')
+              s=s.replace('</body>', marker+'</body>', 1)
+              p.write_text(s,encoding='utf-8')
+          Path('.github/workflows/one-time-break-time.yml').unlink(missing_ok=True)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add silai-guru.html .github/workflows/one-time-break-time.yml
+          if git diff --cached --quiet; then
+            echo 'No integration changes needed.'
+          else
+            git commit -m 'Integrate Break Time into main Silai Guru app'
+            git push
+          fi
