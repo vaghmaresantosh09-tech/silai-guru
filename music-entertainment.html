@@ -35,7 +35,7 @@ $('videoFiles').onchange=e=>e.target.files.length&&addFiles(e.target.files,'vide
 $('audioFiles').onchange=e=>e.target.files.length&&addFiles(e.target.files,'audio');
 $('search').oninput=render;
 $('ytPlay').onclick=()=>playYT(getYtId($('ytUrl').value.trim()));
-$('ytSearch').onclick=()=>{const q=prompt('YouTube par kya dhoondhna hai?');if(q)window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(q),'_blank')};
+$('ytSearch').onclick=()=>{const q=prompt('YouTube par kya dhoondhna hai?');if(q){sessionStorage.setItem('sgReturnFromYoutube','1');location.href='https://www.youtube.com/results?search_query='+encodeURIComponent(q)}};$('backSilai').onclick=returnToSilai;
 $('tAll').onclick=()=>{filter='all';setTab($('tAll'));render()};$('tVideo').onclick=()=>{filter='video';setTab($('tVideo'));render()};$('tAudio').onclick=()=>{filter='audio';setTab($('tAudio'));render()};$('tFiles').onclick=()=>{filter='all';setTab($('tFiles'));render()};
 function setTab(active){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));active.classList.add('active')}
 $('list').onclick=async e=>{const p=e.target.closest('[data-play]'),d=e.target.closest('[data-del]');if(p){const x=items.find(y=>y.id===p.dataset.play);if(x)playLocal(x)}if(d){const x=items.find(y=>y.id===d.dataset.del);if(x&&confirm('Is media ko remove karein?')){await del(x.id);items=items.filter(y=>y.id!==x.id);saveMeta();render()}}};
