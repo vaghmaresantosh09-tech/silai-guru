@@ -5,12 +5,12 @@ const st=document.createElement('style');st.textContent=STYLE;document.head.appe
 let shade=null,float=null,frame=null,videoId=null,openState=false;
 function cleanDashboardMusic(){document.querySelectorAll('.icons .ico').forEach(el=>{const txt=(el.innerText||el.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();if(/music\s*&?\s*entertainment|music\s+and\s+entertainment/.test(txt))el.remove()});}
 function build(){if(shade)return;
- shade=document.createElement('div');shade.id='sgMusicShade';shade.innerHTML='<div id="sgMusicSheet"><div class="mh"><span>🎬 Video • Silai Guru</span><div><button id="sgMusicMin">⌄ Mini Player</button> <button id="sgMusicClose">✕</button></div></div><p class="sgMusicHint">YouTube ko app ke bahar nahi kholenge. Neeche YouTube video ka link paste karke isi Silai Guru ke andar play karein.</p><div id="sgMusicInput"><input id="sgMusicUrl" type="url" placeholder="https://www.youtube.com/watch?v=..."><button id="sgMusicPlay">▶ Play</button></div><div class="mv" id="sgMusicMainBox"></div></div></div>';
+ shade=document.createElement('div');shade.id='sgMusicShade';shade.innerHTML='<div id="sgMusicSheet"><div class="mh"><span>🎬 Video • Silai Guru</span><div><button id="sgMusicMin">⌄ Mini Player</button> <button id="sgMusicClose">✕</button></div></div><p class="sgMusicHint">YouTube video link paste karke isi Silai Guru me play karein, ya search text (jaise old songs) likhkar YouTube search karein.</p><div id="sgMusicInput"><input id="sgMusicUrl" type="url" placeholder="YouTube link ya search, jaise old songs"><button id="sgMusicPlay">▶ Play / Search</button></div><div class="mv" id="sgMusicMainBox"></div></div></div>';
  document.body.appendChild(shade);
  float=document.createElement('div');float.id='sgMusicFloat';float.innerHTML='<div class="mh"><span>🎵 Silai Guru • Playing</span><button id="sgMusicMax">Open</button></div><div class="mv" id="sgMusicMiniBox"></div>';
  document.body.appendChild(float);
  frame=document.createElement('iframe');frame.id='sgMusicFrame';frame.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';frame.allowFullscreen=true;frame.setAttribute('playsinline','');
- shade.querySelector('#sgMusicPlay').onclick=()=>{const id=idFrom(shade.querySelector('#sgMusicUrl').value);if(!id){alert('Valid YouTube video link dijiye.');return}openVideo(id)};
+ shade.querySelector('#sgMusicPlay').onclick=()=>{const q=shade.querySelector('#sgMusicUrl').value.trim();if(!q){alert('YouTube video link ya search text dijiye.');return}const id=idFrom(q);if(id){openVideo(id);return}sessionStorage.setItem('sgReturnFromYoutube','1');location.href='https://www.youtube.com/results?search_query='+encodeURIComponent(q)};
  shade.querySelector('#sgMusicMin').onclick=minimize;
  shade.querySelector('#sgMusicClose').onclick=closeAll;
  float.querySelector('#sgMusicMax').onclick=maximize;
