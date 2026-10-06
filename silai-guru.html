@@ -25,7 +25,33 @@
 @media(max-width:430px){.sg-garment-type-grid{grid-template-columns:repeat(3,1fr)}}
 .sg-all-garments{justify-content:space-between}.sg-all-garments span:first-child{display:block;text-align:left}.sg-garment-type-grid .sg-type-icon{min-height:108px}.sg-garment-type-grid .sg-type-icon b{font-size:11px}.sg-garment-type-grid .sg-type-icon span{display:block;width:62px;height:62px}.sg-garment-type-grid .sg-type-icon span svg{width:62px;height:62px}.sg-garment-category{display:flex;gap:8px;margin-top:9px}.sg-garment-category button{flex:1;padding:10px;border:1px solid #ddd8ff;border-radius:12px;background:#fff;font-weight:800}.sg-garment-category button.active{background:#5b4bdb;color:#fff;border-color:#5b4bdb}</style><style id="sg-measure-restore">.sg-restore-measure{background:#eefbf4;color:#16704a;padding:8px 10px;font-size:12px}.sg-restore-box{margin-top:9px;padding:10px;border:1px dashed #b9ead1;background:#f4fff9;border-radius:12px}.sg-restore-title{font-size:12px;font-weight:800;color:#16704a;margin-bottom:7px}.sg-restore-list{display:flex;flex-wrap:wrap;gap:6px}.sg-restore-btn{background:#fff;border:1px solid #b9ead1;color:#16704a;padding:7px 9px;border-radius:10px;font-size:11px}.design-card .design-img img{width:100%;height:100%;object-fit:cover;display:block}.design-card .design-img img[src]{background:#fff}</style><!-- SG_DESIGN_LIBRARY_V3 -->
 <!-- SG_DESIGN_LIBRARY_V4 -->
-</head><body>
+</head><body><script id="sg-state-guard-v2">
+(function(){
+  const KEYS=['sg_profile','sg_customers','sg_orders','sg_plan','sg_theme','sg_profile_extra','sg_measure_fields','sg_garment_designs'];
+  const SNAP='sg_core_snapshot_v2';
+  function snap(){
+    try{
+      const a={time:Date.now(),data:{}};
+      KEYS.forEach(k=>{const v=localStorage.getItem(k);if(v!==null)a.data[k]=v});
+      if(a.data.sg_profile||a.data.sg_customers||a.data.sg_orders)sessionStorage.setItem(SNAP,JSON.stringify(a));
+    }catch(e){}
+  }
+  function recover(){
+    try{
+      const c=localStorage.getItem('sg_customers'),o=localStorage.getItem('sg_orders'),p=localStorage.getItem('sg_profile');
+      const raw=sessionStorage.getItem(SNAP);
+      if(raw && c===null && o===null && p===null){
+        const a=JSON.parse(raw),d=a&&a.data||{};
+        Object.keys(d).forEach(k=>{if(localStorage.getItem(k)===null)localStorage.setItem(k,d[k])});
+      }
+    }catch(e){}
+  }
+  recover();
+  window.addEventListener('pagehide',snap);
+  window.addEventListener('beforeunload',snap);
+  setTimeout(snap,1200);
+})();
+</script>
 <div id="onboard" class="onboard"><div class="oncard"><h1 style="text-align:center;color:#5b4bdb">✂️ SILAI GURU</h1><p style="text-align:center;color:#73778c">पहली बार app use करने के लिए profile पूरा करें</p><form id="pf" novalidate><div class="form"><div class="field"><label>User Name *</label><input id="pn" required></div><div class="field"><label>Mobile *</label><input id="pm" required inputmode="numeric"></div><div class="field"><label>Shop Name *</label><input id="ps" required></div><div class="field"><label>Email ID *</label><input id="pe" required type="email"></div><div class="field full"><label>Address *</label><textarea id="pa" required></textarea></div><div class="field"><label>State *</label><input id="pst" required></div><div class="field"><label>City *</label><input id="pc" required></div><div class="field"><label>Pincode *</label><input id="pp" required inputmode="numeric"></div></div><button type="button" id="profileSaveBtn" class="primary">Profile Save & Open App</button></form></div></div>
 <div class="app"><header class="hero"><div class="brand">✂️ SILAI GURU</div><div class="shop" id="topshop"></div><div id="topowner" style="font-size:12px;opacity:.85"></div></header><div class="wrap">
 <div class="card"><div class="stats"><div class="stat"><b id="nc">0</b><small>Customers</small></div><div class="stat"><b id="no">0</b><small>Orders</small></div><div class="stat"><b id="nb">₹0</b><small>Pending</small></div></div></div>
