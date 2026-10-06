@@ -10,7 +10,7 @@
 <label class="pick">🎬 Add Video<input id="videoFiles" type="file" accept="video/*" multiple></label>
 <label class="pick">🎵 Add Music<input id="audioFiles" type="file" accept="audio/*" multiple></label>
 </div><p class="note">Phone se select ki hui files My Media me save hongi aur refresh ke baad bhi rahengi.</p></section>
-<section class="card"><h3 style="margin:0 0 8px">🔗 YouTube Video</h3><div class="ytbox"><input id="ytUrl" placeholder="https://www.youtube.com/watch?v=..."><button class="primary" id="ytPlay">▶ Play</button></div><p class="note">Authorized/public YouTube video ko app ke andar hi play karein. Download/bypass nahi.</p><div id="ytPlayer" style="margin-top:10px"></div></section>
+<section class="card"><h3 style="margin:0 0 8px">🔗 YouTube Video</h3><div class="ytbox"><input id="ytUrl" placeholder="YouTube link ya search, jaise: old songs"><button class="primary" id="ytPlay">▶ Play / Search</button></div><p class="note">YouTube link paste karke Play karein, ya search text (jaise “old songs”) likhkar Search karein. Download/bypass nahi.</p><div id="ytPlayer" style="margin-top:10px"></div></section>
 <section class="card"><h3 style="margin:0 0 8px">▶️ Now Playing</h3><div id="now" class="empty">Abhi koi local media play nahi ho raha.</div></section>
 <section class="card"><h3 style="margin:0 0 8px">📚 My Media</h3><div id="list" class="media-list"></div></section>
 </main>
@@ -34,7 +34,7 @@ function playYT(id){if(!id)return alert('Valid YouTube video link dijiye.');ytId
 $('videoFiles').onchange=e=>e.target.files.length&&addFiles(e.target.files,'video');
 $('audioFiles').onchange=e=>e.target.files.length&&addFiles(e.target.files,'audio');
 $('search').oninput=render;
-$('ytPlay').onclick=()=>playYT(getYtId($('ytUrl').value.trim()));
+$('ytPlay').onclick=()=>{const q=$('ytUrl').value.trim();if(!q)return alert('YouTube video link ya search text dijiye.');const id=getYtId(q);if(id){playYT(id)}else{sessionStorage.setItem('sgReturnFromYoutube','1');location.href='https://www.youtube.com/results?search_query='+encodeURIComponent(q)}};
 $('ytSearch').onclick=()=>{const q=prompt('YouTube par kya dhoondhna hai?');if(q){sessionStorage.setItem('sgReturnFromYoutube','1');location.href='https://www.youtube.com/results?search_query='+encodeURIComponent(q)}};$('backSilai').onclick=returnToSilai;
 $('tAll').onclick=()=>{filter='all';setTab($('tAll'));render()};$('tVideo').onclick=()=>{filter='video';setTab($('tVideo'));render()};$('tAudio').onclick=()=>{filter='audio';setTab($('tAudio'));render()};$('tFiles').onclick=()=>{filter='all';setTab($('tFiles'));render()};
 function setTab(active){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));active.classList.add('active')}
