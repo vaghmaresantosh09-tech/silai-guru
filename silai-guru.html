@@ -609,18 +609,19 @@ function openKurtiNeckCatalogForOrder(index){
     families=['Round Neck','V Neck','Square Neck','Boat Neck','Keyhole Neck','Collar Neck','Designer Neck','Embroidery Neck'];
     const names=['Design 1','Design 2','Design 3','Design 4','Design 5'];
     const makeFallback=function(type,n){
+      const d=[0,5,10,16,8][n];
       const paths={
-        'Round Neck':`M130 95 Q180 ${105+n*7} 230 95`,
-        'V Neck':`M130 95 L180 ${140+n*8} L230 95`,
-        'Square Neck':`M130 95 L130 ${125+n*5} L230 ${125+n*5} L230 95`,
-        'Boat Neck':`M115 98 Q180 ${112+n*7} 245 98`,
-        'Keyhole Neck':`M145 95 Q180 112 215 95 M180 112 C165 125 168 145 180 154 C192 145 195 125 180 112`,
-        'Collar Neck':`M130 95 L155 120 L180 132 L205 120 L230 95 M155 120L155 150 M205 120L205 150`,
-        'Designer Neck':n%2?`M130 95 L170 132 L230 95`:`M130 95 L160 120 L180 100 L200 120 L230 95`,
-        'Embroidery Neck':`M130 95 Q180 118 230 95`
+        'Round Neck':`M145 62 Q180 ${72+d} 215 62`,
+        'V Neck':`M145 62 L180 ${112+d} L215 62`,
+        'Square Neck':`M145 62 L145 ${96+d} L215 ${96+d} L215 62`,
+        'Boat Neck':`M128 ${66+d/3} Q180 ${82+d} 232 ${66+d/3}`,
+        'Keyhole Neck':`M150 62 Q180 78 210 62 M180 78 C168 89 168 108 180 116 C192 108 192 89 180 78`,
+        'Collar Neck':`M145 62 L158 84 L180 96 L202 84 L215 62 M158 84 L158 113 M202 84 L202 113`,
+        'Designer Neck':n%2?`M145 62 L170 ${101+d} L215 62`:`M145 62 L165 86 L180 70 L195 86 L215 62`,
+        'Embroidery Neck':`M145 62 Q180 84 215 62`
       }[type];
-      const dots=Array.from({length:5},(_,i)=>'<circle cx="'+(160+i*10)+'" cy="'+(145+n*3)+'" r="3" fill="#c58a2d"/>').join('');
-      return '<svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="344" height="284" rx="24" fill="#fffaf4"/><path d="M95 82L132 55H228L265 82L292 105L270 151L240 132V255H120V132L90 151L68 105Z" fill="#f3e6dc" stroke="#6f4a3d" stroke-width="3"/><path d="'+paths+'" fill="none" stroke="#6f4a3d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="'+paths+'" fill="none" stroke="#fffdf8" stroke-width="3"/>'+dots+'<text x="180" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#6f4a3d">'+esc(type)+' • '+(n+1)+'</text></svg>';
+      const deco=n===0?'':`<g fill="#c58a2d"><circle cx="166" cy="145" r="3"/><circle cx="180" cy="145" r="3"/><circle cx="194" cy="145" r="3"/></g>`;
+      return `<svg viewBox="0 0 360 330" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="344" height="314" rx="24" fill="#fffaf4"/><path d="M125 43L151 28H209L235 43L278 77L254 119L232 104V285Q180 303 128 285V104L106 119L82 77Z" fill="#f3e6dc" stroke="#6f4a3d" stroke-width="3"/><path d="${paths}" fill="none" stroke="#6f4a3d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="${paths}" fill="none" stroke="#fffdf8" stroke-width="3"/>${deco}<path d="M132 170Q180 178 228 170" fill="none" stroke="#d8c2b3" stroke-width="2"/><text x="180" y="315" text-anchor="middle" font-size="13" font-weight="700" fill="#6f4a3d">${esc(type)} • ${n+1}</text></svg>`;
     };
     designs=[];
     families.forEach(function(type){names.forEach(function(name,n){designs.push({id:'fallback-neck-'+families.indexOf(type)+'-'+n,type:'Kurti Neck',family:type,name:type+' — '+name,svg:makeFallback(type,n)})})});
