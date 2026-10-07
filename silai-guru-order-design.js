@@ -68,7 +68,7 @@ function install(){
   ['pointerup','pointercancel','pointerleave'].forEach(n=>stage.addEventListener(n,e=>pointers.delete(e.pointerId)));
   stage.addEventListener('dblclick',()=>{scale=scale<2?2.5:1;render()});
   document.addEventListener('click',e=>{
-    const b=e.target.closest('.design-card button,.design-card [role="button"]');if(!b)return;
+    const b=e.target.closest('.design-card button,.design-card [role="button"]');if(!b||b.hasAttribute('data-sg-inline-neck-preview'))return;
     const label=((b.innerText||b.textContent||'')+' '+(b.getAttribute('aria-label')||'')+' '+(b.getAttribute('title')||'')).trim().toLowerCase();
     if(!/(show|view|preview|देख)/i.test(label))return;
     const card=b.closest('.design-card');if(!card)return;
