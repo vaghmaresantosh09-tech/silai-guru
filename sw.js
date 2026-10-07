@@ -1,5 +1,5 @@
-/* SILAI GURU — clean navigation/service worker v74 */
-const CACHE='silai-guru-v74';
+/* SILAI GURU — clean navigation/service worker v75 */
+const CACHE='silai-guru-v75';
 const ASSETS=[
   './index.html','./silai-guru.html','./manifest.json',
   './profile-validation-v2.js','./silai-guru-order-ui.js',
