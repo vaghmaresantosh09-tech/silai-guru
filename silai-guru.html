@@ -603,8 +603,28 @@ function openDesignCatalogForOrder(type,index){
 }
 function openKurtiNeckCatalogForOrder(index){
   window.orderDesignTargetIndex=index;
-  const families=window.sgKurtiNeckFamilies||[];
-  const designs=window.sgKurtiNeckDesigns||[];
+  let families=window.sgKurtiNeckFamilies||[];
+  let designs=window.sgKurtiNeckDesigns||[];
+  if(!families.length||!designs.length){
+    families=['Round Neck','V Neck','Square Neck','Boat Neck','Keyhole Neck','Collar Neck','Designer Neck','Embroidery Neck'];
+    const names=['Design 1','Design 2','Design 3','Design 4','Design 5'];
+    const makeFallback=function(type,n){
+      const paths={
+        'Round Neck':`M130 95 Q180 ${105+n*7} 230 95`,
+        'V Neck':`M130 95 L180 ${140+n*8} L230 95`,
+        'Square Neck':`M130 95 L130 ${125+n*5} L230 ${125+n*5} L230 95`,
+        'Boat Neck':`M115 98 Q180 ${112+n*7} 245 98`,
+        'Keyhole Neck':`M145 95 Q180 112 215 95 M180 112 C165 125 168 145 180 154 C192 145 195 125 180 112`,
+        'Collar Neck':`M130 95 L155 120 L180 132 L205 120 L230 95 M155 120L155 150 M205 120L205 150`,
+        'Designer Neck':n%2?`M130 95 L170 132 L230 95`:`M130 95 L160 120 L180 100 L200 120 L230 95`,
+        'Embroidery Neck':`M130 95 Q180 118 230 95`
+      }[type];
+      const dots=Array.from({length:5},(_,i)=>'<circle cx="'+(160+i*10)+'" cy="'+(145+n*3)+'" r="3" fill="#c58a2d"/>').join('');
+      return '<svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="344" height="284" rx="24" fill="#fffaf4"/><path d="M95 82L132 55H228L265 82L292 105L270 151L240 132V255H120V132L90 151L68 105Z" fill="#f3e6dc" stroke="#6f4a3d" stroke-width="3"/><path d="'+paths+'" fill="none" stroke="#6f4a3d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="'+paths+'" fill="none" stroke="#fffdf8" stroke-width="3"/>'+dots+'<text x="180" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#6f4a3d">'+esc(type)+' • '+(n+1)+'</text></svg>';
+    };
+    designs=[];
+    families.forEach(function(type){names.forEach(function(name,n){designs.push({id:'fallback-neck-'+families.indexOf(type)+'-'+n,type:'Kurti Neck',family:type,name:type+' — '+name,svg:makeFallback(type,n)})})});
+  }
   let active=families[0]||'Round Neck';
   function render(){
     const list=designs.filter(d=>d.family===active);
