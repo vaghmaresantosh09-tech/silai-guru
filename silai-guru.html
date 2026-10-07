@@ -367,13 +367,6 @@ function designCardHtml(d,saved){
   return '<div class="design-card"><div class="design-img">'+designMediaHtml(d)+'</div><div class="design-name">'+esc(d.name)+'</div><div class="design-actions"><button class="secondary" onclick="toggleSavedDesign('+id+','+type+','+name+')">'+(isSaved?'✓ Saved':'☆ Save')+'</button><button class="secondary" onclick="buyMaterialForDesign('+name+','+type+')">🛍️ Buy Material</button><button class="primary" onclick="showDesignToCustomer('+type+','+name+')">👁 '+(d.external||d.url?'Open':'Show')+'</button></div></div>';
 }
 function buyMaterialForDesign(name,type){const q=encodeURIComponent(type+' '+name+' fabric tailoring material');window.open('https://www.google.com/search?tbm=shop&q='+q,'_blank','noopener,noreferrer');}
-function showDesignToCustomer(type,name){
-  const d=loadSavedDesigns().find(x=>x.type===type&&x.name===name);
-  if(d&&(d.external||d.url)&&d.url){ window.open(d.url,'_blank','noopener,noreferrer'); return; }
-  const found=garmentDesignsFor(type).find(x=>x.name===name);
-  if(typeof openDesignPreviewModal==='function' && found){ openDesignPreviewModal(found.name,found.svg||designVisual(found.type,found.index||0)); return; }
-  alert('Design preview available nahi hai.');
-}
 function filterDesignChip(type,label,btn){
   const search=el('designSearch');if(search)search.value='';
   document.querySelectorAll('.design-chip').forEach(x=>x.classList.remove('active'));
