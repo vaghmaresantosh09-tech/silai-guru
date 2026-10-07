@@ -4,9 +4,10 @@
 */
 (function(){
 'use strict';
-const SG_ASSET_V='20261007-2';
+const SG_ASSET_V='20261007-4';
 function sgAsset(name){
-  return 'https://raw.githubusercontent.com/vaghmaresantosh09-tech/silai-guru/main/assets/'+name+'?v='+SG_ASSET_V;
+  try{return new URL('/silai-guru/assets/'+name,location.origin).href+'?v='+SG_ASSET_V}
+  catch(e){return './assets/'+name+'?v='+SG_ASSET_V}
 }
 const kurtiImage1=sgAsset('kurti-neck-designs-hd.webp');
 const kurtiImage2=sgAsset('kurti2-hd.webp');
