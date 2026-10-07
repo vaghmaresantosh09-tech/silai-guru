@@ -1,7 +1,7 @@
 /* SILAI GURU — authoritative New Order garment-first runtime v55 */
 (function(){
 'use strict';
-const LADIES=['Blouse','Kurti','Pleated Kurti','Gathering Kurti','Panjabi Dress','Anarkali Dress','Umbrella Dress','Chaniya Choli','Pant Plazo','Chaniya'];
+const LADIES=['Blouse','Kurti','Gathering Kurti','Panjabi Dress','Anarkali Dress','Umbrella Dress','Chaniya Choli','Pant Plazo','Chaniya'];
 const GENTS=['Shirt','Pant','Kurta','Sherwani','Waistcoat','Blazer','Coat','T-Shirt','Shorts','Pajama','Suit','Night Wear'];
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function icon(t){const x={'Blouse':['#f7b2d8','👚'],'Kurti':['#8ec5ff','👗'],'Pleated Kurti':['#b8a0ff','👗'],'Gathering Kurti':['#7fd8c2','👗'],'Panjabi Dress':['#ffb36b','👗'],'Anarkali Dress':['#ff8fa3','👗'],'Umbrella Dress':['#70c1ff','👗'],'Chaniya Choli':['#f4a261','👗'],'Pant Plazo':['#82b1ff','👖'],'Chaniya':['#ffd166','👗'],Shirt:['#74c0fc','👔'],Pant:['#8ec5ff','👖'],Kurta:['#c9a7ff','👔'],Sherwani:['#9ad1d4','🤵'],Waistcoat:['#adb5bd','🦺'],Blazer:['#8ecae6','🧥'],Coat:['#bde0fe','🧥'],'T-Shirt':['#a8dadc','👕'],Shorts:['#90be6d','🩳'],Pajama:['#bde0fe','👖'],Suit:['#b8c0ff','🤵'],'Night Wear':['#cdb4db','🥼']};const [bg,g]=x[t]||['#d9d6ff','👕'];return '<span class="sg-v54-icon" style="--sg-icon-bg:'+bg+'">'+g+'</span>'}
