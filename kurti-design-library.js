@@ -4,8 +4,12 @@
 */
 (function(){
 'use strict';
-const kurtiImage1='./assets/kurti-neck-designs-hd.webp';
-const kurtiImage2='./assets/kurti2-hd.webp';
+const SG_ASSET_V='20261007-2';
+function sgAsset(name){
+  try{return new URL('/silai-guru/assets/'+name,location.origin).href+'?v='+SG_ASSET_V}catch(e){return './assets/'+name+'?v='+SG_ASSET_V}
+}
+const kurtiImage1=sgAsset('kurti-neck-designs-hd.webp');
+const kurtiImage2=sgAsset('kurti2-hd.webp');
 const kurtiDesigns=[
  {id:'silai-guru-kurti-neck-sheet-20261007',type:'Kurti',name:'Kurti Neck Designs — Front & Back Collection',image:kurtiImage1,source:'SILAI GURU Design Library'},
  {id:'silai-guru-kurti-collection-2-20261007',type:'Kurti',name:'Kurti Designs — Latest & Traditional Collection',image:kurtiImage2,source:'SILAI GURU Design Library'}
