@@ -632,7 +632,7 @@ function openKurtiNeckCatalogForOrder(index){
     mb.innerHTML='<div class="design-back"><button type="button" class="secondary" onclick="openDesignCatalogForOrder(\'Kurti\','+index+')">← Back to Kurti Designs</button><b>✨ Kurti Neck Designs</b></div>'+
       '<div class="design-source-box"><b>Gala ka exact design choose karein</b><small>Har card ek single neck design hai. Kisi design ko open karke customer ko bada preview dikhaya ja sakta hai.</small></div>'+
       '<div class="design-sources" id="kurtiNeckFamilies">'+chips+'</div>'+
-      '<div class="design-grid">'+list.map(d=>'<div class="design-card"><div class="design-img">'+d.svg+'</div><div class="design-name">'+esc(d.name)+'</div><div class="design-actions"><button type="button" class="primary" onclick="showKurtiNeckDesignToCustomer(\''+d.id+'\','+index+')">👁 Show</button></div></div>').join('')+'</div>';
+      '<div class="design-grid">'+list.map(d=>'<div class="design-card"><div class="design-img">'+d.svg+'</div><div class="design-name">'+esc(d.name)+'</div><div class="design-actions"><button type="button" class="primary" data-sg-inline-neck-preview="1" onclick="showKurtiNeckDesignToCustomer(\''+d.id+'\','+index+')">👁 Show</button></div></div>').join('')+'</div>';
     document.querySelectorAll('#kurtiNeckFamilies [data-neck-family]').forEach(btn=>btn.onclick=function(){active=this.dataset.neckFamily;render()});
   }
   render();
