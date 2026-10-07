@@ -33,7 +33,7 @@ self.addEventListener('fetch',e=>{
       fetch(r,{cache:'no-store'}).then(async x=>{
         if(x.ok) caches.open(CACHE).then(c=>c.put(r,x.clone()));
         return x;
-      }).catch(()=>caches.match(r).then(x=>x||caches.match('./index.html')))
+      }).catch(()=>caches.match(r).then(x=>x||caches.match(u.pathname).then(y=>y||caches.match('./index.html'))))
     );
   }else{
     e.respondWith(caches.match(r).then(x=>x||fetch(r)));
