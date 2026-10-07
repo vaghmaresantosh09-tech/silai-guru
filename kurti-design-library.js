@@ -17,8 +17,8 @@ const kurtiOnlineDesigns=[
   {
     id:'silai-guru-kurti-premium-red-floral-20261007',
     type:'Kurti',
-    name:'Red Kurti — Floral Dupatta',
-    image:'https://images.unsplash.com/photo-1759840278381-bf7d5e332050?auto=format&fit=crop&fm=jpg&q=88&w=1800',
+    name:'Pink Floral Kurti — Elegant Print',
+    image:'https://images.unsplash.com/photo-1741847639057-b51a25d42892?auto=format&fit=crop&fm=jpg&q=88&w=1800',
     source:'Unsplash'
   },
   {
@@ -73,8 +73,8 @@ const kurtiOnlineDesigns=[
   {
     id:'silai-guru-kurti-premium-multicolor-20261007',
     type:'Kurti',
-    name:'Multicolor Printed Kurti — Designer',
-    image:'https://images.unsplash.com/photo-1742800788220-1e42256d6022?auto=format&fit=crop&fm=jpg&q=88&w=1800',
+    name:'Navy Floral Kurti — Party Collection',
+    image:'https://images.unsplash.com/photo-1766994063823-ed214f883548?auto=format&fit=crop&fm=jpg&q=88&w=1800',
     source:'Unsplash'
   }
 ];
