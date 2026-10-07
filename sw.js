@@ -1,6 +1,12 @@
-/* SILAI GURU — clean navigation/service worker v72 */
-const CACHE='silai-guru-v72';
-const ASSETS=['./','./index.html','./silai-guru.html','./manifest.json','./profile-validation-v2.js','./silai-guru-order-ui.js','./blouse-design-library.js','./silai-guru-order-design.js'];
+/* SILAI GURU — clean navigation/service worker v73 */
+const CACHE='silai-guru-v73';
+const ASSETS=[
+  './','./index.html','./silai-guru.html','./manifest.json',
+  './profile-validation-v2.js','./silai-guru-order-ui.js',
+  './blouse-design-library.js','./kurti-design-library.js',
+  './silai-guru-order-design.js',
+  './assets/kurti-neck-designs-hd.webp','./assets/kurti2-hd.webp'
+];
 async function cachePage(){
   try{
     const r=await fetch('./silai-guru.html',{cache:'no-store'});
@@ -11,14 +17,17 @@ self.addEventListener('install',e=>e.waitUntil(
   caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(cachePage).then(()=>self.skipWaiting())
 ));
 self.addEventListener('activate',e=>e.waitUntil(
-  caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('silai-guru-')&&k!==CACHE).map(k=>caches.delete(k))))
-    .then(()=>self.clients.claim())
+  caches.keys().then(keys=>Promise.all(
+    keys.filter(k=>k.startsWith('silai-guru-')&&k!==CACHE).map(k=>caches.delete(k))
+  )).then(()=>self.clients.claim())
 ));
 self.addEventListener('fetch',e=>{
   const r=e.request;
   if(r.method!=='GET') return;
   const u=new URL(r.url);
-  if(u.origin===location.origin && (u.pathname.endsWith('.html')||u.pathname.endsWith('/')||/\.(js|css|json|svg|png)$/i.test(u.pathname))){
+  if(u.origin===location.origin &&
+     (u.pathname.endsWith('.html')||u.pathname.endsWith('/')||
+      /\.(js|css|json|svg|png|webp)$/i.test(u.pathname))){
     e.respondWith(
       fetch(r,{cache:'no-store'}).then(async x=>{
         if(x.ok) caches.open(CACHE).then(c=>c.put(r,x.clone()));
