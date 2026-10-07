@@ -79,7 +79,7 @@ function install(){
     if(image)open(image.currentSrc||image.src,card.querySelector('.design-name')?.textContent?.trim()||'Design');
     else open('',card.querySelector('.design-name')?.textContent?.trim()||'Design',svg.outerHTML);
   },true);
-  window.addEventListener('popstate',function(){if(closeViewer(true))return});
+  window.__sgCloseDesignViewer=function(fromPop){return closeViewer(!!fromPop)};
   window.sgOpenDesignViewer=open;
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
