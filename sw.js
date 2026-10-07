@@ -1,12 +1,11 @@
-/* SILAI GURU — clean navigation/service worker v77 */
-const CACHE='silai-guru-v77';
+/* SILAI GURU — clean navigation/service worker v78 */
+const CACHE='silai-guru-v78';
 const ASSETS=[
   './index.html','./silai-guru.html','./manifest.json',
   './profile-validation-v2.js','./silai-guru-order-ui.js',
   './blouse-design-library.js','./kurti-design-library.js',
   './silai-guru-order-design.js',
-  './silai-guru-navigation.js','./silai-guru-break-time.js','./silai-guru-entertainment-card.js','./music-entertainment.html',
-  './assets/kurti-neck-designs.webp'
+  './silai-guru-navigation.js','./silai-guru-break-time.js','./silai-guru-entertainment-card.js','./music-entertainment.html'
 ];
 async function cachePage(){
   try{
@@ -28,7 +27,7 @@ self.addEventListener('fetch',e=>{
   const u=new URL(r.url);
   if(u.origin===location.origin &&
      (u.pathname.endsWith('.html')||u.pathname.endsWith('/')||
-      /.(js|css|json|svg|png|webp)$/i.test(u.pathname))){
+      /\\.(js|css|json|svg|png|webp)$/i.test(u.pathname))){
     e.respondWith(
       fetch(r,{cache:'no-store'}).then(async x=>{
         if(x.ok) caches.open(CACHE).then(c=>c.put(r,x.clone()));
