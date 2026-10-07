@@ -32,7 +32,7 @@ const kurtiOnlineDesigns=[
     id:'silai-guru-kurti-premium-coral-20261007',
     type:'Kurti',
     name:'Coral Printed Kurti — Full Set',
-    image:'https://images.unsplash.com/photo-1742800788220-1e42256d6022?auto=format&fit=crop&fm=jpg&q=88&w=1800',
+    image:'https://images.unsplash.com/photo-1743229995503-a67a09c4e180?auto=format&fit=crop&fm=jpg&q=88&w=1800',
     source:'Unsplash'
   },
   {
