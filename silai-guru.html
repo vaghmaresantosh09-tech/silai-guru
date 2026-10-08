@@ -417,6 +417,10 @@ function garmentVisual(type){
     'Kameez':svg('<path d="M38 17h24l7 13 10 10-8 13-8-7v39H37V46l-8 7-8-13 10-10z" fill="#e7a56b" stroke="#8c5127" stroke-width="2"/><path d="M43 18q7 10 14 0M50 30v24" fill="none" stroke="#8c5127" stroke-width="2"/><path d="M39 73h22" stroke="#fff" stroke-width="3"/>','#e09a5e'),
     'Lehenga':svg('<path d="M38 20h24v17l18 43H20l18-43z" fill="#e77c9e" stroke="#8c3155" stroke-width="2"/><path d="M31 61h38M26 73h48" stroke="#fff" stroke-width="3"/><path d="M39 20q11 8 22 0" fill="none" stroke="#8c3155" stroke-width="2"/>','#df6f93'),
     'Choli':svg('<path d="M35 22l15 7 15-7 9 9 7 12-10 7-7-9v24H36V41l-7 9-10-7 7-12z" fill="#f0b04f" stroke="#8b5c14" stroke-width="2"/><path d="M42 26q8 9 16 0M50 30v35" fill="none" stroke="#8b5c14" stroke-width="2"/>','#eaa342'),
+    'Anarkali Dress':svg('<path d="M40 17h20l5 19 20 48H15l20-48z" fill="#e88ab5" stroke="#8a3f67" stroke-width="2"/><path d="M40 17q10 10 20 0M31 60h38M24 73h52" fill="none" stroke="#fff" stroke-width="3"/><path d="M50 27v18" stroke="#8a3f67" stroke-width="2"/>','#df6fa3'),
+    'Punjabi Dress':svg('<path d="M39 18h22l7 13 9 9-8 13-9-7v29H36V46l-9 7-8-13 9-9z" fill="#f3a45b" stroke="#9a5725" stroke-width="2"/><path d="M43 18q7 10 14 0M50 30v23M41 43h18" fill="none" stroke="#9a5725" stroke-width="2"/><path d="M39 75h22" stroke="#fff" stroke-width="3"/>','#ed9148'),
+    'Palazzo':svg('<path d="M34 18h32l-3 25 16 40H54L50 52l-4 31H21l16-40z" fill="#72b8e8" stroke="#31658d" stroke-width="2"/><path d="M34 28h32M50 28v24" stroke="#31658d" stroke-width="2"/><path d="M27 70h22M52 70h22" stroke="#fff" stroke-width="3"/>','#61a9dc'),
+    'Chaniya Choli':svg('<path d="M35 22l15 7 15-7 9 9 7 12-10 7-7-9v17l16 23H20l16-23V41l-7 9-10-7 7-12z" fill="#f09a5f" stroke="#8d512d" stroke-width="2"/><path d="M42 26q8 9 16 0M50 31v24M27 68h46M23 78h54" fill="none" stroke="#8d512d" stroke-width="2"/>','#e98b4e'),
     'Gown':svg('<path d="M39 16h22l5 18 16 51H18l16-51z" fill="#9c8ee8" stroke="#584a9b" stroke-width="2"/><path d="M38 17q12 11 24 0M33 62h34M27 75h46" fill="none" stroke="#fff" stroke-width="3"/>','#8d7fe0'),
     'Dress':svg('<path d="M39 18h22l4 20 17 43H18l17-43z" fill="#f19b62" stroke="#8f4f26" stroke-width="2"/><path d="M39 18q11 10 22 0M34 61h32" fill="none" stroke="#fff" stroke-width="3"/>','#ed8c4c'),
     'Blazer':svg('<path d="M39 18l11 8 11-8 10 10 10 46H19l10-46z" fill="#345b8f" stroke="#1d3554" stroke-width="2"/><path d="M50 26v47M39 18l11 25 11-25M34 40l16 33 16-33" fill="none" stroke="#dce8f7" stroke-width="2"/><circle cx="50" cy="50" r="2" fill="#fff"/><circle cx="50" cy="59" r="2" fill="#fff"/>','#345b8f'),
@@ -441,6 +445,11 @@ function orderMeasurementNames(type){
     'Saree Blouse':['Cup','Under Bust','Blouse Length'],
     Kurti:['Kurti Length','Side Slit Length','V-Neck Kurti','Square Neck Kurti','Angrakha Kurti','Asymmetric Kurti','Chikankari Kurti','Block Print Kurti','Tiered Kurti','Designer Kurti'],
     'Salwar Suit':['Bottom','Bottom Length','Dupatta Length'],
+    'Anarkali Dress':['Anarkali Length','Flare','Sleeve Length'],
+    'Punjabi Dress':['Kameez Length','Bottom Length','Dupatta Length'],
+    'Palazzo':['Palazzo Length','Waistband'],
+    'Chaniya Choli':['Chaniya Length','Choli Length','Flare','Waist'],
+
     Kurta:['Kurta Length','Side Slit Length'],
     Shirt:['Shirt Length','Collar','Mandarin Collar Shirt','Peter Pan Collar Shirt','Peplum Shirt','Tunic Shirt','Longline Shirt','Ruffle Shirt','Oversized Shirt','Embroidered Shirt'],
     Pant:['Pant Length','Waistband','Straight Pant','Slim Pant','Wide Leg Pant','Flared Pant','Cigarette Pant','Cargo Pant','Ankle Pant','Palazzo Pant'],
@@ -476,7 +485,7 @@ function garmentCard(i,type){
 }
 function renderGarmentTypeGrid(i,category){
   const box=document.getElementById('garmentCategoryGrid-'+i);if(!box)return;
-  const ladies=['Blouse','Salwar Suit','Kurta','Pant','Saree Blouse','Kurti','Salwar','Kameez','Lehenga','Choli','Gown','Dress','Plazo'];
+  const ladies=['Blouse','Kurti','Anarkali Dress','Punjabi Dress','Salwar Suit','Gown','Lehenga','Chaniya Choli','Palazzo'];
   const gents=['Shirt','Pant','Sherwani','Suit','Blazer','Waistcoat','Pajama','Coat','School Uniform','Other'];
   const list=category==='gents'?gents:ladies;
   const card=document.getElementById('garment-'+i),selected=card?.dataset.selectedType||'';
