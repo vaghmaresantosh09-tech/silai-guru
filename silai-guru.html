@@ -403,33 +403,35 @@ function showDesignToCustomer(type,name,orderIndex){
   mb.innerHTML='<div class="design-back"><button class="secondary" onclick="'+backAction+'">← Designs</button></div><div style="text-align:center"><div style="font-size:18px;font-weight:800;margin:8px 0 4px">'+esc(name)+'</div><div class="preview-large">'+preview+'</div><p class="muted">Customer ko yahi design dikhaye.</p><div style="display:flex;gap:8px;justify-content:center"><button class="primary" onclick="'+selectAction+'">'+selectText+'</button><button class="secondary" onclick="'+backAction+'">Back</button></div></div>';
 }
 function garmentVisual(type){
-  const common={fill:'#d9d6ff',stroke:'#5144bd'};
-  const svg=(body,accent='#7b6ff0')=>'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="94" height="94" rx="22" fill="#f7f6ff"/>'+body.replaceAll('__A__',accent)+'</svg>';
+  const svg=(body)=>'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="94" height="94" rx="22" fill="#f7f6ff"/>'+body+'</svg>';
   const map={
-    'Blouse':svg('<g stroke="#7a4160" stroke-width="2"><path d="M32 31l10-8h16l10 8 10 9-8 16-10-8v19H40V48l-10 8-8-16z" fill="#f3a7c8"/><path d="M42 23q8 10 16 0" fill="none"/><path d="M40 67h20" stroke="#fff" stroke-width="3"/></g>'),
-    'Salwar Suit':svg('<g stroke="#315a8d" stroke-width="2"><path d="M39 18h22l7 13 9 9-7 11-9-7v31H39V44l-9 7-7-11 9-9z" fill="#6faaf0"/><path d="M69 28q-5 17 9 49" fill="none" stroke="#f4d98b" stroke-width="8"/><path d="M44 18q6 9 12 0M50 29v26" fill="none"/></g>'),
-    'Kurta':svg('<path d="M38 18h24l7 12 10 8-7 14-9-6v36H37V46l-9 6-7-14 10-8z" fill="#72c4b3" stroke="#236b61" stroke-width="2"/><path d="M50 18v28M44 31h12" stroke="#236b61" stroke-width="3"/><circle cx="50" cy="37" r="2" fill="#236b61"/>','#55b3a0'),
-    'Shirt':svg('<path d="M35 20l15 8 15-8 10 9 8 13-11 7-5-7v39H33V42l-5 7-11-7 8-13z" fill="#8ec5f5" stroke="#315d8e" stroke-width="2"/><path d="M50 28l-8 10 8 8 8-8z" fill="#fff" stroke="#315d8e" stroke-width="2"/><path d="M50 46v27M42 51h16" stroke="#315d8e" stroke-width="2"/>','#75b7ed'),
-    'Pant':svg('<path d="M31 18h38l-4 29-7 35H48l-2-31-4 31H27l4-35z" fill="#4b83d8" stroke="#214f93" stroke-width="2"/><path d="M31 28h38M50 28v23" stroke="#214f93" stroke-width="2"/><circle cx="50" cy="34" r="2" fill="#fff"/>','#4b83d8'),
-    'Saree Blouse':svg('<path d="M30 30l10-8h20l10 8 9 9-8 13-9-7v28H38V45l-9 7-8-13z" fill="#f08a91" stroke="#8c3e46" stroke-width="2"/><path d="M40 22q10 13 20 0" fill="none" stroke="#8c3e46" stroke-width="3"/><path d="M39 59h22" stroke="#fff" stroke-width="3"/>','#e8757d'),
-    'Kurti':svg('<g stroke="#5b428f" stroke-width="2"><path d="M40 17h20l7 13 9 9-7 11-8-6v40H39V44l-8 6-7-11 9-9z" fill="#a78be0"/><path d="M44 18q6 8 12 0M50 28v48M44 39h12" fill="none"/></g>'),
-    'Salwar':svg('<path d="M35 22h30l-2 28-7 28H43l7-28-7 28H25l8-28z" fill="#f3c36b" stroke="#8d641d" stroke-width="2"/><path d="M35 30h30M50 30v20" stroke="#8d641d" stroke-width="2"/>','#efb94e'),
-    'Kameez':svg('<path d="M38 17h24l7 13 10 10-8 13-8-7v39H37V46l-8 7-8-13 10-10z" fill="#e7a56b" stroke="#8c5127" stroke-width="2"/><path d="M43 18q7 10 14 0M50 30v24" fill="none" stroke="#8c5127" stroke-width="2"/><path d="M39 73h22" stroke="#fff" stroke-width="3"/>','#e09a5e'),
-    'Lehenga':svg('<g stroke="#7d3150" stroke-width="2"><path d="M40 18h20l4 12 7 7-6 9-8-7v8l21 34H22l21-34v-8l-8 7-6-9 7-7z" fill="#e9789d"/><path d="M42 18q8 9 16 0M50 30v17" fill="none"/><path d="M28 69h44M22 78h56" fill="none" stroke="#fff" stroke-width="3"/></g>'),
-    'Choli':svg('<path d="M35 22l15 7 15-7 9 9 7 12-10 7-7-9v24H36V41l-7 9-10-7 7-12z" fill="#f0b04f" stroke="#8b5c14" stroke-width="2"/><path d="M42 26q8 9 16 0M50 30v35" fill="none" stroke="#8b5c14" stroke-width="2"/>','#eaa342'),
-    'Anarkali Dress':svg('<g stroke="#713a5a" stroke-width="2"><path d="M41 16h18l5 19 23 50H13l23-50z" fill="#e18ab3"/><path d="M41 16q9 10 18 0M50 26v24" fill="none"/><path d="M34 57h32M26 71h48" fill="none" stroke="#fff" stroke-width="3"/></g>'),
-    'Punjabi Dress':svg('<path d="M39 17h22l7 13 9 9-7 12-9-7v31H39V44l-9 7-7-12 9-9z" fill="#f0a15a" stroke="#945321" stroke-width="2"/><path d="M44 18q6 8 12 0M50 27v30M43 39h14" fill="none" stroke="#945321" stroke-width="2"/><path d="M29 56l-9 23h22l8-20 8 20h22l-9-23" fill="#f7c56d" stroke="#945321" stroke-width="2"/>'),
-    'Palazzo':svg('<g stroke="#31658d" stroke-width="2"><path d="M40 18h20l-3 25 20 40H54L50 52l-4 31H23l20-40z" fill="#68afe4"/><path d="M40 27h20M50 27v25" fill="none"/></g>'),
-    'Chaniya Choli':svg('<g stroke="#7b3f20" stroke-width="2"><path d="M38 20h24l5 10 9 9-7 10-8-7v13l20 26H19l20-26V42l-8 7-7-10 9-9z" fill="#f0a05a"/><path d="M42 20q8 9 16 0M50 31v24" fill="none"/><path d="M25 70h50M20 78h60" fill="none" stroke="#fff" stroke-width="3"/></g>'),
-    'Gown':svg('<path d="M40 15h20l5 20 20 49H15l20-49z" fill="#8f80dd" stroke="#55459b" stroke-width="2"/><path d="M40 15q10 10 20 0M33 58h34M25 72h50" fill="none" stroke="#fff" stroke-width="3"/><path d="M50 25v18" stroke="#55459b" stroke-width="2"/>'),
-    'Dress':svg('<path d="M39 18h22l4 20 17 43H18l17-43z" fill="#f19b62" stroke="#8f4f26" stroke-width="2"/><path d="M39 18q11 10 22 0M34 61h32" fill="none" stroke="#fff" stroke-width="3"/>','#ed8c4c'),
-    'Blazer':svg('<path d="M39 18l11 8 11-8 10 10 10 46H19l10-46z" fill="#345b8f" stroke="#1d3554" stroke-width="2"/><path d="M50 26v47M39 18l11 25 11-25M34 40l16 33 16-33" fill="none" stroke="#dce8f7" stroke-width="2"/><circle cx="50" cy="50" r="2" fill="#fff"/><circle cx="50" cy="59" r="2" fill="#fff"/>','#345b8f'),
-    'Waistcoat':svg('<path d="M39 18l11 8 11-8 9 10 3 45H27l3-45z" fill="#e6a33c" stroke="#875b14" stroke-width="2"/><path d="M39 18l11 24 11-24M50 42v31" fill="none" stroke="#875b14" stroke-width="2"/><circle cx="50" cy="51" r="2" fill="#fff"/><circle cx="50" cy="60" r="2" fill="#fff"/>','#d99127'),
-    'Sherwani':svg('<path d="M38 17h24l8 14 9 9-9 12-7-7v35H37V45l-7 7-9-12 9-9z" fill="#d3b05c" stroke="#775f22" stroke-width="2"/><path d="M43 18q7 9 14 0M50 28v48M45 38h10M45 47h10M45 56h10" fill="none" stroke="#775f22" stroke-width="2"/><circle cx="50" cy="35" r="2" fill="#fff"/>','#c6a24f'),
-    'Pajama':svg('<path d="M32 20h36l-3 29-7 30H45l5-30-6 30H25l8-30z" fill="#b7d7d0" stroke="#3f746a" stroke-width="2"/><path d="M32 30h36M50 30v19" stroke="#3f746a" stroke-width="2"/>','#9ecbc1'),
-    'Suit':svg('<path d="M39 18l11 8 11-8 10 10 10 47H19l10-47z" fill="#6b7180" stroke="#353946" stroke-width="2"/><path d="M50 26v49M39 18l11 25 11-25M34 42l16 33 16-33" fill="none" stroke="#e9ebf0" stroke-width="2"/><path d="M45 37l5 7 5-7" fill="#fff"/>','#5c6270'),
-    'School Uniform':svg('<path d="M35 19h30l7 12 9 9-8 12-8-7v29H35V45l-8 7-8-12 9-9z" fill="#f0d35d" stroke="#75621a" stroke-width="2"/><path d="M39 20l11 10 11-10M50 30v44" fill="none" stroke="#315a9b" stroke-width="4"/><path d="M43 42h14" stroke="#315a9b" stroke-width="3"/>','#e5c84e'),
-    'Other':svg('<circle cx="50" cy="48" r="28" fill="#eee" stroke="#666" stroke-width="2"/><path d="M33 58l15-25 7 7-15 25zM53 34l5-5 9 9-5 5zM61 54l6 6-5 5-6-6z" fill="#ef5b55" stroke="#8c2f2b" stroke-width="2"/><path d="M39 66l-7 7" stroke="#666" stroke-width="3"/>','#ef5b55')
+    'Blouse':svg('<g stroke="#8b3f68" stroke-width="2" stroke-linejoin="round"><path d="M35 28l10-7h10l10 7 11 10-8 13-10-7v20H42V44l-10 7-8-13z" fill="#f39ac1"/><path d="M45 21q5 9 10 0" fill="none"/><path d="M42 64h16" stroke="#fff" stroke-width="3"/></g>'),
+    'Kurti':svg('<g stroke="#4d3b8f" stroke-width="2" stroke-linejoin="round"><path d="M39 16h22l7 15 10 9-7 11-9-6v34H38V45l-9 6-7-11 10-9z" fill="#9f8be4"/><path d="M45 17q5 8 10 0M50 28v49M43 40h14" fill="none"/><path d="M38 79h24" stroke="#fff" stroke-width="3"/></g>'),
+    'Gathering Kurti':svg('<g stroke="#3e6e91" stroke-width="2" stroke-linejoin="round"><path d="M40 16h20l6 14 9 9-7 11-8-6v18l9 10H31l9-10V44l-8 6-7-11 9-9z" fill="#78c5d9"/><path d="M45 17q5 8 10 0M50 28v33" fill="none"/><path d="M40 62q5 4 10 0t10 0 10 0M35 73q7 5 15 0t15 0 0 0" fill="none"/></g>'),
+    'Punjabi Dress':svg('<g stroke="#6b4a1e" stroke-width="2" stroke-linejoin="round"><path d="M39 17h22l7 14 9 9-7 11-9-7v25H39V44l-9 7-7-11 9-9z" fill="#f2a45e"/><path d="M45 18q5 8 10 0M50 28v40" fill="none"/><path d="M72 30q-7 16 6 43" fill="none" stroke="#e8c66d" stroke-width="7"/><path d="M31 70q19 7 38 0" fill="none"/></g>'),
+    'Anarkali Dress':svg('<g stroke="#713a5a" stroke-width="2" stroke-linejoin="round"><path d="M41 15h18l5 21 22 48H14l22-48z" fill="#df83ae"/><path d="M41 15q9 10 18 0M50 26v24" fill="none"/><path d="M31 57h38M24 70h52" fill="none" stroke="#fff" stroke-width="3"/></g>'),
+    'Umbrella Dress':svg('<g stroke="#9a4b32" stroke-width="2" stroke-linejoin="round"><path d="M42 15h16l4 21 30 48H8l30-48z" fill="#f2a56f"/><path d="M42 15q8 10 16 0M50 26v22" fill="none"/><path d="M28 61h44M18 72h64" fill="none" stroke="#fff" stroke-width="3"/></g>'),
+    'Chaniya Choli':svg('<g stroke="#7a4b22" stroke-width="2" stroke-linejoin="round"><path d="M36 19l9-6h10l9 6 7 9-6 9-8-6v10H43V31l-8 6-6-9z" fill="#f39a72"/><path d="M45 13q5 8 10 0" fill="none"/><path d="M42 42h16l4 10 17 31H21l17-31z" fill="#e8a34f"/><path d="M31 67h38M25 76h50" fill="none" stroke="#fff" stroke-width="3"/></g>'),
+    'Pant Plazo':svg('<g stroke="#315f91" stroke-width="2" stroke-linejoin="round"><path d="M38 17h24l-3 27 16 40H54L50 52l-4 32H25l16-40z" fill="#6ca9df"/><path d="M38 27h24M50 27v25" fill="none"/><path d="M38 18h24" stroke="#fff" stroke-width="3"/></g>'),
+    'Chaniya':svg('<g stroke="#8b5a24" stroke-width="2" stroke-linejoin="round"><path d="M40 20h20l3 18 22 43H15l22-43z" fill="#e9a44f"/><path d="M40 20q10 8 20 0M37 58h26M27 70h46" fill="none" stroke="#fff" stroke-width="3"/></g>'),
+    'Salwar Suit':svg('<g stroke="#315a8d" stroke-width="2"><path d="M39 18h22l7 13 9 9-7 11-9-7v31H39V44l-9 7-7-11 9-9z" fill="#6faaf0"/><path d="M69 28q-5 17 9 49" fill="none" stroke="#f4d98b" stroke-width="8"/></g>'),
+    'Kurta':svg('<path d="M38 18h24l7 12 10 8-7 14-9-6v36H37V46l-9 6-7-14 10-8z" fill="#72c4b3" stroke="#236b61" stroke-width="2"/><path d="M50 18v28M44 31h12" stroke="#236b61" stroke-width="3"/>'),
+    'Shirt':svg('<path d="M35 20l15 8 15-8 10 9 8 13-11 7-5-7v39H33V42l-5 7-11-7 8-13z" fill="#8ec5f5" stroke="#315d8e" stroke-width="2"/><path d="M50 28l-8 10 8 8 8-8z" fill="#fff" stroke="#315d8e" stroke-width="2"/>'),
+    'Pant':svg('<path d="M31 18h38l-4 29-7 35H48l-2-31-4 31H27l4-35z" fill="#4b83d8" stroke="#214f93" stroke-width="2"/><path d="M31 28h38M50 28v23" stroke="#214f93" stroke-width="2"/>'),
+    'Saree Blouse':svg('<path d="M30 30l10-8h20l10 8 9 9-8 13-9-7v28H38V45l-9 7-8-13z" fill="#f08a91" stroke="#8c3e46" stroke-width="2"/><path d="M40 22q10 13 20 0" fill="none" stroke="#8c3e46" stroke-width="3"/>'),
+    'Salwar':svg('<path d="M35 22h30l-2 28-7 28H43l7-28-7 28H25l8-28z" fill="#f3c36b" stroke="#8d641d" stroke-width="2"/>'),
+    'Kameez':svg('<path d="M38 17h24l7 13 10 10-8 13-8-7v39H37V46l-8 7-8-13 10-10z" fill="#e7a56b" stroke="#8c5127" stroke-width="2"/>'),
+    'Lehenga':svg('<path d="M40 18h20l4 20 21 44H15l21-44z" fill="#e9789d" stroke="#7d3150" stroke-width="2"/><path d="M42 18q8 9 16 0" fill="none"/>'),
+    'Choli':svg('<path d="M35 22l15 7 15-7 9 9 7 12-10 7-7-9v24H36V41l-7 9-10-7 7-12z" fill="#f0b04f" stroke="#8b5c14" stroke-width="2"/>'),
+    'Gown':svg('<path d="M40 15h20l5 20 20 49H15l20-49z" fill="#8f80dd" stroke="#55459b" stroke-width="2"/>'),
+    'Dress':svg('<path d="M39 18h22l4 20 17 43H18l17-43z" fill="#f19b62" stroke="#8f4f26" stroke-width="2"/>'),
+    'Blazer':svg('<path d="M39 18l11 8 11-8 10 10 10 46H19l10-46z" fill="#345b8f" stroke="#1d3554" stroke-width="2"/>'),
+    'Waistcoat':svg('<path d="M39 18l11 8 11-8 9 10 3 45H27l3-45z" fill="#e6a33c" stroke="#875b14" stroke-width="2"/>'),
+    'Sherwani':svg('<path d="M38 17h24l8 14 9 9-9 12-7-7v35H37V45l-7 7-9-12 9-9z" fill="#d3b05c" stroke="#775f22" stroke-width="2"/>'),
+    'Pajama':svg('<path d="M32 20h36l-3 29-7 30H45l5-30-6 30H25l8-30z" fill="#b7d7d0" stroke="#3f746a" stroke-width="2"/>'),
+    'Suit':svg('<path d="M39 18l11 8 11-8 10 10 10 47H19l10-47z" fill="#6b7180" stroke="#353946" stroke-width="2"/>'),
+    'School Uniform':svg('<path d="M35 19h30l7 12 9 9-8 12-8-7v29H35V45l-8 7-8-12 9-9z" fill="#f0d35d" stroke="#75621a" stroke-width="2"/>'),
+    'Other':svg('<circle cx="50" cy="48" r="28" fill="#eee" stroke="#666" stroke-width="2"/><path d="M33 58l15-25 7 7-15 25zM53 34l5-5 9 9-5 5z" fill="#ef5b55"/>')
   };
   return map[type]||map['Other'];
 }
@@ -485,7 +487,7 @@ function garmentCard(i,type){
 }
 function renderGarmentTypeGrid(i,category){
   const box=document.getElementById('garmentCategoryGrid-'+i);if(!box)return;
-  const ladies=['Blouse','Kurti','Anarkali Dress','Punjabi Dress','Salwar Suit','Gown','Lehenga','Chaniya Choli','Palazzo'];
+  const ladies=['Blouse','Kurti','Gathering Kurti','Punjabi Dress','Anarkali Dress','Umbrella Dress','Chaniya Choli','Pant Plazo','Chaniya'];
   const gents=['Shirt','Pant','Sherwani','Suit','Blazer','Waistcoat','Pajama','Coat','School Uniform','Other'];
   const list=category==='gents'?gents:ladies;
   const card=document.getElementById('garment-'+i),selected=card?.dataset.selectedType||'';
