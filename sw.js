@@ -1,11 +1,11 @@
-/* SILAI GURU — clean navigation/service worker v83 */
-const CACHE='silai-guru-v83';
+/* SILAI GURU — clean navigation/service worker v84 */
+const CACHE='silai-guru-v84';
 const ASSETS=[
   './index.html','./silai-guru.html','./manifest.json',
   './profile-validation-v2.js','./silai-guru-order-ui.js',
   './blouse-design-library.js','./kurti-design-library.js','./kurti-neck-design-library.js?v=20261007-2','./assets/kurti-neck-50-sprite.jpg',
   './pleated-kurti-design-library.js?v=20261008-1',
-  './silai-guru-order-design.js','./pleated-kurti-design-library.js?v=20261007-1',
+  './silai-guru-order-design.js',
   './silai-guru-navigation.js','./silai-guru-break-time.js','./silai-guru-entertainment-card.js','./music-entertainment.html'
 ];
 async function cachePage(){
