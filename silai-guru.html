@@ -174,8 +174,39 @@ function removeMeasurement(type,index){
 }
 function garmentFields(type){const builtIn={Blouse:['Height','Shoulder','Armhole','Chest','Waist','Neck','Sleeve','V-Neck Blouse','Round Neck Blouse','Square Neck Blouse','Sweetheart Blouse','Halter Neck Blouse','Peplum Blouse','Angrakha Blouse','Boat Back Blouse'],Kurti:['Height','Shoulder','Armhole','Chest','Waist','Hip','Neck','Sleeve','V-Neck Kurti','Square Neck Kurti','Angrakha Kurti','Asymmetric Kurti','Chikankari Kurti','Block Print Kurti','Tiered Kurti','Designer Kurti'],'Salwar Suit':['Height','Shoulder','Armhole','Chest','Waist','Hip','Neck','Sleeve','Bottom','Mori','A-Line Suit','Angrakha Suit','C-Cut Suit','Layered Suit','Cape Suit','Jacket Suit','Gharara Suit','Sharara Suit'],Pant:['Height','Hip','Thigh','Mori','Straight Pant','Slim Pant','Wide Leg Pant','Flared Pant','Cigarette Pant','Cargo Pant','Ankle Pant','Palazzo Pant'],Shirt:['Height','Shoulder','Armhole','Chest','Waist','Hip','Neck','Sleeve','Mandarin Collar Shirt','Peter Pan Collar Shirt','Peplum Shirt','Tunic Shirt','Longline Shirt','Ruffle Shirt','Oversized Shirt','Embroidered Shirt'],Dress:['Height','Shoulder','Armhole','Chest','Waist','Hip','Neck','Sleeve','A-Line Dress','Fit and Flare Dress','Maxi Dress','Midi Dress','Shirt Dress','Wrap Dress','Tiered Dress','Princess Dress'],Other:['Height','Shoulder','Armhole','Chest','Waist','Hip','Neck','Sleeve','Designer Set','Fusion Wear','Festive Wear','Casual Wear','Party Wear','Wedding Wear','Custom Style','Latest Style'], 'Saree Blouse':['Height','Shoulder','Armhole','Chest','Waist','Neck','Sleeve','Blouse Length','U-Neck Saree Blouse','V-Neck Saree Blouse','Square Neck Saree Blouse','Sweetheart Saree Blouse','Keyhole Saree Blouse','High Neck Saree Blouse','Peplum Saree Blouse','Back Tie Saree Blouse'],Kurta:['Height','Shoulder','Armhole','Chest','Waist','Hip','Neck','Sleeve','Length'],Pajama:['Waist','Hip','Length','Thigh','Mori','Straight Pajama','Churidar Pajama','Pathani Pajama','Cotton Pajama','Silk Pajama','Loose Pajama','Slim Pajama','Embroidered Pajama'],Suit:['Chest','Waist','Hip','Shoulder','Sleeve','Length','Straight Suit','A-Line Suit','Jacket Suit','Bandhgala Suit','Three Piece Suit','Designer Suit','Wedding Suit','Formal Suit'],Blazer:['Chest','Waist','Hip','Shoulder','Sleeve','Length','Single Button Blazer','Double Button Blazer','Cropped Blazer','Longline Blazer','Peplum Blazer','Tuxedo Blazer','Collarless Blazer','Printed Blazer'],Waistcoat:['Chest','Waist','Hip','Shoulder','Length','Classic Waistcoat','Long Waistcoat','Cropped Waistcoat','Embroidered Waistcoat','Nehru Waistcoat','Buttoned Waistcoat','Printed Waistcoat','Layered Waistcoat'],Sherwani:['Chest','Waist','Hip','Shoulder','Sleeve','Length','Neck','Classic Sherwani','Achkan Sherwani','Jodhpuri Sherwani','Indo-Western Sherwani','Embroidered Sherwani','Bandhgala Sherwani','Long Sherwani','Wedding Sherwani'],Lehenga:['Waist','Hip','Length','Flare','A-Line Lehenga','Flared Lehenga','Panelled Lehenga','Ruffle Lehenga','Circular Lehenga','Layered Lehenga','Bridal Lehenga','Indo-Western Lehenga'],Choli:['Chest','Waist','Shoulder','Sleeve','Length','Short Choli','Long Choli','Peplum Choli','Sleeveless Choli','Off Shoulder Choli','High Neck Choli','Backless Choli','Embroidered Choli'],Kameez:['Chest','Waist','Hip','Shoulder','Sleeve','Length','Neck','Straight Kameez','A-Line Kameez','Anarkali Kameez','Angrakha Kameez','Front Slit Kameez','Side Slit Kameez','Embroidered Kameez','Printed Kameez'],Gown:['Chest','Waist','Hip','Shoulder','Sleeve','Length','A-Line Gown','Ball Gown','Mermaid Gown','Empire Gown','Cape Gown','Tiered Gown','Anarkali Gown','Off Shoulder Gown'], 'School Uniform':['Chest','Waist','Hip','Shoulder','Sleeve','Length','Summer Uniform','Winter Uniform','House Uniform','Sports Uniform','Prefect Uniform','Girls Uniform','Boys Uniform','Formal Uniform']};if(!getMeasureConfig()[type]&&builtIn[type]){const cfg=getMeasureConfig();cfg[type]=builtIn[type];saveMeasureConfig(cfg)}return measurementNames(type)}
 
-const GARMENT_LIBRARY=['Kurti','Blouse','Salwar Suit','Kameez','Saree Blouse','Lehenga','Gown','Dress','Shirt','Pant','Salwar','Choli','Sherwani','Suit','Blazer','Waistcoat','Pajama','School Uniform','Coat','Other'];
+const LADIES_LIBRARY=['Blouse','Kurti','Gathering Kurti','Salwar Suit','Kameez','Saree Blouse','Lehenga','Gown','Dress','Salwar','Choli','Chaniya Choli','Pant Plazo'];
+const GENTS_LIBRARY=['Shirt','Pant','Kurta','Sherwani','Suit','Blazer','Waistcoat','Pajama','Coat','T-Shirt','Shorts','Night Wear','School Uniform'];
+const GARMENT_LIBRARY=[...LADIES_LIBRARY,...GENTS_LIBRARY.filter(x=>!LADIES_LIBRARY.includes(x)),'Other'];
 const DESIGN_TYPES={};
+const DESIGN_LABELS={
+ 'Blouse':['Round Neck','V Neck','Square Neck','Boat Neck','Sweetheart Neck','Back Neck','Puff Sleeve','Bridal Blouse'],
+ 'Kurti':['Straight Kurti','A-Line Kurti','Anarkali Kurti','Short Kurti','Angrakha Style','Front Slit','Party Wear','Collar Neck'],
+ 'Gathering Kurti':['Simple Gathering','Panel Gathering','Umbrella Flare','Yoke Style','Printed Style','Party Wear'],
+ 'Salwar Suit':['Straight Suit','Anarkali Suit','Punjabi Suit','Palazzo Suit','Sharara Suit','Gharara Suit'],
+ 'Kameez':['Straight Kameez','A-Line Kameez','Long Kameez','Side Slit','Collar Style','Party Wear'],
+ 'Saree Blouse':['Round Neck','Deep Back','Pot Neck','Keyhole Back','Sleeveless','Elbow Sleeve'],
+ 'Lehenga':['Bridal Lehenga','A-Line Lehenga','Panel Lehenga','Flared Lehenga','Mirror Work','Party Wear'],
+ 'Gown':['Anarkali Gown','A-Line Gown','Mermaid Gown','Cape Gown','Party Wear','Bridal Gown'],
+ 'Dress':['A-Line Dress','Frock Style','Shirt Dress','Party Dress','Casual Dress','Gathered Dress'],
+ 'Salwar':['Patiala Salwar','Straight Salwar','Churidar','Afghani Salwar','Dhoti Style'],
+ 'Choli':['Round Neck Choli','V Neck Choli','Back Tie','Sleeveless','Bridal Choli'],
+ 'Chaniya Choli':['Traditional Chaniya','Mirror Work','Flared Chaniya','Bridal Set','Modern Choli'],
+ 'Pant Plazo':['Wide Leg Palazzo','Straight Palazzo','Printed Palazzo','High Waist','Pleated Palazzo'],
+ 'Shirt':['Classic Collar','Mandarin Collar','Button Down','Pocket Style','Cuff Design','Slim Fit','Casual Shirt','Formal Shirt'],
+ 'Pant':['Formal Trouser','Slim Fit','Straight Fit','Cargo Style','Pleated Pant','Casual Pant'],
+ 'Kurta':['Straight Kurta','Short Kurta','Pathani Style','Mandarin Collar','Festive Kurta','Printed Kurta'],
+ 'Sherwani':['Classic Sherwani','Achkan Style','Jodhpuri Style','Wedding Sherwani','Embroidered Style'],
+ 'Suit':['Two Piece Suit','Three Piece Suit','Slim Fit Suit','Classic Fit','Wedding Suit'],
+ 'Blazer':['Single Breasted','Double Breasted','Casual Blazer','Party Blazer','Slim Fit'],
+ 'Waistcoat':['Classic Waistcoat','V-Neck Waistcoat','Button Style','Wedding Waistcoat'],
+ 'Pajama':['Straight Pajama','Narrow Fit','Elastic Waist','Kurta Pajama Set'],
+ 'Coat':['Classic Coat','Long Coat','Bandhgala','Formal Coat'],
+ 'T-Shirt':['Round Neck','V Neck','Polo T-Shirt','Henley Style','Printed T-Shirt'],
+ 'Shorts':['Casual Shorts','Bermuda','Cargo Shorts','Sports Shorts'],
+ 'Night Wear':['Night Suit','Night Shirt','Pajama Set','Comfort Fit'],
+ 'School Uniform':['School Shirt','School Trouser','School Skirt','Uniform Set'],
+ 'Other':['Custom Design 1','Custom Design 2','Custom Design 3']
+};
 function loadSavedDesigns(){try{return JSON.parse(localStorage.getItem('sg_garment_designs')||'[]')}catch(e){return[]}}
 function saveSavedDesigns(a){localStorage.setItem('sg_garment_designs',JSON.stringify(a))}
 function designVisual(type,index){
@@ -210,7 +241,7 @@ function designVisual(type,index){
   const dupatta = (type==='Salwar Suit'||type==='Lehenga'||type==='Kameez') ? `<path d="M285 82 Q350 140 332 330" fill="none" stroke="${gold}" stroke-width="12" opacity=".85"/><path d="M290 84 Q350 142 334 330" fill="none" stroke="${pale}" stroke-width="3"/>` : '';
   return `<svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${type} fashion design"><rect x="8" y="8" width="384" height="364" rx="28" fill="#faf9ff"/><text x="200" y="38" text-anchor="middle" font-size="16" font-weight="800" fill="${dark}">${type} • Design ${index+1}</text>${upper?'':sleevePaths}${garment}${embellish}${dupatta}<path d="M105 350 H295" stroke="${c}" stroke-width="8" stroke-linecap="round"/><circle cx="120" cy="350" r="5" fill="${dark}"/><circle cx="280" cy="350" r="5" fill="${dark}"/></svg>`;
 }
-function garmentDesignsFor(type){return [];}function getGarmentMaster(){
+function garmentDesignsFor(type){const names=DESIGN_LABELS[type]||['Classic Style','Modern Style','Party Wear','Custom Style'];return names.map((name,i)=>({id:'builtin-'+type+'-'+i,type,name,svg:designVisual(type,i),builtin:true}));}function getGarmentMaster(){
   try{const a=JSON.parse(localStorage.getItem(GARMENT_MASTER_KEY)||'null');if(Array.isArray(a)&&a.length)return a}catch(e){}
   const a=JSON.parse(JSON.stringify(DEFAULT_GARMENT_MASTER));localStorage.setItem(GARMENT_MASTER_KEY,JSON.stringify(a));return a;
 }
@@ -292,9 +323,14 @@ function saveGarmentServices(i){
   g.services=Array.from(document.querySelectorAll('#gmServiceList input')).map(x=>x.value.trim()).filter(Boolean);saveGarmentMaster(a);openGarmentsManager();
 }
 function openGarmentLibrary(){if(window.__sgRecordView)window.__sgRecordView('designs');
-  mt.textContent='👗 Garments';
+  mt.textContent='🎨 Garment Design Library';
   const saved=loadSavedDesigns();
-  mb.innerHTML='<div class="card"><h3>🎨 Garment Design Library</h3><p class="muted">Kisi bhi garment ko touch karke uske related designs dekhiye.</p><div class="garment-library">'+GARMENT_LIBRARY.map((g,i)=>'<div class="garment-library-card" onclick="openDesignCatalog('+JSON.stringify(g).replace(/"/g,'&quot;')+')"><div class="libpic">'+garmentVisual(g)+'</div><b>'+g+'</b><small>'+((DESIGN_TYPES[g]||[]).length)+' Designs ›</small></div>').join('')+'</div><div class="folder-box"><div style="display:flex;justify-content:space-between;align-items:center"><div><b>📁 My Garment Folder</b><div class="folder-count">'+saved.length+' saved designs</div></div><button class="primary" onclick="openGarmentFolder()">Open</button></div><div class="library-note">💡 Garment par tap karein aur uske alag-alag designs dekhein.</div></div></div>';
+  const card=g=>'<div class="garment-library-card" onclick="openDesignCatalog('+JSON.stringify(g).replace(/"/g,'&quot;')+')" style="cursor:pointer"><div class="libpic">'+garmentVisual(g)+'</div><b>'+esc(g)+'</b><small>'+((DESIGN_LABELS[g]||['Classic Style','Modern Style','Party Wear','Custom Style']).length)+' Designs ›</small></div>';
+  const section=(title,emoji,desc,list,theme)=>'<section class="card" style="border-top:4px solid '+theme+'"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="font-size:30px">'+emoji+'</div><div><h3 style="margin:0">'+title+'</h3><small class="muted">'+desc+'</small></div></div><div class="garment-library">'+list.map(card).join('')+'</div></section>';
+  mb.innerHTML='<div class="card" style="background:linear-gradient(135deg,#f1edff,#fff7fb)"><h3 style="margin:0 0 6px">✨ SILAI GURU Premium Design Library</h3><p class="muted" style="margin:0">Department chunein, phir garment aur uske alag-alag style dekhein. Apni photo bhi add kar sakte hain.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><span class="gm-tag">🎨 Style collections</span><span class="gm-tag">📷 Camera & Gallery</span><span class="gm-tag">🔗 Design links</span></div></div>'+
+  section('Ladies Department','👗','Blouse, Kurti, ethnic & party wear',LADIES_LIBRARY,'#d85b9b')+
+  section('Gents Department','🤵','Shirts, trousers, suits & traditional wear',GENTS_LIBRARY,'#4777d5')+
+  '<div class="folder-box"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div><b>📁 My Garment Folder</b><div class="folder-count">'+saved.length+' saved designs</div></div><button class="primary" onclick="openGarmentFolder()">Open</button></div><div class="library-note">💡 Garment kholkar design select karein, photo upload karein ya inspiration link save karein.</div></div>';
 }
 function openDesignCatalog(type){if(window.__sgRecordView)window.__sgRecordView('design-catalog:'+type);
   const designs=garmentDesignsFor(type).concat(loadSavedDesigns().filter(x=>x.type===type).map(x=>({...x,svg:x.svg||designVisual(type,0)})));
