@@ -2,7 +2,7 @@
 const CACHE='silai-guru-v98';
 const ASSETS=[
   './index.html','./silai-guru.html','./manifest.json',
-  './profile-validation-v2.js?v=20261008-2','./silai-guru-order-ui.js?v=20261011-2',
+  './profile-validation-v2.js?v=20261011-3','./silai-guru-order-ui.js?v=20261011-2',
   './blouse-design-library.js','./kurti-design-library.js','./kurti-neck-design-library.js?v=20261007-2','./assets/kurti-neck-50-sprite.jpg',
   './pleated-kurti-design-library.js?v=20261008-1',
   './silai-guru-order-design.js',
