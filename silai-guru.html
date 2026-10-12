@@ -454,11 +454,37 @@ function showDesignToCustomer(type,name,orderIndex){
   mb.innerHTML='<div class="design-back"><button class="secondary" onclick="'+backAction+'">← Designs</button></div><div style="text-align:center"><div style="font-size:18px;font-weight:800;margin:8px 0 4px">'+esc(name)+'</div><div class="preview-large">'+preview+'</div><p class="muted">Customer ko yahi design dikhaye.</p><div style="display:flex;gap:8px;justify-content:center"><button class="primary" onclick="'+selectAction+'">'+selectText+'</button><button class="secondary" onclick="'+backAction+'">Back</button></div></div>';
 }
 function libraryGarmentVisual(type){
-  /* Library artwork is intentionally independent from the New Order photo sprites. */
-  const aliases={'Panjabi Dress':'Punjabi Dress','Night Wear':'Night Wear','T-Shirt':'T-Shirt','Shorts':'Shorts','Coat':'Coat'};
-  const key=aliases[type]||type;
-  const art=garmentVisual(key);
-  return art.replace('<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">','<svg class="sg-library-art" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">');
+  /* Premium catalog artwork: original vector illustrations, deliberately different from New Order icons. */
+  const palettes=[
+    ['#d84f87','#8f2855','#ffe3ef'],['#7561d8','#40358c','#e9e3ff'],
+    ['#168f91','#075c62','#d8fbf5'],['#df8a35','#975019','#fff0d9'],
+    ['#3e79c8','#214b85','#dfedff'],['#b34d5b','#742d3a','#ffe4e7'],
+    ['#7b9d42','#4c6724','#edf7d9'],['#ad69bb','#6b3a79','#f7e4ff'],
+    ['#267fbd','#164e7c','#e0f4ff'],['#c45d38','#7c3421','#ffeadf'],
+    ['#b79a35','#75601b','#fff6c9'],['#507c70','#2b5148','#e0f5ed']
+  ];
+  const idx=Math.max(0,(['Blouse','Kurti','Gathering Kurti','Salwar Suit','Kameez','Saree Blouse','Lehenga','Gown','Dress','Salwar','Choli','Chaniya Choli','Pant Plazo','Panjabi Dress','Anarkali Dress','Umbrella Dress','Shirt','Pant','Kurta','Sherwani','Suit','Blazer','Waistcoat','Pajama','Coat','T-Shirt','Shorts','Night Wear','School Uniform','Other'].indexOf(type)));
+  const p=palettes[idx%palettes.length], c=p[0], edge=p[1], light=p[2];
+  const blouse=['Blouse','Saree Blouse','Choli'].includes(type);
+  const top=['Shirt','T-Shirt','Waistcoat','Blazer','Coat','Suit','School Uniform'].includes(type);
+  const pants=['Pant','Pant Plazo','Salwar','Pajama','Shorts'].includes(type);
+  const skirt=['Lehenga','Chaniya','Chaniya Choli'].includes(type);
+  const gown=['Gown','Anarkali Dress','Umbrella Dress','Dress'].includes(type);
+  const sleep=type==='Night Wear';
+  let garment='';
+  if(blouse) garment='<path d="M40 31L48 25H58L66 31L81 43L72 57L64 51V73H42V51L34 57L25 43Z" fill="'+c+'" stroke="'+edge+'" stroke-width="2.4" stroke-linejoin="round"/><path d="M48 26Q53 35 58 26M43 43L53 49L63 43" fill="none" stroke="'+light+'" stroke-width="2.4"/><path d="M43 65H63" stroke="'+light+'" stroke-width="2"/>';
+  else if(pants) garment='<path d="M39 29H67L65 56L73 91H57L52 61L47 91H30L39 56Z" fill="'+c+'" stroke="'+edge+'" stroke-width="2.4" stroke-linejoin="round"/><path d="M39 37H66M53 37V60" stroke="'+light+'" stroke-width="2.2"/>';
+  else if(skirt) garment='<path d="M43 29H63L66 48L87 89H19L40 48Z" fill="'+c+'" stroke="'+edge+'" stroke-width="2.4" stroke-linejoin="round"/><path d="M40 50Q53 57 66 50M31 70H75M25 81H81" stroke="'+light+'" stroke-width="2.5" fill="none"/><path d="M43 29Q53 37 63 29" stroke="'+light+'" stroke-width="2" fill="none"/>';
+  else if(gown) garment='<path d="M43 28H63L68 47L88 91H18L38 47Z" fill="'+c+'" stroke="'+edge+'" stroke-width="2.4" stroke-linejoin="round"/><path d="M43 29Q53 39 63 29M53 40V57M31 70H75M24 82H82" stroke="'+light+'" stroke-width="2.5" fill="none"/>';
+  else if(sleep) garment='<path d="M39 30L49 25H59L68 31L82 42L74 56L65 50V83H40V50L31 56L23 42Z" fill="'+c+'" stroke="'+edge+'" stroke-width="2.4" stroke-linejoin="round"/><path d="M49 26Q54 35 59 26M53 39V79M43 53H63" stroke="'+light+'" stroke-width="2.2" fill="none"/>';
+  else if(type==='Kurti'||type==='Gathering Kurti'||type==='Kameez'||type==='Salwar Suit'||type==='Panjabi Dress'||type==='Kurta'||type==='Sherwani')
+    garment='<path d="M40 28H66L72 42L82 51L73 62L65 55V89H39V55L31 62L22 51L33 42Z" fill="'+c+'" stroke="'+edge+'" stroke-width="2.4" stroke-linejoin="round"/><path d="M47 29Q53 38 59 29M53 40V84" stroke="'+light+'" stroke-width="2.3" fill="none"/><path d="M44 48H62M44 57H62M44 66H62" stroke="'+light+'" stroke-width="1.7"/>';
+  else garment='<path d="M39 29L52 36L65 29L75 39L85 89H21L29 39Z" fill="'+c+'" stroke="'+edge+'" stroke-width="2.4" stroke-linejoin="round"/><path d="M39 29L52 36L45 50L35 39M65 29L52 36L60 50L70 39M52 36V86" fill="none" stroke="'+light+'" stroke-width="2.3"/><circle cx="57" cy="51" r="1.6" fill="'+light+'"/><circle cx="57" cy="61" r="1.6" fill="'+light+'"/><circle cx="57" cy="71" r="1.6" fill="'+light+'"/>';
+  if(type==='Blazer'||type==='Coat'||type==='Suit') garment+='<path d="M39 29L52 36L45 53L34 39M65 29L52 36L60 53L71 39" fill="'+light+'" stroke="'+edge+'" stroke-width="1.6"/>';
+  if(type==='Gathering Kurti'||type==='Anarkali Dress'||type==='Umbrella Dress') garment+='<path d="M35 69Q53 76 71 69M29 80Q53 88 77 80" stroke="'+light+'" stroke-width="2.3" fill="none"/>';
+  if(type==='School Uniform') garment+='<path d="M45 43L53 50L61 43L57 59H49Z" fill="'+light+'" stroke="'+edge+'" stroke-width="1.2"/>';
+  if(type==='Chaniya Choli'||type==='Lehenga'||type==='Chaniya') garment+='<path d="M28 69H78M24 80H82" stroke="'+light+'" stroke-width="3" fill="none"/>';
+  return '<svg class="sg-library-art" viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+String(type).replace(/&/g,'&amp;').replace(/"/g,'&quot;')+' design icon"><defs><linearGradient id="bg'+idx+'" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+light+'"/><stop offset="1" stop-color="#fff"/></linearGradient></defs><rect x="3" y="3" width="104" height="104" rx="23" fill="url(#bg'+idx+')"/><circle cx="87" cy="22" r="9" fill="'+c+'" opacity=".13"/><path d="M27 17H83" stroke="'+c+'" stroke-width="1.4" opacity=".35" stroke-linecap="round"/><path d="M48 19Q48 13 54 13Q60 13 60 19L54 24Z" fill="none" stroke="'+edge+'" stroke-width="2" stroke-linejoin="round"/><path d="M54 24V27" stroke="'+edge+'" stroke-width="2"/>'+garment+'<path d="M18 97H92" stroke="'+c+'" stroke-width="1.4" opacity=".35" stroke-linecap="round"/></svg>';
 }
 function garmentVisual(type){
   const svg=(body)=>'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="94" height="94" rx="22" fill="#f7f6ff"/>'+body+'</svg>';
