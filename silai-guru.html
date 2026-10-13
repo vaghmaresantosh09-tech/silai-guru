@@ -675,7 +675,7 @@ function openDesignCatalogForOrder(type,index){
   mb.innerHTML=`<div class="design-back"><button type="button" class="secondary" onclick="backToOrderPicker()">← Back to Order</button><b>${esc(type)} · Select Design</b></div>
   <div class="design-sources">
     <button type="button" class="source-chip active" onclick="showOrderDesignSource('library',${T},${I})">🎨 SILAI GURU</button>
-    ${String(type)==='Kurti'?'<button type="button" class="source-chip" onclick="openKurtiNeckCatalogForOrder('+I+')">✨ Neck Designs</button>':String(type)==='Blouse'?'<button type="button" class="source-chip" onclick="openBlouseRoundNeckCatalogForOrder('+I+')">✨ Round Neck Catalogue</button>':''}
+    ${String(type)==='Kurti'?'<button type="button" class="source-chip" onclick="openKurtiNeckCatalogForOrder('+I+')">✨ Neck Designs</button>':''}
     ${camera}
     ${gallery}
     <button type="button" class="source-chip" id="orderWebsitesBtn" onclick="openOrderWebsites(${T},${I});return false;">🌐 Websites</button>
