@@ -684,7 +684,7 @@ function openDesignCatalogForOrder(type,index){
   <input class="design-search" id="orderDesignSearch" placeholder="🔎 Search ${esc(type)} design..." oninput="filterOrderDesigns(${T})">
   <div id="orderDesignGrid" class="design-grid">${designs.map(d=>{
     const DTYPE=JSON.stringify(d.type),DNAME=JSON.stringify(d.name);
-    return '<div class="design-card"><div class="design-img">'+designMediaHtml(d)+'</div><div class="design-name">'+esc(d.name)+'</div><div class="design-actions"><button type="button" class="primary" onclick="selectDesignForOrder('+I+','+DTYPE+','+DNAME+')">✓ Select</button><button type="button" class="secondary" onclick="showDesignToCustomer('+DTYPE+','+DNAME+','+I+')">👁 Show</button></div></div>';
+    if(String(type)==='Blouse' && d.name==='Simple Round Neck'){return '<div class="design-card"><div class="design-img">'+designVisual('Blouse',0)+'</div><div class="design-name">Round Neck Catalogue — Full 12 Designs</div><div class="design-actions"><button type="button" class="primary" onclick="openBlouseRoundNeckCatalogForOrder('+I+')">✨ Open Catalogue</button></div></div>';} return '<div class="design-card"><div class="design-img">'+designMediaHtml(d)+'</div><div class="design-name">'+esc(d.name)+'</div><div class="design-actions"><button type="button" class="primary" onclick="selectDesignForOrder('+I+','+DTYPE+','+DNAME+')">✓ Select</button><button type="button" class="secondary" onclick="showDesignToCustomer('+DTYPE+','+DNAME+','+I+')">👁 Show</button></div></div>';
   }).join('')}</div>`;
   showOrderDesignSource('library',type,index);
 }
