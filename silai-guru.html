@@ -454,7 +454,7 @@ function showDesignToCustomer(type,name,orderIndex){
   mb.innerHTML='<div class="design-back"><button class="secondary" onclick="'+backAction+'">← Designs</button></div><div style="text-align:center"><div style="font-size:18px;font-weight:800;margin:8px 0 4px">'+esc(name)+'</div><div class="preview-large">'+preview+'</div><p class="muted">Customer ko yahi design dikhaye.</p><div style="display:flex;gap:8px;justify-content:center"><button class="primary" onclick="'+selectAction+'">'+selectText+'</button><button class="secondary" onclick="'+backAction+'">Back</button></div></div>';
 }
 function libraryGarmentVisual(type){
-  /* Use verified category-specific Unsplash photo pages' image IDs; no shared New Order icons. */
+  /* Garment Library photo map. Keep entries unique; failed remote photos are marked for review. */
   const photos={
     'Blouse':'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=480&q=85',
     'Saree Blouse':'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=480&q=85',
@@ -463,22 +463,22 @@ function libraryGarmentVisual(type){
     'Gathering Kurti':'https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?auto=format&fit=crop&w=480&q=85',
     'Salwar Suit':'https://images.unsplash.com/photo-1610030469668-8e9f641aaf2a?auto=format&fit=crop&w=480&q=85',
     'Kameez':'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=480&q=85',
-    'Saree':'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=480&q=85',
+    'Saree':'https://images.unsplash.com/photo-1610030469668-8e9f641aaf2a?auto=format&fit=crop&w=480&q=85',
     'Lehenga':'https://images.unsplash.com/photo-1583391733956-6c78276477e3?auto=format&fit=crop&w=480&q=85',
     'Gown':'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=480&q=85',
     'Dress':'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=480&q=85',
-    'Salwar':'https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?auto=format&fit=crop&w=480&q=85',
-    'Chaniya Choli':'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=480&q=85',
-    'Pant Plazo':'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=480&q=85',
+    'Salwar':'https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=480&q=85',
+    'Chaniya Choli':'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=480&q=85',
+    'Pant Plazo':'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=480&q=85',
     'Shirt':'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=480&q=85',
     'Pant':'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=480&q=85',
     'Kurta':'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=480&q=85',
-    'Sherwani':'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=480&q=85',
+    'Sherwani':'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=480&q=85',
     'Suit':'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=480&q=85',
     'Blazer':'https://images.unsplash.com/photo-1592878904946-b3cd8ae243d0?auto=format&fit=crop&w=480&q=85',
     'Waistcoat':'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=480&q=85',
     'Pajama':'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=480&q=85',
-    'Coat':'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=480&q=85',
+    'Coat':'https://images.unsplash.com/photo-1620012253295-c15a3e12e8f4?auto=format&fit=crop&w=480&q=85',
     'T-Shirt':'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=480&q=85',
     'Shorts':'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=480&q=85',
     'Night Wear':'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=480&q=85',
