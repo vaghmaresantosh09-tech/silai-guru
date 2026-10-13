@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500">
+<defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#fffdf6"/><stop offset="1" stop-color="#f4efff"/></linearGradient><linearGradient id="head"><stop stop-color="#3c126c"/><stop offset="1" stop-color="#7d1b70"/></linearGradient></defs>
+<rect width="1200" height="1500" rx="28" fill="url(#bg)"/>
+<rect x="20" y="20" width="1160" height="150" rx="24" fill="url(#head)"/>
+<text x="600" y="83" font-family="Arial,sans-serif" font-size="46" font-weight="bold" fill="#fff" text-anchor="middle">SHARDA BOUTIQUE</text>
+<text x="600" y="132" font-family="Georgia,serif" font-size="38" font-weight="bold" fill="#ffe5a0" text-anchor="middle">ROUND NECK CATALOGUE</text>
+<text x="600" y="198" font-family="Arial,sans-serif" font-size="25" fill="#4a2878" text-anchor="middle">12 blouse neck styles · Full image catalogue</text>
+<g transform="translate(30,235)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#d81b60" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 105 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+
+
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Simple Round</text></g><g transform="translate(410,235)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#1262ad" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 92 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+<circle cx="165" cy="104" r="4" fill="#f7d56b"/><circle cx="175" cy="111" r="4" fill="#f7d56b"/><circle cx="185" cy="104" r="4" fill="#f7d56b"/>
+
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Deep Round</text></g><g transform="translate(790,235)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#08775e" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 80 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+
+<path d="M143 144 Q175 160 207 144" fill="none" stroke="#f5d88a" stroke-width="4"/>
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Wide Round</text></g><g transform="translate(30,545)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">4</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#6a3ca0" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 105 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+
+
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Piping Round</text></g><g transform="translate(410,545)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">5</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#8e1835" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 92 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+<circle cx="165" cy="104" r="4" fill="#f7d56b"/><circle cx="175" cy="111" r="4" fill="#f7d56b"/><circle cx="185" cy="104" r="4" fill="#f7d56b"/>
+
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Embroidered</text></g><g transform="translate(790,545)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">6</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#d89b18" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 80 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+
+
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Beaded</text></g><g transform="translate(30,855)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">7</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#d62977" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 105 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+
+<path d="M143 144 Q175 160 207 144" fill="none" stroke="#f5d88a" stroke-width="4"/>
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Scalloped</text></g><g transform="translate(410,855)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">8</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#164e42" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M157 72 Q175 100 193 72 L184 111 L175 120 L166 111 Z" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+<circle cx="165" cy="104" r="4" fill="#f7d56b"/><circle cx="175" cy="111" r="4" fill="#f7d56b"/><circle cx="185" cy="104" r="4" fill="#f7d56b"/>
+
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Keyhole Round</text></g><g transform="translate(790,855)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">9</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#1550a0" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 80 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+
+
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Tie Detail</text></g><g transform="translate(30,1165)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">10</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#26242b" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 105 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+
+
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Contrast Border</text></g><g transform="translate(410,1165)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">11</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#bd202c" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 92 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+<circle cx="165" cy="104" r="4" fill="#f7d56b"/><circle cx="175" cy="111" r="4" fill="#f7d56b"/><circle cx="185" cy="104" r="4" fill="#f7d56b"/>
+<path d="M143 144 Q175 160 207 144" fill="none" stroke="#f5d88a" stroke-width="4"/>
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Mirror Work</text></g><g transform="translate(790,1165)"><rect width="350" height="280" rx="18" fill="#fff" stroke="#c9b7ff" stroke-width="3"/><rect x="12" y="12" width="326" height="210" rx="12" fill="#faf6ff"/><circle cx="35" cy="36" r="20" fill="#4b176e"/><text x="35" y="44" font-family="Arial" font-size="23" font-weight="bold" fill="#fff" text-anchor="middle">12</text>
+<path d="M110 75 L145 55 L174 67 Q175 88 175 105 Q175 88 176 67 L205 55 L240 75 L222 104 L207 94 L222 184 L128 184 L143 94 L128 104 Z" fill="#cf7ca4" stroke="#35234a" stroke-width="4" stroke-linejoin="round"/>
+<path d="M150 68 Q175 80 200 68" fill="none" stroke="#ffe7ad" stroke-width="7" stroke-linecap="round"/>
+
+
+<rect x="12" y="230" width="326" height="38" rx="10" fill="#42126c"/><text x="175" y="256" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Festive Round</text></g>
+<text x="600" y="1480" font-family="Arial,sans-serif" font-size="20" fill="#5a3d7b" text-anchor="middle">SILAI GURU · Design Library</text></svg>
