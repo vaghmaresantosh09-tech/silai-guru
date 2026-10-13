@@ -454,17 +454,17 @@ function showDesignToCustomer(type,name,orderIndex){
   mb.innerHTML='<div class="design-back"><button class="secondary" onclick="'+backAction+'">← Designs</button></div><div style="text-align:center"><div style="font-size:18px;font-weight:800;margin:8px 0 4px">'+esc(name)+'</div><div class="preview-large">'+preview+'</div><p class="muted">Customer ko yahi design dikhaye.</p><div style="display:flex;gap:8px;justify-content:center"><button class="primary" onclick="'+selectAction+'">'+selectText+'</button><button class="secondary" onclick="'+backAction+'">Back</button></div></div>';
 }
 function libraryGarmentVisual(type){
-  /* Separate photo-led catalog: unique garment photo per card, never New Order cartoon icons. */
+  /* Use verified category-specific Unsplash photo pages' image IDs; no shared New Order icons. */
   const photos={
     'Blouse':'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=480&q=85',
     'Saree Blouse':'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=480&q=85',
-    'Choli':'https://images.unsplash.com/photo-1583391733956-6c78276477e3?auto=format&fit=crop&w=480&q=85',
+    'Choli':'https://images.unsplash.com/photo-1610189012906-4c5b8b1c2b3a?auto=format&fit=crop&w=480&q=85',
     'Kurti':'https://images.unsplash.com/photo-1583391733981-849c6e6e6c16?auto=format&fit=crop&w=480&q=85',
-    'Gathering Kurti':'https://images.unsplash.com/photo-1610030469668-8e9f641aaf2a?auto=format&fit=crop&w=480&q=85',
-    'Salwar Suit':'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=480&q=85',
-    'Kameez':'https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?auto=format&fit=crop&w=480&q=85',
-    'Saree':'https://images.unsplash.com/photo-1610189012906-4c5b8b1c2b3a?auto=format&fit=crop&w=480&q=85',
-    'Lehenga':'https://images.unsplash.com/photo-1583391733981-849c6e6e6c16?auto=format&fit=crop&w=480&q=85',
+    'Gathering Kurti':'https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?auto=format&fit=crop&w=480&q=85',
+    'Salwar Suit':'https://images.unsplash.com/photo-1610030469668-8e9f641aaf2a?auto=format&fit=crop&w=480&q=85',
+    'Kameez':'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=480&q=85',
+    'Saree':'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=480&q=85',
+    'Lehenga':'https://images.unsplash.com/photo-1583391733956-6c78276477e3?auto=format&fit=crop&w=480&q=85',
     'Gown':'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=480&q=85',
     'Dress':'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=480&q=85',
     'Salwar':'https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?auto=format&fit=crop&w=480&q=85',
@@ -474,9 +474,9 @@ function libraryGarmentVisual(type){
     'Pant':'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=480&q=85',
     'Kurta':'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=480&q=85',
     'Sherwani':'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=480&q=85',
-    'Suit':'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=480&q=85',
-    'Blazer':'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=480&q=85',
-    'Waistcoat':'https://images.unsplash.com/photo-1592878904946-b3cd8ae243d0?auto=format&fit=crop&w=480&q=85',
+    'Suit':'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=480&q=85',
+    'Blazer':'https://images.unsplash.com/photo-1592878904946-b3cd8ae243d0?auto=format&fit=crop&w=480&q=85',
+    'Waistcoat':'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=480&q=85',
     'Pajama':'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=480&q=85',
     'Coat':'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=480&q=85',
     'T-Shirt':'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=480&q=85',
@@ -484,10 +484,9 @@ function libraryGarmentVisual(type){
     'Night Wear':'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=480&q=85',
     'School Uniform':'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=480&q=85'
   };
-  const fallback='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=480&q=85';
-  const src=photos[type]||fallback;
+  const src=photos[type]||photos['Kurti'];
   const alt=String(type||'Garment').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-  return '<div class="sg-library-photo-wrap"><img class="sg-library-photo" src="'+src+'" alt="'+alt+'" loading="lazy" onerror="this.onerror=null;this.src=\''+fallback+'\'"><span class="sg-library-photo-label">'+esc(type)+'</span></div>';
+  return '<div class="sg-library-photo-wrap"><img class="sg-library-photo" src="'+src+'" alt="'+alt+'" loading="lazy" onerror="this.closest(\'.sg-library-photo-wrap\').classList.add(\'sg-photo-unavailable\')"><span class="sg-library-photo-label">'+esc(type)+'</span></div>';
 }
 function garmentVisual(type){
   const svg=(body)=>'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="94" height="94" rx="22" fill="#f7f6ff"/>'+body+'</svg>';
@@ -799,7 +798,7 @@ function statusO(id){let o=os.find(x=>x.id===id);o.status=o.status==='Pending'?'
 // Initial dashboard render — keep all dashboard cards/icons visible on app load.
 render();
 </script>
-<script src="./blouse-design-library.js?v=20261004-3"></script><script src="./kurti-design-library.js?v=20261007-5"></script><script src="./kurti-neck-design-library.js?v=20261007-2"></script><script src="./profile-validation-v2.js?v=20261011-3"></script><script src="./silai-guru-order-ui.js?v=20261012-6"></script><script src="./silai-guru-order-design.js?v=20261004-3"></script><script src="./pleated-kurti-design-library.js?v=20261008-2"></script><script src="./silai-guru-navigation.js?v=20261007-1"></script>
+<script src="./blouse-design-library.js?v=20261004-3"></script><script src="./kurti-design-library.js?v=20261007-5"></script><script src="./kurti-neck-design-library.js?v=20261007-2"></script><script src="./profile-validation-v2.js?v=20261011-3"></script><script src="./silai-guru-order-ui.js?v=20261013-1"></script><script src="./silai-guru-order-design.js?v=20261004-3"></script><script src="./pleated-kurti-design-library.js?v=20261008-2"></script><script src="./silai-guru-navigation.js?v=20261007-1"></script>
 <!-- SG_REFRESH_STATE_V1 -->
 <script>
 (function(){
