@@ -675,7 +675,7 @@ function openDesignCatalogForOrder(type,index){
   mb.innerHTML=`<div class="design-back"><button type="button" class="secondary" onclick="backToOrderPicker()">← Back to Order</button><b>${esc(type)} · Select Design</b></div>
   <div class="design-sources">
     <button type="button" class="source-chip active" onclick="showOrderDesignSource('library',${T},${I})">🎨 SILAI GURU</button>
-    ${String(type)==='Kurti'?'<button type="button" class="source-chip" onclick="openKurtiNeckCatalogForOrder('+I+')">✨ Neck Designs</button>':''}
+    ${String(type)==='Kurti'?'<button type="button" class="source-chip" onclick="openKurtiNeckCatalogForOrder('+I+')">✨ Neck Designs</button>':String(type)==='Blouse'?'<button type="button" class="source-chip" onclick="openBlouseRoundNeckCatalogForOrder('+I+')">✨ Round Neck Catalogue</button>':''}
     ${camera}
     ${gallery}
     <button type="button" class="source-chip" id="orderWebsitesBtn" onclick="openOrderWebsites(${T},${I});return false;">🌐 Websites</button>
@@ -687,6 +687,22 @@ function openDesignCatalogForOrder(type,index){
     return '<div class="design-card"><div class="design-img">'+designMediaHtml(d)+'</div><div class="design-name">'+esc(d.name)+'</div><div class="design-actions"><button type="button" class="primary" onclick="selectDesignForOrder('+I+','+DTYPE+','+DNAME+')">✓ Select</button><button type="button" class="secondary" onclick="showDesignToCustomer('+DTYPE+','+DNAME+','+I+')">👁 Show</button></div></div>';
   }).join('')}</div>`;
   showOrderDesignSource('library',type,index);
+}
+function openBlouseRoundNeckCatalogForOrder(index){
+  window.orderDesignTargetIndex=index;
+  const names=['Simple Round Neck','Deep Round Neck','Wide Round Neck','Round Neck with Piping','Embroidered Round Neck','Beaded Round Neck','Scalloped Round Neck','Round Neck with Keyhole','Round Neck with Tie Detail','Round Neck with Contrast Border','Round Neck with Mirror Work','Festive Round Neck'];
+  mt.textContent='🎨 Blouse · Round Neck Catalogue';
+  mb.innerHTML='<div class="design-back"><button type="button" class="secondary" onclick="openDesignCatalogForOrder(\'Blouse\','+index+')">← Back to Blouse Designs</button><b>Round Neck · 12 Styles</b></div><p class="muted">Pasand ka style select karein. Chuna hua style order ke saath save hoga.</p><div class="design-grid">'+names.map((name,i)=>'<div class="design-card"><div class="design-img">'+designVisual('Blouse',i)+'</div><div class="design-name">'+esc(name)+'</div><div class="design-actions"><button type="button" class="primary" onclick="selectBlouseRoundNeckForOrder('+index+','+i+')">✓ Select</button><button type="button" class="secondary" onclick="showDesignToCustomer(\'Blouse\','+JSON.stringify(name)+','+index+')">👁 Show</button></div></div>').join('')+'</div>';
+}
+function selectBlouseRoundNeckForOrder(index,i){
+  const names=['Simple Round Neck','Deep Round Neck','Wide Round Neck','Round Neck with Piping','Embroidered Round Neck','Beaded Round Neck','Scalloped Round Neck','Round Neck with Keyhole','Round Neck with Tie Detail','Round Neck with Contrast Border','Round Neck with Mirror Work','Festive Round Neck'];
+  const name='Round Neck - '+names[i],id='builtin-blouse-round-neck-'+i;
+  const a=loadSavedDesigns();
+  if(!a.some(x=>x.id===id))a.push({id,type:'Blouse',name,svg:designVisual('Blouse',i),index:i,savedAt:Date.now(),source:'Round Neck Catalogue'});
+  saveSavedDesigns(a);
+  orderDesignTargets[index]={source:'SILAI GURU',name,url:'',image:''};
+  window.orderDesignTargets=orderDesignTargets;
+  backToOrderPicker();
 }
 function openKurtiNeckCatalogForOrder(index){
   window.orderDesignTargetIndex=index;
