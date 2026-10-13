@@ -1,9 +1,9 @@
 /* SILAI GURU — clean navigation/service worker v98 */
-const CACHE='silai-guru-v100';
+const CACHE='silai-guru-v101';
 const ASSETS=[
   './index.html','./silai-guru.html','./manifest.json',
   './profile-validation-v2.js?v=20261011-3','./silai-guru-order-ui.js?v=20261011-2',
-  './blouse-design-library.js?v=20261013-4','./ChatGPT%20Image%20Sep%2030,%202026,%2004_00_59%20PM.png?v=20261013-4','./kurti-design-library.js','./kurti-neck-design-library.js?v=20261007-2','./assets/kurti-neck-50-sprite.jpg',
+  './blouse-design-library.js?v=20261013-5','./ChatGPT%20Image%20Sep%2030,%202026,%2004_00_59%20PM.png?v=20261013-4','./kurti-design-library.js','./kurti-neck-design-library.js?v=20261007-2','./assets/kurti-neck-50-sprite.jpg',
   './pleated-kurti-design-library.js?v=20261008-1',
   './silai-guru-order-design.js',
   './silai-guru-navigation.js','./silai-guru-break-time.js','./silai-guru-entertainment-card.js','./music-entertainment.html'
