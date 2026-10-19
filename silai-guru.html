@@ -811,7 +811,7 @@ function statusO(id){let o=os.find(x=>x.id===id);o.status=o.status==='Pending'?'
 // Initial dashboard render — keep all dashboard cards/icons visible on app load.
 render();
 </script>
-<script src="./blouse-design-library.js?v=20261013-5"></script><script src="./kurti-design-library.js?v=20261007-5"></script><script src="./kurti-neck-design-library.js?v=20261007-2"></script><script src="./profile-validation-v2.js?v=20261011-3"></script><script src="./silai-guru-order-ui.js?v=20261013-1"></script><script src="./silai-guru-order-design.js?v=20261004-3"></script><script src="./pleated-kurti-design-library.js?v=20261008-2"></script><script src="./silai-guru-navigation.js?v=20261007-1"></script>
+<script src="./blouse-design-library.js?v=20261013-5"></script><script src="./kurti-design-library.js?v=20261007-5"></script><script src="./kurti-neck-design-library.js?v=20261007-2"></script><script src="./profile-validation-v2.js?v=20261011-3"></script><script src="./silai-guru-order-ui.js?v=20261019-1"></script><script src="./silai-guru-order-design.js?v=20261004-3"></script><script src="./pleated-kurti-design-library.js?v=20261008-2"></script><script src="./silai-guru-navigation.js?v=20261007-1"></script>
 <!-- SG_REFRESH_STATE_V1 -->
 <script>
 (function(){
@@ -840,4 +840,119 @@ render();
   });
 })();
 </script>
-<!-- SG_GAME_MUSIC_RESTORED_V1 --><script src="./silai-guru-break-time.js?v=20261007-1"></script><script src="./silai-guru-entertainment-card.js?v=20261007-1"></script></body></html>
+<!-- SG_GAME_MUSIC_RESTORED_V1 --><script src="./silai-guru-break-time.js?v=20261007-1"></script><script src="./silai-guru-entertainment-card.js?v=20261007-1"></script>
+<script>
+/* SG_GUIDED_ORDER_FLOW_V1 — guided customer → garment/measurement → order/payment flow */
+(function(){
+ 'use strict';
+ const STYLE='sg-guided-order-style';
+ if(!document.getElementById(STYLE)){
+  const st=document.createElement('style');st.id=STYLE;
+  st.textContent=`
+   .sg-wizard-head{background:var(--card,#fff);border:1px solid var(--line,#e5e6ef);border-radius:16px;padding:14px;margin:0 0 14px}
+   .sg-wizard-title{font-size:17px;font-weight:900;color:var(--text,#202238)}
+   .sg-wizard-sub{font-size:12px;color:var(--muted,#73778c);margin-top:4px}
+   .sg-wizard-track{display:flex;gap:6px;margin-top:12px}
+   .sg-wizard-dot{flex:1;text-align:center;padding:8px 3px;border-radius:9px;background:var(--bg,#f6f7fb);color:var(--muted,#73778c);font-size:11px;font-weight:800}
+   .sg-wizard-dot.active{background:var(--p,#5b4bdb);color:#fff}
+   .sg-wizard-customer{margin:0 0 12px;padding:12px;border:1px solid var(--line,#e5e6ef);border-radius:12px;background:var(--card,#fff)}
+   .sg-wizard-customer label{display:block;font-weight:800;margin-bottom:7px}
+   .sg-wizard-customer select{width:100%;padding:11px;border:1px solid var(--line,#e5e6ef);border-radius:9px;background:var(--card,#fff);color:var(--text,#202238);font:inherit}
+   .sg-wizard-actions{display:flex;gap:9px;margin:16px 0 6px}
+   .sg-wizard-actions button{flex:1;min-height:44px}
+   .sg-wizard-note{font-size:12px;color:var(--muted,#73778c);padding:9px 10px;background:var(--bg,#f6f7fb);border-radius:9px;margin:8px 0}
+  `;
+  document.head.appendChild(st);
+ }
+ function setup(){
+  const form=document.getElementById('orderForm');
+  if(!form||form.dataset.sgWizardReady==='1')return;
+  const groups=[...form.querySelectorAll(':scope > .form')];
+  const customerGroup=groups[0],detailsGroup=groups[groups.length-1];
+  const title=[...form.querySelectorAll('.section-title')].find(x=>/Garments/i.test(x.textContent));
+  const banner=[...form.querySelectorAll('.banner')].find(x=>/Measurement names/i.test(x.textContent));
+  const wrap=form.querySelector('#garmentsWrap'),submit=form.querySelector('button[type="submit"]');
+  if(!customerGroup||!detailsGroup||!wrap||!submit)return;
+  form.dataset.sgWizardReady='1';
+  let step=1;
+  const head=document.createElement('div');head.className='sg-wizard-head';
+  head.innerHTML='<div class="sg-wizard-title">🧵 Naya Order — Step by Step</div><div class="sg-wizard-sub">Customer se payment tak isi process mein aage badhein; Home par wapas jaane ki zaroorat nahi.</div><div class="sg-wizard-track"><div class="sg-wizard-dot">1 · Customer</div><div class="sg-wizard-dot">2 · Garment</div><div class="sg-wizard-dot">3 · Order & Payment</div></div>';
+  form.insertBefore(head,form.firstChild);
+  const pick=document.createElement('div');pick.className='sg-wizard-customer';
+  pick.innerHTML='<label for="sgSavedCustomer">👥 Pehle se saved customer?</label><select id="sgSavedCustomer"><option value="">＋ Naya customer / select saved customer</option></select>';
+  form.insertBefore(pick,customerGroup);
+  const select=pick.querySelector('select');
+  function refreshCustomers(){
+   const old=select.value;select.innerHTML='';
+   const blank=document.createElement('option');blank.value='';blank.textContent='＋ Naya customer / select saved customer';select.appendChild(blank);
+   (Array.isArray(window.cs)?window.cs:[]).forEach(c=>{if(!c||!c.mobile)return;const o=document.createElement('option');o.value=String(c.mobile);o.textContent=(c.name||'Customer')+' · '+c.mobile;select.appendChild(o)});
+   if([...select.options].some(o=>o.value===old))select.value=old;
+  }
+  refreshCustomers();
+  select.addEventListener('change',function(){
+   const c=(Array.isArray(window.cs)?window.cs:[]).find(x=>String(x.mobile)===select.value);
+   const name=form.querySelector('#cn'),mobile=form.querySelector('#cm');
+   if(c){name.value=c.name||'';mobile.value=c.mobile||''}
+   else {name.value='';mobile.value=''}
+  });
+  const note=document.createElement('div');note.className='sg-wizard-note';note.textContent='📏 Agar isi customer ka is garment ka measurement pehle save hua hai, to woh khaali measurement fields mein automatically bharne ki koshish hogi.';
+  wrap.parentNode.insertBefore(note,wrap);
+  const actions=document.createElement('div');actions.className='sg-wizard-actions';
+  const back=document.createElement('button');back.type='button';back.className='secondary';back.textContent='← Back';
+  const next=document.createElement('button');next.type='button';next.className='primary';next.textContent='Next →';
+  actions.append(back,next);submit.parentNode.insertBefore(actions,submit);
+  function show(n){
+   step=n;
+   pick.style.display=n===1?'block':'none';
+   customerGroup.style.display=n===1?'':'none';
+   if(title)title.style.display=n===2?'':'none';
+   if(banner)banner.style.display=n===2?'':'none';
+   note.style.display=n===2?'':'none';
+   wrap.style.display=n===2?'':'none';
+   detailsGroup.style.display=n===3?'':'none';
+   submit.style.display=n===3?'':'none';
+   actions.style.display='flex';
+   back.style.display=n===1?'none':'';
+   next.textContent=n===3?'✓ Review & Save':'Next →';
+   head.querySelectorAll('.sg-wizard-dot').forEach((d,i)=>{d.classList.toggle('active',i===n-1)});
+   if(n===2 && !wrap.children.length && typeof window.initGarments==='function')window.initGarments();
+   if(n===2 && typeof window.initGarments==='function')window.initGarments();
+   form.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  back.addEventListener('click',()=>show(Math.max(1,step-1)));
+  next.addEventListener('click',()=>{
+   if(step===1){
+    const name=form.querySelector('#cn'),mobile=form.querySelector('#cm');
+    if(!name.value.trim()||!mobile.value.trim()){alert('Customer Name aur Mobile zaroor bhariye.');return}
+    show(2);return;
+   }
+   if(step===2){
+    if(!form.querySelector('[data-selected-type]')){alert('Pehle kam se kam ek garment select kijiye.');return}
+    show(3);return;
+   }
+   if(typeof form.requestSubmit==='function')form.requestSubmit();else submit.click();
+  });
+  // Reuse latest saved measurements for the selected customer + same garment type.
+  document.addEventListener('click',function(ev){
+   const b=ev.target.closest('[data-sg-action="select"]');if(!b)return;
+   const type=b.dataset.sgType,index=Number(b.dataset.sgIndex||0);
+   setTimeout(()=>{
+    const mobile=form.querySelector('#cm')?.value?.trim();if(!mobile)return;
+    const oldOrders=(Array.isArray(window.os)?window.os:[]).filter(o=>String(o.mobile)===mobile).slice().reverse();
+    let saved=null;
+    for(const order of oldOrders){saved=(order.garments||[]).find(g=>g.type===type&&g.measurements&&Object.keys(g.measurements).length)?.measurements;if(saved)break}
+    const card=form.querySelector('#garment-'+index);if(!saved||!card)return;
+    card.querySelectorAll('.g-measure').forEach(input=>{const key=input.dataset.name;if(!input.value.trim()&&saved[key]!=null&&String(saved[key]).trim())input.value=saved[key]});
+   },120);
+  });
+  show(1);
+ }
+ const oldOpen=window.openM;
+ if(typeof oldOpen==='function'){
+  window.openM=function(t){const r=oldOpen.apply(this,arguments);if(t==='order')setTimeout(setup,0);return r};
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(document.getElementById('orderForm'))setup()},{once:true});
+ else if(document.getElementById('orderForm'))setup();
+})();
+</script>
+</body></html>
