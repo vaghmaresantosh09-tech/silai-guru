@@ -885,12 +885,12 @@ render();
   function refreshCustomers(){
    const old=select.value;select.innerHTML='';
    const blank=document.createElement('option');blank.value='';blank.textContent='＋ Naya customer / select saved customer';select.appendChild(blank);
-   (Array.isArray(window.cs)?window.cs:[]).forEach(c=>{if(!c||!c.mobile)return;const o=document.createElement('option');o.value=String(c.mobile);o.textContent=(c.name||'Customer')+' · '+c.mobile;select.appendChild(o)});
+   (Array.isArray(cs)?cs:[]).forEach(c=>{if(!c||!c.mobile)return;const o=document.createElement('option');o.value=String(c.mobile);o.textContent=(c.name||'Customer')+' · '+c.mobile;select.appendChild(o)});
    if([...select.options].some(o=>o.value===old))select.value=old;
   }
   refreshCustomers();
   select.addEventListener('change',function(){
-   const c=(Array.isArray(window.cs)?window.cs:[]).find(x=>String(x.mobile)===select.value);
+   const c=(Array.isArray(cs)?cs:[]).find(x=>String(x.mobile)===select.value);
    const name=form.querySelector('#cn'),mobile=form.querySelector('#cm');
    if(c){name.value=c.name||'';mobile.value=c.mobile||''}
    else {name.value='';mobile.value=''}
@@ -938,7 +938,7 @@ render();
    const type=b.dataset.sgType,index=Number(b.dataset.sgIndex||0);
    setTimeout(()=>{
     const mobile=form.querySelector('#cm')?.value?.trim();if(!mobile)return;
-    const oldOrders=(Array.isArray(window.os)?window.os:[]).filter(o=>String(o.mobile)===mobile).slice().reverse();
+    const oldOrders=(Array.isArray(os)?os:[]).filter(o=>String(o.mobile)===mobile).slice().reverse();
     let saved=null;
     for(const order of oldOrders){saved=(order.garments||[]).find(g=>g.type===type&&g.measurements&&Object.keys(g.measurements).length)?.measurements;if(saved)break}
     const card=form.querySelector('#garment-'+index);if(!saved||!card)return;
