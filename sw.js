@@ -1,8 +1,8 @@
-/* SILAI GURU — clean navigation/service worker v102 */
-const CACHE='silai-guru-v102';
+/* SILAI GURU — clean navigation/service worker v103 */
+const CACHE='silai-guru-v103';
 const ASSETS=[
   './index.html','./silai-guru.html','./manifest.json',
-  './profile-validation-v2.js?v=20261011-3','./silai-guru-order-ui.js?v=20261019-1',
+  './profile-validation-v2.js?v=20261011-3','./silai-guru-order-ui.js?v=20261019-1','./silai-guru-guided-review.js',
   './blouse-design-library.js?v=20261013-5','./kurti-design-library.js','./kurti-neck-design-library.js?v=20261007-2','./assets/kurti-neck-50-sprite.jpg',
   './pleated-kurti-design-library.js?v=20261008-1',
   './silai-guru-order-design.js',
