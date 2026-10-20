@@ -1,8 +1,8 @@
-/* SILAI GURU — clean navigation/service worker v104 */
-const CACHE='silai-guru-v104';
+/* SILAI GURU — clean navigation/service worker v105 */
+const CACHE='silai-guru-v105';
 const ASSETS=[
   './index.html','./silai-guru.html','./manifest.json',
-  './profile-validation-v2.js?v=20261011-3','./silai-guru-order-ui.js?v=20261019-1','./silai-guru-guided-review.js',
+  './profile-validation-v2.js?v=20261011-3','./silai-guru-order-ui.js?v=20261019-1','./silai-guru-guided-review.js','./silai-guru-design-manager.js?v=20261020-1',
   './blouse-design-library.js?v=20261013-5','./kurti-design-library.js','./kurti-neck-design-library.js?v=20261007-2','./assets/kurti-neck-50-sprite.jpg',
   './pleated-kurti-design-library.js?v=20261008-1',
   './silai-guru-order-design.js',
@@ -12,8 +12,8 @@ async function guidedHtmlResponse(r){
   const x=await fetch(r,{cache:'no-store'});
   if(!x.ok)return x;
   const text=await x.text();
-  const tag='<script src="./silai-guru-guided-review.js?v=20261020-1"></script>';
-  const body=text.includes('silai-guru-guided-review.js')?text:text.replace('</body>',tag+'</body>');
+  const tags='<script src="./silai-guru-guided-review.js?v=20261020-1"></script><script src="./silai-guru-design-manager.js?v=20261020-1"></script>';
+  const body=text.includes('silai-guru-design-manager.js')?text:text.replace('</body>',tags+'</body>');
   return new Response(body,{status:x.status,statusText:x.statusText,headers:x.headers});
 }
 async function cachePage(){
