@@ -117,7 +117,7 @@ if(t==='payments')return '<div class="row"><span>Total</span><b>'+money(os.reduc
 if(t==='delivery')return os.length?os.map(o=>'<div class="row"><span><b>'+esc(o.customer)+'</b><br><small>'+esc(o.garment)+' • '+esc(o.delivery)+'</small></span><button class="secondary" onclick="statusO('+o.id+')">'+esc(o.status||'Pending')+'</button></div>').join(''):'<div class="empty">No delivery</div>';
 if(t==='reports')return '<div class="row"><span>Customers</span><b>'+cs.length+'</b></div><div class="row"><span>Orders</span><b>'+os.length+'</b></div><div class="row"><span>Pending</span><b>'+os.filter(o=>o.status!=='Delivered').length+'</b></div><div class="row"><span>Sales</span><b>'+money(os.reduce((s,o)=>s+o.total,0))+'</b></div>';
 if(t==='profile')return '<div class="row"><span>Shop</span><b>'+esc(p.shop)+'</b></div><div class="row"><span>Owner</span><b>'+esc(p.name)+'</b></div><div class="row"><span>Mobile</span><b>'+esc(p.mobile)+'</b></div><div class="row"><span>Address</span><b>'+esc(p.address)+'</b></div>';
-if(t==='backup')return '<div class="card"><h3>☁️ SILAI GURU Backup</h3><div class="banner" style="margin:10px 0">📱 Data abhi isi browser/device me save hai.</div><p class="muted">Cloud backup ke liye secure backend, login, database aur photo storage connect karna hoga.</p></div>';if(t==='workers'){return '<p>Worker profiles, assignment और commission management.</p><button class="primary" onclick="alert(\'Worker module ready for next data screen\')">＋ Add Worker</button>'};
+if(t==='backup')return '<div class="card"><h3>☁️ SILAI GURU Backup</h3><div class="banner" style="margin:10px 0">📱 Backup file isi device se download hogi. Use safe jagah par rakhein.</div><p class="muted">Pehle backup download karein. Restore karte waqt records merge honge; maujooda customer/order records ko jaanbujhkar delete nahi kiya jayega.</p><button class="primary" type="button" onclick="sgExportBackup()">⬇️ Backup Download Karein</button><label class="field" style="margin-top:14px">Backup JSON file se restore karein<input id="sgBackupFile" type="file" accept="application/json,.json" onchange="sgImportBackup(event)"></label><p class="muted">Yeh local backup hai, automatic Google Drive sync nahi.</p></div>';if(t==='workers'){return '<p>Worker profiles, assignment और commission management.</p><button class="primary" onclick="alert(\'Worker module ready for next data screen\')">＋ Add Worker</button>'};
 if(t==='garments'){openGarmentLibrary();return '<div class="empty">Loading garment library…</div>'}
 if(t==='settings')return '<div class="card"><h3>👤 User / Shop Details</h3><div class="form"><div class="field"><label>User Name *</label><input id="spn" value="'+esc(p?.name||'')+'"></div><div class="field"><label>Mobile *</label><input id="spm" value="'+esc(p?.mobile||'')+'"></div><div class="field"><label>Shop Name *</label><input id="sps" value="'+esc(p?.shop||'')+'"></div><div class="field"><label>Email *</label><input id="spe" value="'+esc(p?.email||'')+'"></div><div class="field full"><label>Address</label><textarea id="spa">'+esc(p?.address||'')+'</textarea></div><div class="field"><label>State</label><input id="spst" value="'+esc(p?.state||'')+'"></div><div class="field"><label>City</label><input id="spc" value="'+esc(p?.city||'')+'"></div><div class="field"><label>Pincode</label><input id="spp" value="'+esc(p?.pin||'')+'"></div></div><button class="primary" onclick="saveProfileSettings()">💾 Save User Details</button></div><div class="card"><h3>➕ Add / Remove Extra Details</h3><p class="muted">GST No., shop timing, tailor name, note जैसी extra details रख सकते हैं.</p>'+(loadExtra().map(x=>'<div class="row"><span><b>'+esc(x.label)+'</b><br><small>'+esc(x.value)+'</small></span><span><button class="secondary" onclick="editExtraDetail('+x.id+')">✏️</button> <button class="remove-g" onclick="removeExtraDetail('+x.id+')">🗑️</button></span></div>').join('')||'<div class="empty">कोई extra detail नहीं है।</div>')+'<button class="secondary" style="width:100%;margin-top:8px" onclick="addExtraDetail()">＋ Add Detail</button></div><div class="card"><h3>🎨 App Background / Theme</h3><div class="row"><span>Default Purple</span><button class="secondary" onclick="changeTheme(\'default\')">Select</button></div><div class="row"><span>Blue</span><button class="secondary" onclick="changeTheme(\'blue\')">Select</button></div><div class="row"><span>Green</span><button class="secondary" onclick="changeTheme(\'green\')">Select</button></div><div class="row"><span>Rose</span><button class="secondary" onclick="changeTheme(\'rose\')">Select</button></div><div class="row"><span>Dark</span><button class="secondary" onclick="changeTheme(\'dark\')">Select</button></div></div><div class="card"><h3>🆘 Help & Support</h3><p class="muted">Profile, measurements और backup की मदद.</p><button class="primary" onclick="helpSupport()">💬 Help & Support</button></div><div class="card"><h3>💎 Plan & App</h3><div class="row"><span>Current Plan</span><b>'+''+'</b></div><div class="row"><span>Price</span><b>'+''+'</b></div><div class="row"><span>Devices</span><b>'+''+'</b></div><div class="row"><span>Cloud Storage</span><b>'+''+'</b></div><div class="row"><span>Photos</span><b>'+''+'</b></div><div class="row"><span>WhatsApp</span><b>'+''+'</b></div><div class="row"><span>Ads</span><b>'+''+'</b></div><button class="primary" onclick="openM(\'plans\')">💎 Change / Test Plan</button></div><div class="card"><h3>🧹 Data Safety</h3><p class="muted">Demo data reset करने से customers और orders हट सकते हैं.</p><button class="secondary" style="width:100%" onclick="if(confirm(\'सभी demo data reset करना है?\')){localStorage.removeItem(CK);localStorage.removeItem(OK);location.reload()}">Reset Customers & Orders</button></div>';}function crow(a){return a.length?a.map(c=>'<div class="row"><span><b>'+esc(c.name)+'</b><br><small>📞 '+esc(c.mobile)+' • '+c.orders+' order(s)</small></span><button class="secondary" onclick="customerHistory(\''+esc(c.mobile)+'\')">History</button></div>').join(''):'<div class="empty">No customers</div>'}function newOrderForCustomer(m){openM('order');setTimeout(()=>{const c=cs.find(x=>x.mobile===m);if(document.getElementById('cn'))document.getElementById('cn').value=c?.name||'';if(document.getElementById('cm'))document.getElementById('cm').value=m||''},80)}function removeGarmentFromOrder(id){const o=os.find(x=>x.id===id);if(!o)return;const count=(o.garments||[]).length;if(count>1){o.garments.splice(o.garments.findIndex(g=>g.type===o.garment),1);o.garment=o.garments[0]?.type||''}else{os=os.filter(x=>x.id!==id);const c=cs.find(x=>x.mobile===o.mobile);if(c)c.orders=Math.max(0,(c.orders||1)-1)}save();render();openM('measure')}function customerHistory(m){const c=cs.find(x=>x.mobile===m),list=os.filter(x=>x.mobile===m);mt.textContent='👤 '+(c?.name||'Customer History');mb.innerHTML='<div class="card"><b>Customer Details</b><br>👤 '+esc(c?.name||'')+'<br>📞 '+esc(c?.mobile||m)+'</div><div class="row"><span><b>Saved Orders & Designs</b></span><button class="secondary" onclick="newOrderForCustomer(\''+esc(m)+'\')">＋ Add Garment</button></div>'+(list.length?list.map(o=>'<div class="garment-card"><div class="garment-head"><div class="garment-title">👗 '+esc(o.garment)+' · Delivery '+esc(o.delivery)+'</div><button class="remove-g" onclick="removeGarmentFromOrder('+o.id+')">− Remove Garment</button></div><div class="row"><span>🗓 Work: '+esc(o.workDate||'—')+'<br>🚚 Delivery: '+esc(o.delivery||'—')+'<br>💰 Total: '+money(o.total)+' • Advance: '+money(o.advance)+' • Balance: '+money(Number(o.total||0)-Number(o.advance||0))+'</span></div>'+((o.garments||[]).map(g=>'<div style="padding:10px 0;border-top:1px solid var(--line)"><b>👗 '+esc(g.type)+'</b>'+(g.design?.image?'<div style="display:flex;gap:10px;align-items:center;margin-top:8px"><img src="'+g.design.image+'" style="width:85px;height:110px;object-fit:contain;border-radius:12px;background:#faf9ff;border:1px solid var(--line)" alt="'+esc(g.design.name||'Design')+'"><span><b>🎨 '+esc(g.design.name||'Selected Design')+'</b><br><small>Saved with this order</small></span></div>':(g.design?.name?'<div class="selected-design">🎨 <b>'+esc(g.design.name)+'</b></div>':''))+'<br><small>'+Object.entries(g.measurements||{}).map(([k,v])=>esc(k)+': '+esc(v)).join(' • ')+'</small></div>').join(''))+'</div>').join(''):'<div class="empty">No orders yet</div>')}function filterC(){cl.innerHTML=crow(cs.filter(c=>(c.name+' '+c.mobile).toLowerCase().includes(search.value.toLowerCase())))}const MEASURE_KEY='sg_measure_fields';
 const DEFAULT_MEASURES={
@@ -955,4 +955,65 @@ render();
  else if(document.getElementById('orderForm'))setup();
 })();
 </script>
+
+<script>
+/* SG_SAFE_LOCAL_BACKUP_V1 — additive export/import; merge existing records */
+(function(){
+  'use strict';
+  const VERSION='silai-guru-local-backup-v1';
+  const ARRAY_KEYS=new Set(['sg_customers','sg_orders','sg_profile_extra','sg_garment_designs']);
+  function read(key){try{const v=localStorage.getItem(key);return v===null?null:JSON.parse(v)}catch(e){return null}}
+  function stableId(item,key){if(!item||typeof item!=='object')return null;if(key==='sg_customers')return item.mobile?('mobile:'+String(item.mobile).trim()):(item.id!=null?'id:'+item.id:null);if(item.id!=null)return 'id:'+String(item.id);return null}
+  function mergeArray(key,current,incoming){
+    const a=Array.isArray(current)?current:[], b=Array.isArray(incoming)?incoming:[];
+    const map=new Map();
+    for(const item of a){const id=stableId(item,key);if(id)map.set(id,item);else map.set('current:'+map.size,item)}
+    for(const item of b){const id=stableId(item,key);if(id){if(!map.has(id))map.set(id,item)}else map.set('import:'+map.size,item)}
+    return Array.from(map.values());
+  }
+  window.sgExportBackup=function(){
+    try{
+      const data={format:VERSION,createdAt:new Date().toISOString(),app:'SILAI GURU',data:{}};
+      for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k){const raw=localStorage.getItem(k);try{data.data[k]=JSON.parse(raw)}catch(_){data.data[k]=raw}}}
+      const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+      const url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.href=url;a.download='silai-guru-backup-'+new Date().toISOString().slice(0,10)+'.json';
+      document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+      alert('Backup file download shuru ho gaya. File ko safe jagah par rakhein.');
+    }catch(e){alert('Backup nahi ban saka: '+(e&&e.message?e.message:'Storage read error'))}
+  };
+  window.sgImportBackup=function(ev){
+    const input=ev&&ev.target,file=input&&input.files&&input.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(){
+      try{
+        const payload=JSON.parse(String(reader.result||''));
+        if(!payload||!payload.data||typeof payload.data!=='object'||!String(payload.format||'').startsWith('silai-guru-local-backup-'))throw new Error('Yeh SILAI GURU backup file nahi lagti.');
+        const incoming=payload.data,keys=Object.keys(incoming);
+        if(!keys.length)throw new Error('Backup file khaali hai.');
+        const customerCount=Array.isArray(incoming.sg_customers)?incoming.sg_customers.length:0;
+        const orderCount=Array.isArray(incoming.sg_orders)?incoming.sg_orders.length:0;
+        if(!confirm('Backup mein '+customerCount+' customer aur '+orderCount+' order hain. Restore records ko merge karega; current records delete nahi honge. Aage badhein?')){input.value='';return}
+        let merged=0,kept=0;
+        for(const key of keys){
+          const inc=incoming[key];
+          if(ARRAY_KEYS.has(key)&&Array.isArray(inc)){
+            const result=mergeArray(key,read(key),inc);localStorage.setItem(key,JSON.stringify(result));merged++;
+          }else{
+            const existing=localStorage.getItem(key);
+            if(existing===null){localStorage.setItem(key,typeof inc==='string'?inc:JSON.stringify(inc));merged++}
+            else kept++;
+          }
+        }
+        alert('Restore complete. '+merged+' data section merge/restore hui; '+kept+' existing settings ko overwrite nahi kiya. App reload ho rahi hai.');
+        location.reload();
+      }catch(e){alert('Restore nahi hua: '+(e&&e.message?e.message:'Invalid backup file'))}
+      finally{if(input)input.value=''}
+    };
+    reader.onerror=function(){alert('File read nahi ho saki.');if(input)input.value=''};
+    reader.readAsText(file);
+  };
+})();
+</script>
+
 </body></html>
