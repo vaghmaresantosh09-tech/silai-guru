@@ -1019,52 +1019,46 @@ render();
 </script>
 
 
-<!-- SG_MOBILE_LIMIT_AND_DASHBOARD_GUARD_V2 -->
+<!-- SG_MOBILE_LIMIT_AND_DASHBOARD_GUARD_V3 -->
 <script>
 (function(){
  'use strict';
  function cleanMobile(input){
-   if(!input) return;
+   if(!input)return;
    input.setAttribute('maxlength','10');
    input.setAttribute('inputmode','numeric');
    input.setAttribute('pattern','[0-9]{10}');
-   input.setAttribute('autocomplete','tel-national');
    var clean=String(input.value||'').replace(/\D/g,'').slice(0,10);
-   if(input.value!==clean) input.value=clean;
+   if(input.value!==clean)input.value=clean;
  }
  function fixInputs(root){
-   (root||document).querySelectorAll('input#cm,input#pm,input#spm,input[name="mobile"],input[data-field="mobile"]').forEach(function(input){
-     cleanMobile(input);
-   });
+   (root||document).querySelectorAll('input#cm,input#pm,input#spm,input[name="mobile"],input[data-field="mobile"]').forEach(cleanMobile);
  }
  document.addEventListener('input',function(e){
-   var input=e.target;
-   if(!input||input.tagName!=='INPUT') return;
-   var field=input.closest('.field');
-   var label=field&&field.querySelector('label')?field.querySelector('label').textContent:'';
-   if(input.id==='cm'||input.id==='pm'||input.id==='spm'||input.name==='mobile'||/mobile/i.test(label)) cleanMobile(input);
+   var input=e.target;if(!input||input.tagName!=='INPUT')return;
+   var field=input.closest('.field'),label=field&&field.querySelector('label')?field.querySelector('label').textContent:'';
+   if(input.id==='cm'||input.id==='pm'||input.id==='spm'||input.name==='mobile'||/mobile/i.test(label))cleanMobile(input);
  },true);
  document.addEventListener('paste',function(e){
-   var input=e.target;
-   if(input&&input.tagName==='INPUT'&&(input.id==='cm'||input.id==='pm'||input.id==='spm'||input.name==='mobile')){
+   var input=e.target;if(input&&input.tagName==='INPUT'&&(input.id==='cm'||input.id==='pm'||input.id==='spm'||input.name==='mobile')){
      setTimeout(function(){cleanMobile(input)},0);
    }
  },true);
  function restoreDashboardIcons(){
-   var icons=document.getElementById('icons');
-   if(!icons) return;
+   var icons=document.getElementById('icons');if(!icons)return;
+   if(icons.children.length>=10)return;
    var items=[['🧵','New Order','order'],['👥','Customers','customers'],['📋','Orders','orders'],['📏','Measurements','measure'],['💰','Payments','payments'],['🚚','Delivery','delivery'],['📊','Reports','reports'],['🏪','Shop Profile','profile'],['💾','Backup','backup'],['👷','Workers','workers'],['👗','Garments','garments'],['🎨','Design Library','designs'],['⚙️','Settings','settings']];
-   if(icons.children.length && icons.dataset.sgFallbackReady==='1') return;
    icons.innerHTML=items.map(function(item){
-     var art = (typeof window.dashboardIcon==='function') ? window.dashboardIcon(item[1]) : item[0];
-     return '<button class="ico" onclick="openM(\\''+item[2]+'\\')"><i class="dash-icon">'+art+'</i><small>'+item[1]+'</small></button>';
+     var art=(typeof window.dashboardIcon==='function')?window.dashboardIcon(item[1]):item[0];
+     return '<button class="ico" type="button" data-sg-dash="'+item[2]+'"><i class="dash-icon">'+art+'</i><small>'+item[1]+'</small></button>';
    }).join('');
-   icons.dataset.sgFallbackReady='1';
  }
+ document.addEventListener('click',function(e){
+   var b=e.target.closest('[data-sg-dash]');if(b&&typeof window.openM==='function')window.openM(b.getAttribute('data-sg-dash'));
+ },true);
  function refresh(){fixInputs(document);restoreDashboardIcons()}
- if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',refresh,{once:true}); else refresh();
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
  setTimeout(refresh,400);
- document.addEventListener('click',function(){setTimeout(refresh,80)},true);
 })();
 </script>
 </body></html>
