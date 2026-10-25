@@ -1059,4 +1059,38 @@ render();
 })();
 </script>
 
+
+<script>
+/* SG_MOBILE_LIMIT_AND_DASHBOARD_REFRESH_V1 — enforce mobile length even after wizard DOM changes */
+(function(){
+ 'use strict';
+ function enforceMobile(input){
+  if(!input)return;
+  input.setAttribute('maxlength','10');
+  input.setAttribute('inputmode','numeric');
+  input.setAttribute('pattern','[0-9]{10}');
+  input.setAttribute('autocomplete','tel-national');
+  input.addEventListener('input',function(){
+   const clean=String(input.value||'').replace(/\\D/g,'').slice(0,10);
+   if(input.value!==clean)input.value=clean;
+   input.setCustomValidity(clean.length===10?'':'Mobile number exactly 10 digits ka hona chahiye');
+  });
+  input.addEventListener('paste',function(){
+   setTimeout(function(){input.value=String(input.value||'').replace(/\\D/g,'').slice(0,10);input.dispatchEvent(new Event('input',{bubbles:true}))},0);
+  });
+ }
+ function refresh(){
+  const mobile=document.getElementById('cm');
+  enforceMobile(mobile);
+  const icons=document.getElementById('icons');
+  if(icons && !icons.children.length && Array.isArray(window.mods)===false && typeof dashboardIcon==='function'){
+   try{icons.innerHTML=[['New Order','order'],['Customers','customers'],['Orders','orders'],['Measurements','measure'],['Payments','payments'],['Delivery','delivery'],['Reports','reports'],['Shop Profile','profile'],['Backup','backup'],['Workers','workers'],['Garments','garments'],['Design Library','designs'],['Settings','settings']].map(function(x){return '<button class="ico" onclick="openM(\\''+x[1]+'\\')"><i class="dash-icon">'+dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>'}).join('')}catch(e){}
+  }
+ }
+ document.addEventListener('input',function(e){if(e.target&&e.target.id==='cm')enforceMobile(e.target)},true);
+ document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='cm')enforceMobile(e.target)},true);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
+ setTimeout(refresh,500);
+})();
+</script>
 </body></html>
