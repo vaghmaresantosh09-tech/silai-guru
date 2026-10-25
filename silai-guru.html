@@ -1017,80 +1017,51 @@ render();
 </script>
 
 
-<!-- SG_MOBILE_LIMIT_AND_DASHBOARD_GUARD_V1 -->
+<!-- SG_MOBILE_LIMIT_AND_DASHBOARD_GUARD_V2 -->
 <script>
-(function(){
-  function fixMobileInputs(root){
-    (root||document).querySelectorAll('input#cm,input#pm,input[name="mobile"],input[data-field="mobile"]').forEach(function(el){
-      el.setAttribute('maxlength','10');
-      el.setAttribute('inputmode','numeric');
-      el.setAttribute('pattern','[0-9]{10}');
-      el.addEventListener('input',function(){
-        var clean=String(el.value||'').replace(/\D/g,'').slice(0,10);
-        if(el.value!==clean) el.value=clean;
-      });
-    });
-  }
-  document.addEventListener('input',function(e){
-    var el=e.target;
-    if(!el || el.tagName!=='INPUT') return;
-    var label=el.closest('.field');
-    var text=label&&label.querySelector('label')?label.querySelector('label').textContent:'';
-    if(el.id==='cm'||el.id==='pm'||/mobile/i.test(text)){
-      el.setAttribute('maxlength','10');
-      var clean=String(el.value||'').replace(/\D/g,'').slice(0,10);
-      if(el.value!==clean)el.value=clean;
-    }
-  },true);
-  document.addEventListener('click',function(){setTimeout(function(){
-    fixMobileInputs(document);
-    var icons=document.getElementById('icons');
-    if(icons && !icons.children.length && typeof mods!=='undefined' && typeof dashboardIcon==='function'){
-      icons.innerHTML=mods.map(function(x){return '<button class="ico" onclick="openM(\''+x[1]+'\')"><i class="dash-icon">'+dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>'}).join('');
-    }
-  },50)},true);
-  fixMobileInputs(document);
-  setTimeout(function(){
-    var icons=document.getElementById('icons');
-    if(icons && !icons.children.length && typeof mods!=='undefined' && typeof dashboardIcon==='function'){
-      icons.innerHTML=mods.map(function(x){return '<button class="ico" onclick="openM(\''+x[1]+'\')"><i class="dash-icon">'+dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>'}).join('');
-    }
-  },300);
-})();
-</script>
-
-
-<script>
-/* SG_MOBILE_LIMIT_AND_DASHBOARD_REFRESH_V1 — enforce mobile length even after wizard DOM changes */
 (function(){
  'use strict';
- function enforceMobile(input){
-  if(!input)return;
-  input.setAttribute('maxlength','10');
-  input.setAttribute('inputmode','numeric');
-  input.setAttribute('pattern','[0-9]{10}');
-  input.setAttribute('autocomplete','tel-national');
-  input.addEventListener('input',function(){
-   const clean=String(input.value||'').replace(/\\D/g,'').slice(0,10);
-   if(input.value!==clean)input.value=clean;
-   input.setCustomValidity(clean.length===10?'':'Mobile number exactly 10 digits ka hona chahiye');
-  });
-  input.addEventListener('paste',function(){
-   setTimeout(function(){input.value=String(input.value||'').replace(/\\D/g,'').slice(0,10);input.dispatchEvent(new Event('input',{bubbles:true}))},0);
-  });
+ function cleanMobile(input){
+   if(!input) return;
+   input.setAttribute('maxlength','10');
+   input.setAttribute('inputmode','numeric');
+   input.setAttribute('pattern','[0-9]{10}');
+   input.setAttribute('autocomplete','tel-national');
+   var clean=String(input.value||'').replace(/\D/g,'').slice(0,10);
+   if(input.value!==clean) input.value=clean;
  }
- function refresh(){
-  const mobile=document.getElementById('cm');
-  enforceMobile(mobile);
-  const icons=document.getElementById('icons');
-  if(icons && !icons.children.length && Array.isArray(window.mods)===false && typeof dashboardIcon==='function'){
-   try{icons.innerHTML=[['New Order','order'],['Customers','customers'],['Orders','orders'],['Measurements','measure'],['Payments','payments'],['Delivery','delivery'],['Reports','reports'],['Shop Profile','profile'],['Backup','backup'],['Workers','workers'],['Garments','garments'],['Design Library','designs'],['Settings','settings']].map(function(x){return '<button class="ico" onclick="openM(\\''+x[1]+'\\')"><i class="dash-icon">'+dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>'}).join('')}catch(e){}
-  }
+ function fixInputs(root){
+   (root||document).querySelectorAll('input#cm,input#pm,input#spm,input[name="mobile"],input[data-field="mobile"]').forEach(function(input){
+     cleanMobile(input);
+   });
  }
- document.addEventListener('input',function(e){if(e.target&&e.target.id==='cm')enforceMobile(e.target)},true);
- document.addEventListener('focusin',function(e){if(e.target&&e.target.id==='cm')enforceMobile(e.target)},true);
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
- setTimeout(refresh,500);
+ document.addEventListener('input',function(e){
+   var input=e.target;
+   if(!input||input.tagName!=='INPUT') return;
+   var field=input.closest('.field');
+   var label=field&&field.querySelector('label')?field.querySelector('label').textContent:'';
+   if(input.id==='cm'||input.id==='pm'||input.id==='spm'||input.name==='mobile'||/mobile/i.test(label)) cleanMobile(input);
+ },true);
+ document.addEventListener('paste',function(e){
+   var input=e.target;
+   if(input&&input.tagName==='INPUT'&&(input.id==='cm'||input.id==='pm'||input.id==='spm'||input.name==='mobile')){
+     setTimeout(function(){cleanMobile(input)},0);
+   }
+ },true);
+ function restoreDashboardIcons(){
+   var icons=document.getElementById('icons');
+   if(!icons||icons.children.length) return;
+   var items=[['New Order','order'],['Customers','customers'],['Orders','orders'],['Measurements','measure'],['Payments','payments'],['Delivery','delivery'],['Reports','reports'],['Shop Profile','profile'],['Backup','backup'],['Workers','workers'],['Garments','garments'],['Design Library','designs'],['Settings','settings']];
+   if(typeof window.dashboardIcon==='function'){
+     icons.innerHTML=items.map(function(item){
+       return '<button class="ico" onclick="openM(\''+item[1]+'\')"><i class="dash-icon">'+window.dashboardIcon(item[0])+'</i><small>'+item[0]+'</small></button>';
+     }).join('');
+   }
+ }
+ function refresh(){fixInputs(document);restoreDashboardIcons()}
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',refresh,{once:true}); else refresh();
+ setTimeout(refresh,400);
+ document.addEventListener('click',function(){setTimeout(refresh,80)},true);
 })();
 </script>
 </body></html>
