@@ -924,6 +924,8 @@ render();
    if(step===1){
     const name=form.querySelector('#cn'),mobile=form.querySelector('#cm');
     if(!name.value.trim()||!mobile.value.trim()){alert('Customer Name aur Mobile zaroor bhariye.');return}
+    mobile.value=String(mobile.value).replace(/\\D/g,'').slice(0,10);
+    if(!/^[0-9]{10}$/.test(mobile.value)){alert('Mobile number bilkul 10 digits ka hona chahiye.');mobile.focus();return}
     show(2);return;
    }
    if(step===2){
