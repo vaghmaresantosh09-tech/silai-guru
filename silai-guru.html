@@ -1016,4 +1016,47 @@ render();
 })();
 </script>
 
+
+<!-- SG_MOBILE_LIMIT_AND_DASHBOARD_GUARD_V1 -->
+<script>
+(function(){
+  function fixMobileInputs(root){
+    (root||document).querySelectorAll('input#cm,input#pm,input[name="mobile"],input[data-field="mobile"]').forEach(function(el){
+      el.setAttribute('maxlength','10');
+      el.setAttribute('inputmode','numeric');
+      el.setAttribute('pattern','[0-9]{10}');
+      el.addEventListener('input',function(){
+        var clean=String(el.value||'').replace(/\D/g,'').slice(0,10);
+        if(el.value!==clean) el.value=clean;
+      });
+    });
+  }
+  document.addEventListener('input',function(e){
+    var el=e.target;
+    if(!el || el.tagName!=='INPUT') return;
+    var label=el.closest('.field');
+    var text=label&&label.querySelector('label')?label.querySelector('label').textContent:'';
+    if(el.id==='cm'||el.id==='pm'||/mobile/i.test(text)){
+      el.setAttribute('maxlength','10');
+      var clean=String(el.value||'').replace(/\D/g,'').slice(0,10);
+      if(el.value!==clean)el.value=clean;
+    }
+  },true);
+  document.addEventListener('click',function(){setTimeout(function(){
+    fixMobileInputs(document);
+    var icons=document.getElementById('icons');
+    if(icons && !icons.children.length && typeof mods!=='undefined' && typeof dashboardIcon==='function'){
+      icons.innerHTML=mods.map(function(x){return '<button class="ico" onclick="openM(\''+x[1]+'\')"><i class="dash-icon">'+dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>'}).join('');
+    }
+  },50)},true);
+  fixMobileInputs(document);
+  setTimeout(function(){
+    var icons=document.getElementById('icons');
+    if(icons && !icons.children.length && typeof mods!=='undefined' && typeof dashboardIcon==='function'){
+      icons.innerHTML=mods.map(function(x){return '<button class="ico" onclick="openM(\''+x[1]+'\')"><i class="dash-icon">'+dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>'}).join('');
+    }
+  },300);
+})();
+</script>
+
 </body></html>
