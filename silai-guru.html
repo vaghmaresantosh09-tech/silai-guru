@@ -1019,22 +1019,22 @@ render();
 </script>
 
 
-<!-- SG_MOBILE_LIMIT_AND_DASHBOARD_GUARD_V4 -->
+<!-- SG_MOBILE_LIMIT_AND_DASHBOARD_GUARD_V5 -->
 <script>
 (function(){
  'use strict';
+ function isMobile(input){
+   if(!input||input.tagName!=='INPUT')return false;
+   var field=input.closest('.field'),label=field&&field.querySelector('label')?field.querySelector('label').textContent:'';
+   return ['cm','pm','spm'].includes(input.id)||input.name==='mobile'||input.dataset.field==='mobile'||/mobile/i.test(label);
+ }
  function cleanMobile(input){
    if(!input)return;
    input.setAttribute('maxlength','10');
    input.setAttribute('inputmode','numeric');
    input.setAttribute('pattern','[0-9]{10}');
-   var clean=String(input.value||'').replace(/\\D/g,'').slice(0,10);
+   var clean=String(input.value||'').replace(/\D/g,'').slice(0,10);
    if(input.value!==clean)input.value=clean;
- }
- function isMobile(input){
-   if(!input||input.tagName!=='INPUT')return false;
-   var field=input.closest('.field'),label=field&&field.querySelector('label')?field.querySelector('label').textContent:'';
-   return ['cm','pm','spm'].includes(input.id)||input.name==='mobile'||input.dataset.field==='mobile'||/mobile/i.test(label);
  }
  function fixInputs(root){(root||document).querySelectorAll('input').forEach(function(input){if(isMobile(input))cleanMobile(input)})}
  document.addEventListener('input',function(e){if(isMobile(e.target))cleanMobile(e.target)},true);
@@ -1044,16 +1044,9 @@ render();
    var items=[['New Order','order'],['Customers','customers'],['Orders','orders'],['Measurements','measure'],['Payments','payments'],['Delivery','delivery'],['Reports','reports'],['Shop Profile','profile'],['Backup','backup'],['Workers','workers'],['Garments','garments'],['Design Library','designs'],['Settings','settings']];
    icons.innerHTML=items.map(function(item){
      var art=(typeof window.dashboardIcon==='function')?window.dashboardIcon(item[0]):'';
-     return '<button class="ico" type="button" data-sg-dash="'+item[1]+'"><i class="dash-icon">'+art+'</i><small>'+item[0]+'</small></button>';
+     return '<button class="ico" type="button" onclick="openM(\''+item[1]+'\')"><i class="dash-icon">'+art+'</i><small>'+item[0]+'</small></button>';
    }).join('');
  }
- document.addEventListener('click',function(e){
-   var b=e.target.closest&&e.target.closest('#icons [data-sg-dash]');
-   if(!b)return;
-   e.preventDefault();
-   var target=b.getAttribute('data-sg-dash');
-   if(typeof window.openM==='function')window.openM(target);
- },true);
  function refresh(){fixInputs(document);restoreDashboardIcons()}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
  setTimeout(refresh,400);
