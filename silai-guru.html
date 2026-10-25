@@ -1050,13 +1050,14 @@ render();
  },true);
  function restoreDashboardIcons(){
    var icons=document.getElementById('icons');
-   if(!icons||icons.children.length) return;
-   var items=[['New Order','order'],['Customers','customers'],['Orders','orders'],['Measurements','measure'],['Payments','payments'],['Delivery','delivery'],['Reports','reports'],['Shop Profile','profile'],['Backup','backup'],['Workers','workers'],['Garments','garments'],['Design Library','designs'],['Settings','settings']];
-   if(typeof window.dashboardIcon==='function'){
-     icons.innerHTML=items.map(function(item){
-       return '<button class="ico" onclick="openM(\''+item[1]+'\')"><i class="dash-icon">'+window.dashboardIcon(item[0])+'</i><small>'+item[0]+'</small></button>';
-     }).join('');
-   }
+   if(!icons) return;
+   var items=[['🧵','New Order','order'],['👥','Customers','customers'],['📋','Orders','orders'],['📏','Measurements','measure'],['💰','Payments','payments'],['🚚','Delivery','delivery'],['📊','Reports','reports'],['🏪','Shop Profile','profile'],['💾','Backup','backup'],['👷','Workers','workers'],['👗','Garments','garments'],['🎨','Design Library','designs'],['⚙️','Settings','settings']];
+   if(icons.children.length && icons.dataset.sgFallbackReady==='1') return;
+   icons.innerHTML=items.map(function(item){
+     var art = (typeof window.dashboardIcon==='function') ? window.dashboardIcon(item[1]) : item[0];
+     return '<button class="ico" onclick="openM(\\''+item[2]+'\\')"><i class="dash-icon">'+art+'</i><small>'+item[1]+'</small></button>';
+   }).join('');
+   icons.dataset.sgFallbackReady='1';
  }
  function refresh(){fixInputs(document);restoreDashboardIcons()}
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',refresh,{once:true}); else refresh();
