@@ -998,9 +998,9 @@ render();
   function apply(){
     document.querySelectorAll('#cm, input[name="mobile"], input[type="tel"]').forEach(fixMobile);
     var icons=document.getElementById('icons');
-    if(icons && !icons.children.length && typeof window.dashboardIcon==='function'){
+    if(icons && !icons.children.length){
       icons.innerHTML=[['New Order','order'],['Customers','customers'],['Orders','orders'],['Measurements','measure'],['Payments','payments'],['Delivery','delivery'],['Reports','reports'],['Shop Profile','profile'],['Backup','backup'],['Workers','workers'],['Garments','garments'],['Design Library','designs'],['Settings','settings']].map(function(x){
-        return '<button class="ico" onclick="openM(\\''+x[1]+'\\')"><i class="dash-icon">'+window.dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>';
+        return '<button class="ico" onclick="openM(\\''+x[1]+'\\')"><i class="dash-icon">'+(typeof window.dashboardIcon==='function'?window.dashboardIcon(x[0]):({"New Order":"＋","Customers":"👥","Orders":"📋","Measurements":"📏","Payments":"₹","Delivery":"🚚","Reports":"📊","Shop Profile":"🏪","Backup":"💾","Workers":"🧵","Garments":"👗","Design Library":"🎨","Settings":"⚙️"}[x[0]]||"•"))+'</i><small>'+x[0]+'</small></button>';
       }).join('');
     }
   }
