@@ -1016,4 +1016,39 @@ render();
   setTimeout(apply,1500);
 })();
 </script>
-\n</body></html>
+\n
+<!-- SG_FINAL_MOBILE_DASHBOARD_FIX_V3 -->
+<style id="sg-final-dashboard-icons">
+.icons{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.icons .ico{display:flex;min-width:0;min-height:94px;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px 6px!important;border:1px solid var(--line,#e5e6ef)!important;border-radius:15px!important;background:var(--card,#fff)!important;color:var(--text,#202238)!important;box-shadow:0 3px 12px rgba(30,30,70,.05)}
+.icons .dash-icon{display:flex!important;width:42px;height:42px;align-items:center;justify-content:center;font-style:normal}
+.icons .dash-icon svg{display:block;width:42px;height:42px;max-width:100%}
+.icons .ico small{display:block;font-size:12px;font-weight:800;line-height:1.25;text-align:center;overflow-wrap:anywhere}
+@media(max-width:380px){.icons{gap:7px}.icons .ico{min-height:82px;padding:8px 4px!important}.icons .dash-icon,.icons .dash-icon svg{width:36px;height:36px}.icons .ico small{font-size:11px}}
+</style>
+<script id="sg-final-mobile-dashboard-script">
+(function(){
+  function isMobileField(el){return !!el && (el.id==='cm'||el.id==='pm'||el.id==='spm'||el.name==='mobile'||el.type==='tel');}
+  function clamp(el){
+    if(!isMobileField(el))return;
+    el.setAttribute('maxlength','10');
+    el.setAttribute('inputmode','numeric');
+    el.setAttribute('pattern','[0-9]{10}');
+    var digits=String(el.value||'').replace(/[^0-9]/g,'').slice(0,10);
+    if(el.value!==digits)el.value=digits;
+  }
+  document.addEventListener('input',function(e){clamp(e.target)},true);
+  document.addEventListener('change',function(e){clamp(e.target)},true);
+  document.addEventListener('paste',function(e){if(isMobileField(e.target))setTimeout(function(){clamp(e.target)},0)},true);
+  document.addEventListener('focusin',function(e){if(isMobileField(e.target)){e.target.setAttribute('maxlength','10');e.target.setAttribute('inputmode','numeric');}},true);
+  function restoreDashboard(){
+    var grid=document.getElementById('icons');
+    if(grid && !grid.children.length && typeof window.dashboardIcon==='function' && Array.isArray(window.mods)){
+      grid.innerHTML=window.mods.map(function(x){return '<button class="ico" onclick="openM(\''+x[1]+'\')"><i class="dash-icon">'+window.dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>'}).join('');
+    }
+  }
+  document.addEventListener('DOMContentLoaded',restoreDashboard);
+  window.addEventListener('pageshow',restoreDashboard);
+})();
+</script>
+</body></html>
