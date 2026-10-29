@@ -976,4 +976,38 @@ render();
  else if(document.getElementById('orderForm'))setup();
 })();
 </script>
-</body></html>
+
+<!-- SG mobile validation and dashboard recovery -->
+<script id="sg-mobile-dashboard-fix-v1">
+(function(){
+  function fixMobile(input){
+    if(!input || input.dataset.sgMobileFix==='1') return;
+    input.dataset.sgMobileFix='1';
+    input.setAttribute('maxlength','10');
+    input.setAttribute('inputmode','numeric');
+    input.setAttribute('pattern','[0-9]{10}');
+    input.setAttribute('autocomplete','tel');
+    input.addEventListener('input',function(){
+      var digits=String(input.value||'').replace(/\\D/g,'').slice(0,10);
+      if(input.value!==digits) input.value=digits;
+    });
+    input.addEventListener('paste',function(){
+      setTimeout(function(){input.value=String(input.value||'').replace(/\\D/g,'').slice(0,10);},0);
+    });
+  }
+  function apply(){
+    document.querySelectorAll('#cm, input[name="mobile"], input[type="tel"]').forEach(fixMobile);
+    var icons=document.getElementById('icons');
+    if(icons && !icons.children.length && Array.isArray(window.mods) && typeof window.dashboardIcon==='function'){
+      icons.innerHTML=window.mods.map(function(x){
+        return '<button class="ico" onclick="openM(\\''+x[1]+'\\')"><i class="dash-icon">'+window.dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>';
+      }).join('');
+    }
+  }
+  document.addEventListener('DOMContentLoaded',apply);
+  document.addEventListener('focusin',function(e){if(e.target && (e.target.id==='cm'||e.target.name==='mobile'||e.target.type==='tel'))fixMobile(e.target);});
+  setTimeout(apply,500);
+  setTimeout(apply,1500);
+})();
+</script>
+\n</body></html>
