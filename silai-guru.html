@@ -998,8 +998,8 @@ render();
   function apply(){
     document.querySelectorAll('#cm, input[name="mobile"], input[type="tel"]').forEach(fixMobile);
     var icons=document.getElementById('icons');
-    if(icons && !icons.children.length && Array.isArray(window.mods) && typeof window.dashboardIcon==='function'){
-      icons.innerHTML=window.mods.map(function(x){
+    if(icons && !icons.children.length && typeof window.dashboardIcon==='function'){
+      icons.innerHTML=[['New Order','order'],['Customers','customers'],['Orders','orders'],['Measurements','measure'],['Payments','payments'],['Delivery','delivery'],['Reports','reports'],['Shop Profile','profile'],['Backup','backup'],['Workers','workers'],['Garments','garments'],['Design Library','designs'],['Settings','settings']].map(function(x){
         return '<button class="ico" onclick="openM(\\''+x[1]+'\\')"><i class="dash-icon">'+window.dashboardIcon(x[0])+'</i><small>'+x[0]+'</small></button>';
       }).join('');
     }
