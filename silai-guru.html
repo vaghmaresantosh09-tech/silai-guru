@@ -999,7 +999,7 @@ render();
     });
   }
   function apply(){
-    document.querySelectorAll('#cm, input[name="mobile"], input[type="tel"]').forEach(fixMobile);
+    document.querySelectorAll('#cm, #pm, #spm, input[name="mobile"], input[type="tel"]').forEach(fixMobile);
     var icons=document.getElementById('icons');
     if(icons && !icons.children.length){
       var items=[['New Order','order','＋'],['Customers','customers','👥'],['Orders','orders','📋'],['Measurements','measure','📏'],['Payments','payments','₹'],['Delivery','delivery','🚚'],['Reports','reports','📊'],['Shop Profile','profile','🏪'],['Backup','backup','💾'],['Workers','workers','🧵'],['Garments','garments','👗'],['Design Library','designs','🎨'],['Settings','settings','⚙️']];
