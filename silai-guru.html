@@ -978,34 +978,40 @@ render();
 </script>
 
 <!-- SG mobile validation and dashboard recovery -->
-<script id="sg-mobile-dashboard-fix-v1">
+<script id="sg-mobile-dashboard-fix-v2">
 (function(){
   function fixMobile(input){
-    if(!input || input.dataset.sgMobileFix==='1') return;
-    input.dataset.sgMobileFix='1';
+    if(!input || input.dataset.sgMobileFix==='2') return;
+    input.dataset.sgMobileFix='2';
     input.setAttribute('maxlength','10');
     input.setAttribute('inputmode','numeric');
     input.setAttribute('pattern','[0-9]{10}');
     input.setAttribute('autocomplete','tel');
-    input.addEventListener('input',function(){
-      var digits=String(input.value||'').replace(/\\D/g,'').slice(0,10);
+    function clamp(){
+      var digits=String(input.value||'').replace(/\D/g,'').slice(0,10);
       if(input.value!==digits) input.value=digits;
-    });
-    input.addEventListener('paste',function(){
-      setTimeout(function(){input.value=String(input.value||'').replace(/\\D/g,'').slice(0,10);},0);
+    }
+    input.addEventListener('input',clamp);
+    input.addEventListener('change',clamp);
+    input.addEventListener('paste',function(){setTimeout(clamp,0);});
+    input.addEventListener('beforeinput',function(e){
+      if(e.data && /\D/.test(e.data) && e.inputType!=='insertFromPaste') e.preventDefault();
     });
   }
   function apply(){
     document.querySelectorAll('#cm, input[name="mobile"], input[type="tel"]').forEach(fixMobile);
     var icons=document.getElementById('icons');
     if(icons && !icons.children.length){
-      icons.innerHTML=[['New Order','order'],['Customers','customers'],['Orders','orders'],['Measurements','measure'],['Payments','payments'],['Delivery','delivery'],['Reports','reports'],['Shop Profile','profile'],['Backup','backup'],['Workers','workers'],['Garments','garments'],['Design Library','designs'],['Settings','settings']].map(function(x){
-        return '<button class="ico" onclick="openM(\\''+x[1]+'\\')"><i class="dash-icon">'+(typeof window.dashboardIcon==='function'?window.dashboardIcon(x[0]):({"New Order":"＋","Customers":"👥","Orders":"📋","Measurements":"📏","Payments":"₹","Delivery":"🚚","Reports":"📊","Shop Profile":"🏪","Backup":"💾","Workers":"🧵","Garments":"👗","Design Library":"🎨","Settings":"⚙️"}[x[0]]||"•"))+'</i><small>'+x[0]+'</small></button>';
+      var items=[['New Order','order','＋'],['Customers','customers','👥'],['Orders','orders','📋'],['Measurements','measure','📏'],['Payments','payments','₹'],['Delivery','delivery','🚚'],['Reports','reports','📊'],['Shop Profile','profile','🏪'],['Backup','backup','💾'],['Workers','workers','🧵'],['Garments','garments','👗'],['Design Library','designs','🎨'],['Settings','settings','⚙️']];
+      icons.innerHTML=items.map(function(x){
+        return '<button class="ico" onclick="openM(\''+x[1]+'\')"><i class="dash-icon">'+(typeof window.dashboardIcon==='function'?window.dashboardIcon(x[0]):x[2])+'</i><small>'+x[0]+'</small></button>';
       }).join('');
     }
   }
   document.addEventListener('DOMContentLoaded',apply);
   document.addEventListener('focusin',function(e){if(e.target && (e.target.id==='cm'||e.target.name==='mobile'||e.target.type==='tel'))fixMobile(e.target);});
+  window.addEventListener('pageshow',apply);
+  setTimeout(apply,0);
   setTimeout(apply,500);
   setTimeout(apply,1500);
 })();
