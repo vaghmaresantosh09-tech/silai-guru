@@ -11,7 +11,6 @@ const backNeckNames=['Round Back Neck — Design 1','Round Back Neck — Design 
 const backNeckSprite='https://raw.githubusercontent.com/vaghmaresantosh09-tech/silai-guru/main/assets/blouse-back-neck/round-back-neck-sprite.jpg?v=20261030-1';
 const backNeckImageMarkup=(i,large)=>'<div class="sg-back-neck-crop'+(large?' large':'')+'" role="img" aria-label="'+esc(backNeckNames[i])+'" style="background-image:url(\''+backNeckSprite+'\');background-position:center '+(i*25)+'%"></div>';
 
-const blouseDesign={id:'silai-guru-blouse-neck-sheet-20260930',type:'Blouse',name:'Blouse Neck Designs — Latest & Traditional Collection',image:blouseImage,source:'SILAI GURU Design Library'};
 const families=[
  ['Round Neck',['Simple Round','Golden Piping','Embroidery Work','Pearl Design','Keyhole Round','Back Round']],
  ['V Neck',['Classic V','Deep V','Lace V','Embroidery V','Piping V','Back V']],
@@ -32,7 +31,7 @@ families.forEach((f,fi)=>{const side=fi%2,row=Math.floor(fi/2),x0=side?639:17,y0
 window.sgBlouseNeckFamilies=families.map(x=>x[0]);
 window.sgBlouseNeckDesigns=designs;
 function cleanSavedUploads(){try{const raw=localStorage.getItem('sg_garment_designs');if(!raw)return;const list=JSON.parse(raw);if(!Array.isArray(list))return;const seen=new Set(),clean=[];for(const x of list){if(!x||typeof x!=='object')continue;const type=String(x.type||'').trim(),name=String(x.name||'').trim(),image=String(x.image||'').trim(),url=String(x.url||'').trim();if(!type||!name)continue;const key=image||url?type.toLowerCase()+'|'+(image||url):type.toLowerCase()+'|name|'+name.toLowerCase();if(seen.has(key))continue;seen.add(key);clean.push(x)}if(clean.length!==list.length)localStorage.setItem('sg_garment_designs',JSON.stringify(clean))}catch(e){}}
-function install(){cleanSavedUploads();const current=window.garmentDesignsFor;if(typeof current!=='function')return false;if(current.__sgBlouseProtectedV52)return true;const base=current;function wrapped(type){let list=[];try{list=base(type)||[]}catch(e){list=[]}list=Array.isArray(list)?list.filter(x=>x?.id!==blouseDesign.id):[];return String(type)==='Blouse'?[blouseDesign].concat(list):list}wrapped.__sgBlouseProtectedV52=true;window.garmentDesignsFor=wrapped;installCatalogHooks();return true}
+function install(){cleanSavedUploads();installCatalogHooks();return true}
 function cropStyle(d){const c=d.crop||{x:0,y:0,w:96,h:80};const bx=(c.x/(1254-c.w))*100,by=(c.y/(1254-c.h))*100;return 'width:100%;height:100%;background-image:url("'+d.image+'");background-repeat:no-repeat;background-size:'+(1254/c.w*100)+'% '+(1254/c.h*100)+'%;background-position:'+bx+'% '+by+'%;'}
 function neckMedia(d,large){return '<div class="sg-blouse-neck-crop" style="'+cropStyle(d)+(large?'min-height:330px':'')+'" role="img" aria-label="'+esc(d.name)+'"></div>'}
 function familyButtons(active,orderIndex){return window.sgBlouseNeckFamilies.map((f,i)=>'<button type="button" class="design-chip '+(f===active?'active':'')+'" onclick="openBlouseNeckCatalog'+(orderIndex!==undefined?'ForOrder':'')+'('+i+(orderIndex!==undefined?','+orderIndex:'')+')">'+esc(f)+'</button>').join('')}
